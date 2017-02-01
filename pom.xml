@@ -3,13 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>net.slipp</groupId>
-	<artifactId>ims</artifactId>
+	<groupId>infinitefire.project</groupId>
+	<artifactId>its</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
-	<name>ims</name>
-	<description>ims template project</description>
+	<name>its</name>
+	<description>issue tracking system</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

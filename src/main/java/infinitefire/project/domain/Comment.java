@@ -1,4 +1,4 @@
-package net.slipp.domain;
+package infinitefire.project.domain;
 
 import java.util.Date;
 

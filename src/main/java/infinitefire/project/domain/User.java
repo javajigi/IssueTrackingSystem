@@ -1,4 +1,4 @@
-package net.slipp.domain;
+package infinitefire.project.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
