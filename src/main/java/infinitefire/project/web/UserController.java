@@ -72,7 +72,7 @@ public class UserController {
 		
 		log.debug("로그인 성공. inputId=" + userId + ", inputPw=" + password);
 		session.setAttribute(HttpSessionUtils.USER_SESSION_KEY, loginUser);
-		
+		log.info("Session : " + session.getAttribute(HttpSessionUtils.USER_SESSION_KEY));
 		return "redirect:/";
 	}
 	
