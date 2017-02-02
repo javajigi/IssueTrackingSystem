@@ -43,6 +43,10 @@ public class User {
 		this.state = state;
 	}
 
+	public boolean isMatchPassword(String password) {
+		return this.password.equals(password);
+	}
+	
 	public long getId() {
 		return id;
 	}
