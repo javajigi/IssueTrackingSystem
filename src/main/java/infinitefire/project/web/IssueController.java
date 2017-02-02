@@ -1,6 +1,7 @@
 package infinitefire.project.web;
 
 import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +12,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+
 import infinitefire.project.domain.Issue;
 import infinitefire.project.domain.IssueRepository;
+import infinitefire.project.domain.UserRepository;
 import infinitefire.project.utils.HttpSessionUtils;
 
 @Controller
 public class IssueController {
 	@Autowired
 	IssueRepository issueRepository;
+	
+	@Autowired
+	UserRepository userRepository;
 	
 	private static final Logger log = LoggerFactory.getLogger(IssueController.class);
 
@@ -48,8 +54,14 @@ public class IssueController {
 		
 		if(!HttpSessionUtils.isLoginUser(session)) {
 			log.info("info >> is not LoginUser");
-			
-			issueRepository.save(newIssue);
+			newIssue.setWriter(HttpSessionUtils.getUserFromSession(session));
+			newIssue.setLabel(0);
+			newIssue.setState("close");
+			issueRepository.save(new Issue(
+					newIssue.getSubjects(),
+					newIssue.getContents(),
+					HttpSessionUtils.getUserFromSession(session),
+					0, "close"));
 			return "redirect:/";
 		}else {
 			return "redirect:/";

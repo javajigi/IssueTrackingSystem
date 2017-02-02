@@ -50,9 +50,8 @@ public class Issue {
 	
 	public Issue() {}
 
-	public Issue(Long id, String subjects, String contents, User writer, int label, String state) {
+	public Issue(String subjects, String contents, User writer, int label, String state) {
 		super();
-		this.id = id;
 		this.subjects = subjects;
 		this.contents = contents;
 		this.writer = writer;
