@@ -29,8 +29,8 @@ public class IssueController {
 	private static final Logger log = LoggerFactory.getLogger(IssueController.class);
 
 	@GetMapping("/")
-	public String index(Model model) {
-		log.debug("Access >> /");
+	public String index(HttpSession session, Model model) {
+		log.debug("Access >> / " + session.getAttribute(HttpSessionUtils.USER_SESSION_KEY));
 		
 		model.addAttribute("issueList", issueRepository.findAll());
 		return "index";
