@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import infinitefire.project.domain.User;
 import infinitefire.project.domain.UserRepository;
+import infinitefire.project.utils.HttpSessionUtils;
 
 @Controller
 @RequestMapping("/user")
@@ -70,7 +71,7 @@ public class UserController {
 		}
 		
 		log.debug("로그인 성공. inputId=" + userId + ", inputPw=" + password);
-		session.setAttribute("loginUser", loginUser);
+		session.setAttribute(HttpSessionUtils.USER_SESSION_KEY, loginUser);
 		
 		return "redirect:/";
 	}

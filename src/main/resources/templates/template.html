@@ -32,8 +32,14 @@
 				<nav class="mdl-navigation">
 					<a class="mdl-navigation__link" href="/">Issues</a>
 					<a class="mdl-navigation__link" href="/milestone/list.html">Milestones</a>
-					<a class="mdl-navigation__link" href="/user/login.html">login</a>
-					<a class="mdl-navigation__link" href="/user/join.html">join</a>
+					{{^sessionedUser}}
+					<a class="mdl-navigation__link" href="/user/login">login</a>
+					<a class="mdl-navigation__link" href="/user/new">join</a>
+					{{/sessionedUser}}
+					{{#sessionedUser}}
+					<a class="mdl-navigation__link" href="/user/logout">logout</a>
+					<a class="mdl-navigation__link" href="/user/modify">modify</a>
+					{{/sessionedUser}}
 				</nav>
 			</div>
 		</header>
