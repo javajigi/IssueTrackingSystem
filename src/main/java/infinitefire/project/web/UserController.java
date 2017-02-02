@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -79,20 +80,67 @@ public class UserController {
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		log.debug("/user/logout [GET] logout()");
-		session.removeAttribute("loginUser");
+		session.removeAttribute(HttpSessionUtils.USER_SESSION_KEY);
 		
 		return "redirect:/user/login";
 	}
 	
-	@PutMapping("/modify")
-	public String update() {
-		return "/";
+	@GetMapping("/{id}/modify")
+	public String modifyPage(@PathVariable long id, Model model, HttpSession session) {
+		log.debug("/{id}/modify [GET] - modifyPage()");
+		if (!HttpSessionUtils.isLoginUser(session)) {
+			return "/user/login";
+		}
+		
+		User loginUser = HttpSessionUtils.getUserFromSession(session);
+		if (!loginUser.isMatchId(id)) {
+			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
+			return "/user/login";
+		}
+		
+		User user = userRepository.findOne(id);
+		model.addAttribute("user", user);
+		return "/user/modify";
 	}
 	
+	@PutMapping("/{id}/modify")
+	public String modify(@PathVariable Long id, User modifiedUser, HttpSession session) {
+		log.debug("/user/{id}/modify [PUT] - modify()");
+		if (!HttpSessionUtils.isLoginUser(session)) {
+			return "/user/login";
+		}
+		
+		User loginUser = HttpSessionUtils.getUserFromSession(session);
+		if (!loginUser.isMatchId(id)) {
+			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
+			return "/user/login";
+		}
+		
+		log.debug(modifiedUser.toString());
+		User user = userRepository.findOne(id);
+		user.modify(modifiedUser);
+		userRepository.save(user);		
+		return "redirect:/";
+	}
 	
 	@DeleteMapping("/{id}/delete")
-	public String userGoOut() {
-		return "redirect:/";
+	public String delete(@PathVariable Long id, HttpSession session) {
+		log.debug("/user/{id}/delete [DELETE] - delete()");
+		if (!HttpSessionUtils.isLoginUser(session)) {
+			return "/user/login";
+		}
+		
+		User loginUser = HttpSessionUtils.getUserFromSession(session);
+		if (!loginUser.isMatchId(id)) {
+			log.debug("해당 유저를 탈퇴시킬 권한이 없습니다.");
+			return "/user/login";
+		}
+		
+		User outUser = userRepository.findOne(id);
+		outUser.setState("out");
+		userRepository.save(outUser);
+		
+		return "redirect:/user/login";
 	}
 	
 }

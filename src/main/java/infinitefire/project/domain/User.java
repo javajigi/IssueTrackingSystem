@@ -43,8 +43,22 @@ public class User {
 		this.state = state;
 	}
 
+	public boolean isMatchId(Long inputId) {
+		if (inputId == null) {
+			return false;
+		}
+
+		return inputId.equals(id);
+	}
+	
 	public boolean isMatchPassword(String password) {
 		return this.password.equals(password);
+	}
+	
+	public void modify(User modifiedUser) {
+		this.password = modifiedUser.password;
+		this.name = modifiedUser.name;
+		this.profileUrl = modifiedUser.profileUrl;
 	}
 	
 	public long getId() {
