@@ -1,0 +1,1 @@
+insert into user (id, user_id, name, password, state) values (1, 'test', 'jkh', '123', 'y')
