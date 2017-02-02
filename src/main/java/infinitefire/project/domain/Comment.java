@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import infinitefire.project.utils.DateTimeUtils;
+
 @Entity
 public class Comment {
 	@Id
@@ -62,8 +64,8 @@ public class Comment {
 		this.contents = contents;
 	}
 
-	public Date getWriteDate() {
-		return writeDate;
+	public String getFormattedWriteDate() {
+		return DateTimeUtils.format(writeDate, "yyyy.MM.dd HH:mm:ss");
 	}
 
 	public void setWriteDate(Date writeDate) {
