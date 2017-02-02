@@ -47,6 +47,8 @@ public class IssueController {
 		log.debug("Access >> /issue/new-Post");
 		
 		if(!HttpSessionUtils.isLoginUser(session)) {
+			log.info("info >> is not LoginUser");
+			
 			issueRepository.save(newIssue);
 			return "redirect:/";
 		}else {
