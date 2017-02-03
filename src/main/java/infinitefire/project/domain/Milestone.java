@@ -4,12 +4,15 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -34,9 +37,9 @@ public class Milestone {
 	@Column(name = "endDate")
 	private Date endDate;
 	
-//	@OneToMany(mappedBy = "issue")
-//	@OrderBy("id ASC")
-//	private List<Issue> issueList;
+	@OneToMany(mappedBy = "id")
+	@OrderBy("id ASC")
+	private List<Issue> issueList;
 	
 	public Milestone() {}
 

@@ -1,6 +1,7 @@
 package infinitefire.project.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -41,23 +44,30 @@ public class Issue {
 	@Column(name = "state", nullable = false)
 	private String state;
 	
-	//@ManyToMany
-	//private List<User> assigneeList;
+	@ManyToMany
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_issue_assignee"))
+	private List<User> assigneeList;
 	
-	//@OneToMany(mappedBy = "writer")
-	//private List<Comment> commentList;
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_issue_milestone"))
+	private List<Milestone> milestoneList;
+	
+	@OneToMany(mappedBy = "issue")
+	private List<Comment> commentList;
 	
 	public Issue() {}
 
-	public Issue(String subject, String contents, User writer, int label, String state) {
+	public Issue(String subject, String contents, User writer, int label, String state, 
+			List<User> assigneeList, List<Comment> commentList, List<Milestone> milestoneList) {
 		super();
 		this.subject = subject;
 		this.contents = contents;
 		this.writer = writer;
 		this.label = label;
 		this.state = state;
-		//this.assigneeList = assigneeList;
-		//this.commentList = commentList;
+		this.assigneeList = assigneeList;
+		this.commentList = commentList;
+		this.milestoneList = milestoneList;
 		this.writeDate = new Date();
 	}
 
@@ -117,21 +127,21 @@ public class Issue {
 		this.state = state;
 	}
 
-//	public List<User> getAssigneeList() {
-//		return assigneeList;
-//	}
-//
-//	public void setAssigneeList(List<User> assigneeList) {
-//		this.assigneeList = assigneeList;
-//	}
-//
-//	public List<Comment> getCommentList() {
-//		return commentList;
-//	}
-//
-//	public void setCommentList(List<Comment> commentList) {
-//		this.commentList = commentList;
-//	}
+	public List<User> getAssigneeList() {
+		return assigneeList;
+	}
+
+	public void setAssigneeList(List<User> assigneeList) {
+		this.assigneeList = assigneeList;
+	}
+
+	public List<Comment> getCommentList() {
+		return commentList;
+	}
+
+	public void setCommentList(List<Comment> commentList) {
+		this.commentList = commentList;
+	}
 
 	@Override
 	public String toString() {
