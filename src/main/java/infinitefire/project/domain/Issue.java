@@ -21,8 +21,8 @@ public class Issue {
 	@GeneratedValue
 	private Long id;
 	
-	@Column(name = "name", length = 100, nullable = false)
-	private String subjects;
+	@Column(name = "subject", length = 100, nullable = false)
+	private String subject;
 	
 	@Lob
 	private String contents;
@@ -49,9 +49,9 @@ public class Issue {
 	
 	public Issue() {}
 
-	public Issue(String subjects, String contents, User writer, int label, String state) {
+	public Issue(String subject, String contents, User writer, int label, String state) {
 		super();
-		this.subjects = subjects;
+		this.subject = subject;
 		this.contents = contents;
 		this.writer = writer;
 		this.label = label;
@@ -69,12 +69,12 @@ public class Issue {
 		this.id = id;
 	}
 
-	public String getSubjects() {
-		return subjects;
+	public String getSubject() {
+		return subject;
 	}
 
-	public void setSubjects(String subjects) {
-		this.subjects = subjects;
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
 
 	public String getContents() {
@@ -135,7 +135,7 @@ public class Issue {
 
 	@Override
 	public String toString() {
-		return "Issue [id=" + id + ", subjects=" + subjects + ", contents=" + contents + ", writeDate=" + writeDate
+		return "Issue [id=" + id + ", subject=" + subject + ", contents=" + contents + ", writeDate=" + writeDate
 				+ ", writer=" + writer + ", label=" + label + ", state=" + state + ", assigneeList="+"]";
 	}
 }
