@@ -3,6 +3,8 @@ package infinitefire.project.web;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import infinitefire.project.domain.Milestone;
 import infinitefire.project.domain.MilestoneRepository;
+import infinitefire.project.utils.HttpSessionUtils;
 
 @Controller
-@RequestMapping("/milestone/*")
+@RequestMapping("/milestone/")
 public class MilestoneController {
 	
 	private static final Logger log = LoggerFactory.getLogger(MilestoneController.class);
@@ -28,17 +31,23 @@ public class MilestoneController {
 	private MilestoneRepository milestoneRepository;
 	
 	@GetMapping("/new")
-	public String createform() {
-		return "milestone/new";
+	public String createform(HttpSession session) {		
+		if(HttpSessionUtils.isLoginUser(session)) {
+			return "/milestone/new";
+		}else {
+			return "/user/new";
+		}
 	}
 	
-	
 	@PostMapping("/new")
-	public String create(Milestone milestone){
+	public String create(Milestone milestone, HttpSession session){
 		
-		milestoneRepository.save(milestone);
-		log.info("milestone : " + milestone.getSubject());
-		return "redirect:/milestone/list";
+		if(HttpSessionUtils.isLoginUser(session)) {
+			milestoneRepository.save(milestone);
+			return "redirect:/milestone/list";
+		} else {
+			return "redirect:/user/new";
+		}
 	}
 	
 	

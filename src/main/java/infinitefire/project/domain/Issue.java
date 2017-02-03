@@ -57,6 +57,7 @@ public class Issue {
 	
 	public Issue() {}
 
+
 	public Issue(String subject, String contents, User writer, int label, String state, 
 			List<User> assigneeList, Milestone milestone, List<Comment> commentList) {
 		super();

@@ -46,7 +46,7 @@ public class IssueController {
 			return "issue/new";
 		}else {
 			log.info("info >> is not LoginUser");
-			return "redirect:/";
+			return "redirect:/user/new";
 		}
 	}
 	@PostMapping("/issue/new")
@@ -65,7 +65,7 @@ public class IssueController {
 					0, "close", null, null, null));
 			return "redirect:/";
 		}else {
-			return "redirect:/";
+			return "redirect:/user/new";
 		}
 	}
 	
