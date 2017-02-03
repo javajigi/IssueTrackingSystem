@@ -35,7 +35,7 @@ public class MilestoneController {
 		if(HttpSessionUtils.isLoginUser(session)) {
 			return "/milestone/new";
 		}else {
-			return "/user/new";
+			return "/user/login";
 		}
 	}
 	
@@ -46,7 +46,7 @@ public class MilestoneController {
 			milestoneRepository.save(milestone);
 			return "redirect:/milestone/list";
 		} else {
-			return "redirect:/user/new";
+			return "redirect:/user/login";
 		}
 	}
 	
