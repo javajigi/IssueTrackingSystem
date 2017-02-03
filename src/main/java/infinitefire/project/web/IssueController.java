@@ -17,6 +17,7 @@ import infinitefire.project.domain.Issue;
 import infinitefire.project.domain.IssueRepository;
 import infinitefire.project.domain.UserRepository;
 import infinitefire.project.utils.HttpSessionUtils;
+import pl.allegro.tech.boot.autoconfigure.handlebars.HandlebarsHelper;
 
 @Controller
 public class IssueController {
@@ -35,7 +36,7 @@ public class IssueController {
 		model.addAttribute("issueList", issueRepository.findAll());
 		return "index";
 	}
-
+	
 	@GetMapping("/issue/new")
 	public String createIssueForm(HttpSession session) {
 		log.debug("Access >> /issue/new-Get");
