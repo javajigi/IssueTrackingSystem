@@ -57,17 +57,17 @@ public class Issue {
 	
 	public Issue() {}
 
-	public Issue(String subject, String contents, User writer, int label, String state) { 
-//			Milestone milestone, List<User> assigneeList, List<Comment> commentList) {
+	public Issue(String subject, String contents, User writer, int label, String state, 
+			List<User> assigneeList, Milestone milestone, List<Comment> commentList) {
 		super();
 		this.subject = subject;
 		this.contents = contents;
 		this.writer = writer;
 		this.label = label;
 		this.state = state;
-//		this.milestone = milestone;
-//		this.assigneeList = assigneeList;
-//		this.commentList = commentList;
+		this.assigneeList = assigneeList;
+		this.milestone = milestone;
+		this.commentList = commentList;
 		this.writeDate = new Date();
 	}
 
@@ -150,7 +150,7 @@ public class Issue {
 	public void setMilestone(Milestone milestone) {
 		this.milestone = milestone;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
