@@ -61,6 +61,14 @@ public class User {
 		this.profileUrl = modifiedUser.profileUrl;
 	}
 	
+	public void withdraw(String newState) {
+		this.state = newState;
+	}
+	
+	public boolean isWithdraw() {
+		return this.state.equals("withdraw");
+	}
+	
 	public long getId() {
 		return id;
 	}

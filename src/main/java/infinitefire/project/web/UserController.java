@@ -42,8 +42,8 @@ public class UserController {
 	@PostMapping("/new")
 	public String newUser(User newUser) {
 		log.debug("/user/new [POST] - newUser()");
-		newUser.setProfileUrl("none");
-		newUser.setState("alive");
+		newUser.setProfileUrl("none.jpg");
+		newUser.setState("join");
 		userRepository.save(newUser);
 		
 		return "redirect:/user/login";
@@ -63,6 +63,11 @@ public class UserController {
 		User loginUser = userRepository.findByUserId(userId);
 		if (loginUser == null) {	// 예외처리, 유저가 존재하지 않는 경우
 			log.debug("해당하는 유저가 존재하지 않습니다!");
+			return "redirect:/user/login";
+		}
+		
+		if (loginUser.isWithdraw()) {
+			log.debug("이미 탈퇴한 유저입니다.");
 			return "redirect:/user/login";
 		}
 		
@@ -124,8 +129,26 @@ public class UserController {
 		return "redirect:/";
 	}
 	
+	@GetMapping("/{id}/delete")
+	public String delete(@PathVariable long id, Model model, HttpSession session) {
+		log.debug("/user/{id}/delete [GET] - delete()");
+		if (!HttpSessionUtils.isLoginUser(session)) {
+			return "/user/login";
+		}
+		
+		User loginUser = HttpSessionUtils.getUserFromSession(session);
+		if (!loginUser.isMatchId(id)) {
+			log.debug("해당 유저를 탈퇴시킬 권한이 없습니다.");
+			return "/user/login";
+		}
+		User outUser = userRepository.findOne(id);
+		model.addAttribute("user", outUser);
+		
+		return "/user/delete";
+	}
+	
 	@DeleteMapping("/{id}/delete")
-	public String delete(@PathVariable Long id, HttpSession session) {
+	public String delete(@PathVariable Long id, String password, HttpSession session) {
 		log.debug("/user/{id}/delete [DELETE] - delete()");
 		if (!HttpSessionUtils.isLoginUser(session)) {
 			return "/user/login";
@@ -137,9 +160,15 @@ public class UserController {
 			return "/user/login";
 		}
 		
+		if (!loginUser.isMatchPassword(password)) {
+			log.debug("비밀번호가 일치하지 않아 탈퇴할 수 없습니다.");
+			return "/user/delete";
+		}
+		
 		User outUser = userRepository.findOne(id);
-		outUser.setState("out");
+		outUser.withdraw("withdraw");
 		userRepository.save(outUser);
+		session.removeAttribute(HttpSessionUtils.USER_SESSION_KEY);
 		
 		return "redirect:/user/login";
 	}
