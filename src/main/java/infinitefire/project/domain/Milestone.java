@@ -37,7 +37,7 @@ public class Milestone {
 	@Column(name = "endDate")
 	private Date endDate;
 	
-	@OneToMany(mappedBy = "id")
+	@OneToMany(mappedBy = "milestone")
 	@OrderBy("id ASC")
 	private List<Issue> issueList;
 	
