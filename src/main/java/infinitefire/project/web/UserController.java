@@ -83,6 +83,11 @@ public class UserController {
 		return "redirect:/";
 	}
 	
+	@GetMapping("/login_error")
+	public String loginError() {
+		return "/user/login";
+	}
+	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		log.debug("/user/logout [GET] logout()");
@@ -107,6 +112,14 @@ public class UserController {
 		User user = userRepository.findOne(id);
 		model.addAttribute("user", user);
 		return "/user/modify";
+	}
+	
+	@GetMapping("/{id}/detail")
+	public String profile(@PathVariable Long id, Model model) {
+		User selectedUser = userRepository.findOne(id);
+		model.addAttribute("user", selectedUser);
+		
+		return "/user/detail";
 	}
 	
 	@PutMapping("/{id}/modify")

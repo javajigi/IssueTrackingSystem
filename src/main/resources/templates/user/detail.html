@@ -1,0 +1,31 @@
+{{#partial "container"}}
+<div class="issues-back">
+  <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon back-btn" title="go back" role="button">
+    <i class="material-icons" role="presentation">arrow_back</i>
+  </a>
+</div>
+<div class="issues__posts mdl-grid">
+  <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+  {{#user}}
+    <div class="mdl-card__title mdl-color-text--grey-50" style="height:100px;">
+      <h4>{{userId}} 님의 프로필</h4>
+    </div>
+     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="margin:0 auto">
+       <label class="mdl-textfield__label" for="userId" style="font-weight:bold;">User ID - {{userId}}</label>
+     </div>
+     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="margin:0 auto">
+       <label class="mdl-textfield__label" for="name" style="font-weight:bold;">Name - {{name}}</label>
+     </div>    
+    <div class="mdl-card__supporting-text">
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="margin:0 auto">
+        <label class="mdl-textfield__label" for="pic">User Pic</label>
+        <image id="pic" name="pic" src="{{profile_url}}" height="200" width="200"/>
+      </div>
+    </div>
+    
+  {{/user}}
+  </div>
+</div>
+{{/partial}}
+
+{{> template}}
