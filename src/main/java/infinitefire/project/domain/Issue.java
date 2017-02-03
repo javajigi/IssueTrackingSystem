@@ -44,30 +44,30 @@ public class Issue {
 	@Column(name = "state", nullable = false)
 	private String state;
 	
-//	@ManyToMany
-//	@JoinColumn(foreignKey = @ForeignKey(name = "fk_issue_assignee"))
-//	private List<User> assigneeList;
-//	
-//	@ManyToOne
-//	@JoinColumn(foreignKey = @ForeignKey(name = "fk_issue_milestone"))
-//	private List<Milestone> milestoneList;
-//	
-//	@OneToMany(mappedBy = "issue")
-//	private List<Comment> commentList;
+	@ManyToMany
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_issue_assignee"))
+	private List<User> assigneeList;
+	
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_issue_milestone"))
+	private Milestone milestone;
+	
+	@OneToMany(mappedBy = "issue")
+	private List<Comment> commentList;
 	
 	public Issue() {}
 
 	public Issue(String subject, String contents, User writer, int label, String state) { 
-//			List<User> assigneeList, List<Comment> commentList, List<Milestone> milestoneList) {
+//			Milestone milestone, List<User> assigneeList, List<Comment> commentList) {
 		super();
 		this.subject = subject;
 		this.contents = contents;
 		this.writer = writer;
 		this.label = label;
 		this.state = state;
+//		this.milestone = milestone;
 //		this.assigneeList = assigneeList;
 //		this.commentList = commentList;
-//		this.milestoneList = milestoneList;
 		this.writeDate = new Date();
 	}
 
@@ -126,26 +126,59 @@ public class Issue {
 	public void setState(String state) {
 		this.state = state;
 	}
-//
-//	public List<User> getAssigneeList() {
-//		return assigneeList;
-//	}
-//
-//	public void setAssigneeList(List<User> assigneeList) {
-//		this.assigneeList = assigneeList;
-//	}
-//
-//	public List<Comment> getCommentList() {
-//		return commentList;
-//	}
-//
-//	public void setCommentList(List<Comment> commentList) {
-//		this.commentList = commentList;
-//	}
 
+	public List<User> getAssigneeList() {
+		return assigneeList;
+	}
+
+	public void setAssigneeList(List<User> assigneeList) {
+		this.assigneeList = assigneeList;
+	}
+
+	public List<Comment> getCommentList() {
+		return commentList;
+	}
+
+	public void setCommentList(List<Comment> commentList) {
+		this.commentList = commentList;
+	}
+
+	public Milestone getMilestone() {
+		return milestone;
+	}
+
+	public void setMilestone(Milestone milestone) {
+		this.milestone = milestone;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Issue other = (Issue) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+	
 	@Override
 	public String toString() {
 		return "Issue [id=" + id + ", subject=" + subject + ", contents=" + contents + ", writeDate=" + writeDate
-				+ ", writer=" + writer + ", label=" + label + ", state=" + state + ", assigneeList="+"]";
+				+ ", writer=" + writer + ", label=" + label + ", state=" + state+"]";
 	}
 }
