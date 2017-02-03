@@ -55,9 +55,7 @@ public class UserController {
 		
 		return "/user/login";
 	}
-<<<<<<< HEAD
-=======
-	
+
 	@PostMapping("/login")
 	public String login(String userId, String password, HttpSession session) {
 		log.debug("/user/login [post] - login()");
@@ -145,6 +143,4 @@ public class UserController {
 		
 		return "redirect:/user/login";
 	}
-	
->>>>>>> origin
 }
