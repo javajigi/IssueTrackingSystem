@@ -6,7 +6,7 @@
 	<groupId>infinitefire.project</groupId>
 	<artifactId>its</artifactId>
 	<version>1.0.0</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>its</name>
 	<description>issue tracking system</description>

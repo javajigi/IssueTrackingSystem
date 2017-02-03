@@ -1,7 +1,6 @@
 package infinitefire.project.domain;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,11 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import infinitefire.project.utils.DateTimeUtils;
 
 @Entity
 public class Issue {
@@ -50,9 +49,8 @@ public class Issue {
 	
 	public Issue() {}
 
-	public Issue(Long id, String subjects, String contents, User writer, int label, String state) {
+	public Issue(String subjects, String contents, User writer, int label, String state) {
 		super();
-		this.id = id;
 		this.subjects = subjects;
 		this.contents = contents;
 		this.writer = writer;
@@ -87,8 +85,8 @@ public class Issue {
 		this.contents = contents;
 	}
 
-	public Date getWriteDate() {
-		return writeDate;
+	public String getFormattedWriteDate() {
+		return DateTimeUtils.format(writeDate, "yyyy.MM.dd HH:mm:ss");
 	}
 
 	public void setWriteDate(Date writeDate) {

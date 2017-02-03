@@ -1,4 +1,4 @@
-package net.slipp;
+package infinitefire.project;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
