@@ -59,7 +59,7 @@ public class IssueController {
 			newIssue.setLabel(0);
 			newIssue.setState("close");
 			issueRepository.save(new Issue(
-					newIssue.getSubjects(),
+					newIssue.getSubject(),
 					newIssue.getContents(),
 					HttpSessionUtils.getUserFromSession(session),
 					0, "close"));
