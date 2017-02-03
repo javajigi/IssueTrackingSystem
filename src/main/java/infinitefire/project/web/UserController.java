@@ -110,8 +110,10 @@ public class UserController {
 	}
 	
 	@PutMapping("/{id}/modify")
-	public String modify(@PathVariable Long id, User modifiedUser, HttpSession session) {
+	public String modify(@PathVariable Long id, User modifiedUser, String newPassword, HttpSession session) {
 		log.debug("/user/{id}/modify [PUT] - modify()");
+		log.debug("newPassword : " + newPassword);
+		log.debug("Before : " + modifiedUser.toString());
 		if (!HttpSessionUtils.isLoginUser(session)) {
 			return "/user/login";
 		}
@@ -121,8 +123,15 @@ public class UserController {
 			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
 			return "/user/login";
 		}
+		if (!loginUser.isMatchPassword(modifiedUser.getPassword())) {	
+			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
+			return "/user/login";
+		}
 		
-		log.debug(modifiedUser.toString());
+		if (!modifiedUser.isMatchPassword(newPassword))
+			modifiedUser.setPassword(newPassword);
+		
+		log.debug("After : " + modifiedUser.toString());
 		User user = userRepository.findOne(id);
 		user.modify(modifiedUser);
 		userRepository.save(user);		
