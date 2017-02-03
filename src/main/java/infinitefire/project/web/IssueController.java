@@ -41,11 +41,11 @@ public class IssueController {
 	public String createIssueForm(HttpSession session) {
 		log.debug("Access >> /issue/new-Get");
 		
-		if(!HttpSessionUtils.isLoginUser(session)) {
-			log.info("info >> is not LoginUser");
+		if(HttpSessionUtils.isLoginUser(session)) {
+			log.info("info >> is LoginUser");
 			return "issue/new";
 		}else {
-			log.info("info >> is LoginUser");
+			log.info("info >> is not LoginUser");
 			return "redirect:/";
 		}
 	}
@@ -53,7 +53,7 @@ public class IssueController {
 	public String createIssue(HttpSession session, Issue newIssue) {
 		log.debug("Access >> /issue/new-Post");
 		
-		if(!HttpSessionUtils.isLoginUser(session)) {
+		if(HttpSessionUtils.isLoginUser(session)) {
 			log.info("info >> is not LoginUser");
 			newIssue.setWriter(HttpSessionUtils.getUserFromSession(session));
 			newIssue.setLabel(0);
