@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import infinitefire.project.domain.Issue;
 import infinitefire.project.domain.IssueRepository;
+import infinitefire.project.domain.User;
 import infinitefire.project.domain.UserRepository;
 import infinitefire.project.utils.HttpSessionUtils;
-import pl.allegro.tech.boot.autoconfigure.handlebars.HandlebarsHelper;
 
 @Controller
 public class IssueController {
@@ -62,7 +62,7 @@ public class IssueController {
 					newIssue.getSubject(),
 					newIssue.getContents(),
 					HttpSessionUtils.getUserFromSession(session),
-					0, "close"));
+					0, "close", null, null, null));
 			return "redirect:/";
 		}else {
 			return "redirect:/user/new";
@@ -74,35 +74,61 @@ public class IssueController {
 		log.debug("Access >> /issue/modify");
 		
 		if(HttpSessionUtils.isLoginUser(session)) {
-			model.addAttribute("issue", issueRepository.findOne(id));
-			return "issue/modify";
-		}else
+			Issue modifyIssue = issueRepository.findOne(id);
+			User myAccount = HttpSessionUtils.getUserFromSession(session);
+			
+			if(myAccount.isMatchId(modifyIssue.getWriter().getId())) {
+				model.addAttribute("modifyIssue", modifyIssue);
+				return "issue/modify";
+			} else
+				return "redirect:/";
+			
+		} else
 			return "redirect:/";
 	}
-	@PutMapping("issue/{id}/modify")
-	public String modifiedIssue(HttpSession session, @PathVariable Long id, Issue modifIssue) {
-		log.debug("Access >> /issue/{" + id +"}/modify");
+	@PostMapping("issue/{id}/modify")
+	public String modifiedIssue(HttpSession session, @PathVariable Long id,
+			String subject, String contents, Model model) {
+		log.debug("Access >> /issue/{" + id +"}/modify-put");
 		
 		if(HttpSessionUtils.isLoginUser(session)) {
-			issueRepository.save(modifIssue);
-			return "/";
-		}else
-			return "redirect:/";
+			Issue modifyIssue = issueRepository.findOne(id);
+			User myAccount = HttpSessionUtils.getUserFromSession(session);
+			
+			if(myAccount.isMatchId(modifyIssue.getWriter().getId())) {
+				modifyIssue.setSubject(subject);
+				modifyIssue.setContents(contents);
+				issueRepository.save(modifyIssue);
+				
+				model.addAttribute("issueInfo", modifyIssue);
+				return "/issue/detail";
+			} else
+				return "redirect:/";
+		}
+		
+		return "redirect:/";
 	}
 	
-	@DeleteMapping("issue/{id}/delete")
+	@GetMapping("issue/{id}/delete")
 	public String deleteIssue(HttpSession session, @PathVariable Long id) {
 		log.debug("Access >> /issue/{" + id + "}/delete");
 		
 		if(HttpSessionUtils.isLoginUser(session)) {
-			issueRepository.delete(id);
-			return "/";
-		}else
-			return "redirect:/";
+			Issue modifyIssue = issueRepository.findOne(id);
+			User myAccount = HttpSessionUtils.getUserFromSession(session);
+			
+			if(myAccount.isMatchId(modifyIssue.getWriter().getId())) {
+				issueRepository.delete(id);
+			}
+		}
+		return "redirect:/";
 	}
 
-	@GetMapping("/issue/detail")
-	public String showIssueDetail() {
+	@GetMapping("/issue/{id}/detail")
+	public String showIssueDetail(@PathVariable Long id, Model model) {
+		log.debug("Access >> /issue/{" + id + "}/detail");
+		
+		model.addAttribute("issueInfo", issueRepository.findOne(id));
 		return "issue/detail";
 	}
 }
