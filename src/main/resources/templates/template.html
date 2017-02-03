@@ -35,7 +35,7 @@
 					<a class="mdl-navigation__link" href="/milestone/list">Milestones</a>
 					{{#if sessionedUser}}
 					<a class="mdl-navigation__link" href="/user/logout">logout</a>
-					<a class="mdl-navigation__link" href="/user/modify">modify</a>
+					<a class="mdl-navigation__link" href="/user/{{sessionedUser.id}}/modify">modify</a>
 					{{else}}
 					<a class="mdl-navigation__link" href="/user/login">login</a>
 					<a class="mdl-navigation__link" href="/user/new">join</a>

@@ -83,6 +83,11 @@ public class UserController {
 		return "redirect:/";
 	}
 	
+	@GetMapping("/login_error")
+	public String loginError() {
+		return "/user/login";
+	}
+	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		log.debug("/user/logout [GET] logout()");
@@ -109,9 +114,19 @@ public class UserController {
 		return "/user/modify";
 	}
 	
+	@GetMapping("/{id}/detail")
+	public String profile(@PathVariable Long id, Model model) {
+		User selectedUser = userRepository.findOne(id);
+		model.addAttribute("user", selectedUser);
+		
+		return "/user/detail";
+	}
+	
 	@PutMapping("/{id}/modify")
-	public String modify(@PathVariable Long id, User modifiedUser, HttpSession session) {
+	public String modify(@PathVariable Long id, User modifiedUser, String newPassword, HttpSession session) {
 		log.debug("/user/{id}/modify [PUT] - modify()");
+		log.debug("newPassword : " + newPassword);
+		log.debug("Before : " + modifiedUser.toString());
 		if (!HttpSessionUtils.isLoginUser(session)) {
 			return "/user/login";
 		}
@@ -121,8 +136,15 @@ public class UserController {
 			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
 			return "/user/login";
 		}
+		if (!loginUser.isMatchPassword(modifiedUser.getPassword())) {	
+			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
+			return "/user/login";
+		}
 		
-		log.debug(modifiedUser.toString());
+		if (!modifiedUser.isMatchPassword(newPassword))
+			modifiedUser.setPassword(newPassword);
+		
+		log.debug("After : " + modifiedUser.toString());
 		User user = userRepository.findOne(id);
 		user.modify(modifiedUser);
 		userRepository.save(user);		
