@@ -44,30 +44,30 @@ public class Issue {
 	@Column(name = "state", nullable = false)
 	private String state;
 	
-	@ManyToMany
-	@JoinColumn(foreignKey = @ForeignKey(name = "fk_issue_assignee"))
-	private List<User> assigneeList;
-	
-	@ManyToOne
-	@JoinColumn(foreignKey = @ForeignKey(name = "fk_issue_milestone"))
-	private List<Milestone> milestoneList;
-	
-	@OneToMany(mappedBy = "issue")
-	private List<Comment> commentList;
+//	@ManyToMany
+//	@JoinColumn(foreignKey = @ForeignKey(name = "fk_issue_assignee"))
+//	private List<User> assigneeList;
+//	
+//	@ManyToOne
+//	@JoinColumn(foreignKey = @ForeignKey(name = "fk_issue_milestone"))
+//	private List<Milestone> milestoneList;
+//	
+//	@OneToMany(mappedBy = "issue")
+//	private List<Comment> commentList;
 	
 	public Issue() {}
 
-	public Issue(String subject, String contents, User writer, int label, String state, 
-			List<User> assigneeList, List<Comment> commentList, List<Milestone> milestoneList) {
+	public Issue(String subject, String contents, User writer, int label, String state) { 
+//			List<User> assigneeList, List<Comment> commentList, List<Milestone> milestoneList) {
 		super();
 		this.subject = subject;
 		this.contents = contents;
 		this.writer = writer;
 		this.label = label;
 		this.state = state;
-		this.assigneeList = assigneeList;
-		this.commentList = commentList;
-		this.milestoneList = milestoneList;
+//		this.assigneeList = assigneeList;
+//		this.commentList = commentList;
+//		this.milestoneList = milestoneList;
 		this.writeDate = new Date();
 	}
 
@@ -126,22 +126,22 @@ public class Issue {
 	public void setState(String state) {
 		this.state = state;
 	}
-
-	public List<User> getAssigneeList() {
-		return assigneeList;
-	}
-
-	public void setAssigneeList(List<User> assigneeList) {
-		this.assigneeList = assigneeList;
-	}
-
-	public List<Comment> getCommentList() {
-		return commentList;
-	}
-
-	public void setCommentList(List<Comment> commentList) {
-		this.commentList = commentList;
-	}
+//
+//	public List<User> getAssigneeList() {
+//		return assigneeList;
+//	}
+//
+//	public void setAssigneeList(List<User> assigneeList) {
+//		this.assigneeList = assigneeList;
+//	}
+//
+//	public List<Comment> getCommentList() {
+//		return commentList;
+//	}
+//
+//	public void setCommentList(List<Comment> commentList) {
+//		this.commentList = commentList;
+//	}
 
 	@Override
 	public String toString() {
