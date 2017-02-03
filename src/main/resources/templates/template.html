@@ -34,11 +34,11 @@
 					<a class="mdl-navigation__link" href="/">Issues</a>
 					<a class="mdl-navigation__link" href="/milestone/list.html">Milestones</a>
 					{{#if sessionedUser}}
-					<a class="mdl-navigation__link" href="/user/login">login</a>
-					<a class="mdl-navigation__link" href="/user/new">join</a>
-					{{else}}
 					<a class="mdl-navigation__link" href="/user/logout">logout</a>
 					<a class="mdl-navigation__link" href="/user/modify">modify</a>
+					{{else}}
+					<a class="mdl-navigation__link" href="/user/login">login</a>
+					<a class="mdl-navigation__link" href="/user/new">join</a>
 					{{/if}}
 				</nav>
 			</div>
