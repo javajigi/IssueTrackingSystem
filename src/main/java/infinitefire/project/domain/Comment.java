@@ -19,7 +19,7 @@ import infinitefire.project.utils.DateTimeUtils;
 public class Comment {
 	@Id
 	@GeneratedValue
-	private long id;
+	private Long id;
 	
 	@Lob
 	private String contents;
@@ -27,7 +27,6 @@ public class Comment {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "writeDate", nullable = false, updatable = false)
 	private Date writeDate;
-	
 	
 	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_comment_issue"))
@@ -39,9 +38,8 @@ public class Comment {
 	
 	public Comment(){}
 
-	public Comment(long id, String contents, Issue issue, User writer) {
+	public Comment(String contents, Issue issue, User writer) {
 		super();
-		this.id = id;
 		this.contents = contents;
 		this.writeDate = new Date();
 		this.issue = issue;
@@ -52,7 +50,7 @@ public class Comment {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -90,8 +88,8 @@ public class Comment {
 
 	@Override
 	public String toString() {
-		return "Comment [id=" + id + ", contents=" + contents + ", writeDate=" + writeDate + ", issue=" + issue
-				+ ", writer=" + writer + "]";
+		return "Comment [id=" + id + ", contents=" + contents + ", writeDate=" + writeDate +
+				", writer=" + writer + "]";
 	}
 }
 

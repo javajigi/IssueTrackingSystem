@@ -12,3 +12,5 @@ INSERT INTO issue (id, contents, label, state, subject, write_date, writer_id) V
 INSERT INTO issue (id, contents, label, state, subject, write_date, writer_id) VALUES (2, 'second issue contents', 0, 'close', 'second issue', CURRENT_TIMESTAMP(), 2);
 INSERT INTO issue (id, contents, label, state, subject, write_date, writer_id) VALUES (3, 'third issue contents', 0, 'close', 'third issue', CURRENT_TIMESTAMP(), 1);
 INSERT INTO issue (id, contents, label, state, subject, write_date, writer_id) VALUES (4, 'fourth issue contents', 0, 'close', 'fourth issue', CURRENT_TIMESTAMP(), 3);
+
+INSERT INTO comment (id, contents, write_date, issue_id, writer_id) VALUES (1, 'hi', CURRENT_TIMESTAMP(), 1, 2);
