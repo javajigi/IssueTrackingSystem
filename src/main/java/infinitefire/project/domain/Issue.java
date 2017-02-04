@@ -59,7 +59,7 @@ public class Issue {
 
 
 	public Issue(String subject, String contents, User writer, int label, String state, 
-			List<User> assigneeList, Milestone milestone, List<Comment> commentList) {
+			List<User> assigneeList, Milestone milestone) {
 		super();
 		this.subject = subject;
 		this.contents = contents;
@@ -68,7 +68,7 @@ public class Issue {
 		this.state = state;
 		this.assigneeList = assigneeList;
 		this.milestone = milestone;
-		this.commentList = commentList;
+		//this.commentList = commentList;
 		this.writeDate = new Date();
 	}
 
@@ -179,7 +179,13 @@ public class Issue {
 	
 	@Override
 	public String toString() {
-		return "Issue [id=" + id + ", subject=" + subject + ", contents=" + contents + ", writeDate=" + writeDate
-				+ ", writer=" + writer + ", label=" + label + ", state=" + state+"]";
+		String str = "Issue [id=" + id + ", subject=" + subject + ", contents=" + contents + ", writeDate=" + writeDate
+				+ ", writer=" + writer + ", label=" + label + ", state=" + state+"\n";
+		str += "-------------------CommentList----------------------------\n";
+		for(Comment comment : commentList){
+			str += comment+"\n";
+		}
+		
+		return str;
 	}
 }

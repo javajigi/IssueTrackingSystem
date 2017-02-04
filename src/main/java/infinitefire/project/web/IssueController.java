@@ -7,12 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 
+import infinitefire.project.domain.CommentRepository;
 import infinitefire.project.domain.Issue;
 import infinitefire.project.domain.IssueRepository;
 import infinitefire.project.domain.User;
@@ -26,6 +25,9 @@ public class IssueController {
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	CommentRepository commentRepository;
 	
 	private static final Logger log = LoggerFactory.getLogger(IssueController.class);
 
@@ -62,7 +64,7 @@ public class IssueController {
 					newIssue.getSubject(),
 					newIssue.getContents(),
 					HttpSessionUtils.getUserFromSession(session),
-					0, "close", null, null, null));
+					0, "close", null, null));
 			return "redirect:/";
 		}else {
 			return "redirect:/user/login";
@@ -127,8 +129,10 @@ public class IssueController {
 	@GetMapping("/issue/{id}/detail")
 	public String showIssueDetail(@PathVariable Long id, Model model) {
 		log.debug("Access >> /issue/{" + id + "}/detail");
+		Issue issue = issueRepository.findOne(id);
+		model.addAttribute("issueInfo", issue);
 		
-		model.addAttribute("issueInfo", issueRepository.findOne(id));
+		log.debug("View Issue Property : " + issue);
 		return "issue/detail";
 	}
 }
