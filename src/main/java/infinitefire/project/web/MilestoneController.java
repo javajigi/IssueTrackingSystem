@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -57,6 +58,15 @@ public class MilestoneController {
 	public String show(Model model) {			
 		model.addAttribute("milestones", milestoneRepository.findAll());
 		return "milestone/list";
+	}
+	
+	@GetMapping("/{id}/detail")
+	public String detail(@PathVariable long id, Model model){
+		
+		Milestone milestone = milestoneRepository.findOne(id);
+		model.addAttribute("milestone", milestone);
+		
+		return "milestone/detail";
 	}
 	
 }
