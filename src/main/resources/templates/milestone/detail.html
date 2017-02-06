@@ -1,0 +1,26 @@
+{{#partial "container"}}
+<div class="issues-back">
+  <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon back-btn" title="go back" role="button">
+    <i class="material-icons" role="presentation">arrow_back</i>
+  </a>
+</div>
+{{#milestone}}
+<div class="issues__posts mdl-grid">
+  <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+    <div class="mdl-card__title mdl-color-text--grey-50" style="height:100px;">
+      <i class="material-icons">check_circle</i>
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:90%">
+      	<strong>{{subject}}</strong>  
+      </div>
+    </div>
+    <div class="mdl-color-text--primary-contrast mdl-card__supporting-text new-comment">
+      <div class="mdl-textfield mdl-js-textfield" style="width:100%">
+        <p class="milestone_description">{{description}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{{/milestone}}
+{{/partial}}
+
+{{> template}}

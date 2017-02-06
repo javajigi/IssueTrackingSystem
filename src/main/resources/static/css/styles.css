@@ -32,7 +32,7 @@ body .issues {
   -webkit-align-items: stretch;
   -ms-flex-align: stretch;
   align-items: stretch;
-  min-height: 360px;
+  min-height: 0px;
 }
 
 .issues .mdl-card__title {
