@@ -15,14 +15,14 @@ INSERT INTO issue (id, contents, label, state, subject, write_date, writer_id, m
 
 INSERT INTO comment (id, contents, write_date, issue_id, writer_id) VALUES (1, 'hi', CURRENT_TIMESTAMP(), 1, 2);
 
-INSERT INTO Label (id, name, color) VALUES (1, 'TASK', 'TASK');
-INSERT INTO Label (id, name, color) VALUES (2, 'ENHANCEMENT', 'ENHANCEMENT');
-INSERT INTO Label (id, name, color) VALUES (3, 'PROPOSAL', 'PROPOSAL');
-INSERT INTO Label (id, name, color) VALUES (4, 'BUG', 'BUG');
+INSERT INTO label (id, name, color) VALUES (1, 'TASK', 'TASK');
+INSERT INTO label (id, name, color) VALUES (2, 'ENHANCEMENT', 'ENHANCEMENT');
+INSERT INTO label (id, name, color) VALUES (3, 'PROPOSAL', 'PROPOSAL');
+INSERT INTO label (id, name, color) VALUES (4, 'BUG', 'BUG');
 
-INSERT INTO Label_ISSUE (label_id, issue_id) VALUES (1, 1);
-INSERT INTO Label_ISSUE (label_id, issue_id) VALUES (2, 1);
-INSERT INTO Label_ISSUE (label_id, issue_id) VALUES (3, 1);
-INSERT INTO Label_ISSUE (label_id, issue_id) VALUES (4, 2);
-INSERT INTO Label_ISSUE (label_id, issue_id) VALUES (2, 3);  
+INSERT INTO label_issue (label_id, issue_id) VALUES (1, 1);
+INSERT INTO label_issue (label_id, issue_id) VALUES (2, 1);
+INSERT INTO label_issue (label_id, issue_id) VALUES (3, 1);
+INSERT INTO label_issue (label_id, issue_id) VALUES (4, 2);
+INSERT INTO label_issue (label_id, issue_id) VALUES (2, 3);  
  
