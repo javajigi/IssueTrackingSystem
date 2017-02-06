@@ -152,6 +152,13 @@ table {
 .card_thumb_wrap .card_thumb {
 	width: 40px;
 }
+.card_writer .writer_by {
+	font-size: 14px;
+}
+.card_writer .writer_name {
+	font-weight: 500;
+	color: #000;
+}
 
 .container .card_bottom {
 	position: relative;
@@ -175,6 +182,14 @@ table {
 	position: absolute;
 	top: 24px;
 	right: 0;
+}
+
+/* issue/detail */
+.label_container {
+	padding: 12px;
+}
+.label_container .label {
+	color: #fff;
 }
 
 .milestone_description {

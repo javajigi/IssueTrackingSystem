@@ -58,15 +58,17 @@ public class Issue {
 	@OneToMany(mappedBy = "issue")
 	private List<Comment> commentList;
 	
+	@ManyToMany(mappedBy = "issueList")
+	private List<Label> labelList;
+	
 	public Issue() {
 		this.state = "open";
 		this.label = 0;
 		this.writeDate = new Date();
 	}
 
-
 	public Issue(String subject, String contents, User writer, int label, String state, 
-			List<User> assigneeList, Milestone milestone) {
+			List<User> assigneeList, List<Label> labelList, Milestone milestone) {
 		super();
 		this.subject = subject;
 		this.contents = contents;
@@ -75,6 +77,9 @@ public class Issue {
 		this.state = state;
 		this.assigneeList = assigneeList;
 		this.milestone = milestone;
+		this.labelList = labelList;
+		//this.commentList = commentList;
+		//this.writeDate = new Date();
 	}
 
 	public Long getId() {
@@ -157,6 +162,10 @@ public class Issue {
 		this.milestone = milestone;
 	}
 	
+	public List<Label> getLabelList() {
+		return labelList;
+	}
+
 	public boolean isMatchWriter(User matchUser) {
 		return this.writer.equals(matchUser);
 	}

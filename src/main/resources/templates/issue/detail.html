@@ -184,6 +184,14 @@
     <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
       <p>{{contents}}</p>
     </div>
+    <div class="label_container">
+    {{#each labelList}}
+		<span id="label_{{id}}" class="label mdl-chip mdl-chip--deletable" style="background-color:{{color}}">
+		    <span class="mdl-chip__text">{{name}}</span>
+		    <button type="button" class="mdl-chip__action"><i class="material-icons">cancel</i></button>
+		</span>
+	{{/each}}
+	</div>
     <div class="comment-form mdl-color-text--primary-contrast mdl-card__supporting-text comments">
 
       <!-- comments start -->
