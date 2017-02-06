@@ -254,9 +254,8 @@ body .issues {
 }
 
 .issues .mdl-mini-footer {
-  margin-top: 80px;
-  height: 120px;
-  padding: 40px;
+  height: 64px;
+  padding: 0 40px;
   -webkit-align-items: center;
   -ms-flex-align: center;
   -ms-grid-row-align: center;
@@ -280,7 +279,7 @@ body .issues {
 }
 
 .mdl-layout__content {
-  padding-top: 36px;
+  padding: 48px 0;
 }
 
 .mdl-menu__item--full-bleed-divider strong {

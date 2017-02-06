@@ -21,6 +21,7 @@
 </head>
 {{/block}}
 <body>
+	<div class="mdl-layout__container">
 	<div class="issues issues--wrap mdl-layout mdl-js-layout is-upgraded">
 		{{#block "navigation"}}
 		<header class="mdl-layout__header mdl-layout__header--waterfall">
@@ -48,17 +49,18 @@
      			
 			{{#block "container"}}{{/block}}
 			
-			{{#block "footer"}}
-			<footer class="mdl-mini-footer">
-				<div class="mdl-mini-footer--left-section">
-					<div class="mdl-logo mdl-color-text--grey-600">
-						Proudly powered by <a href="https://github.com/Byeol">Byeol</a>
-					</div>
-				</div>
-			</footer>
-			{{/block}} 
 		</main>
+		{{#block "footer"}}
+		<footer class="mdl-mini-footer">
+			<div class="mdl-mini-footer--left-section">
+				<div class="mdl-logo mdl-color-text--grey-600">
+					Proudly powered by <a href="https://github.com/Byeol">Byeol</a>
+				</div>
+			</div>
+		</footer>
+		{{/block}} 
 		<div class="mdl-layout__obfuscator"></div>
+	</div>
 	</div>
 	<script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
 	<script
