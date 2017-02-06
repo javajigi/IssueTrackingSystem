@@ -111,7 +111,7 @@ public class Issue {
 	public void setWriter(User writer) {
 		this.writer = writer;
 	}
-
+	
 	public int getLabel() {
 		return label;
 	}

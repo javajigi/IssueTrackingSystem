@@ -8,9 +8,9 @@ insert into user (id, user_id, name, password, state) values (1, 'test', 'jkh', 
 insert into user (id, user_id, name, password, state) values (2, 'test2', 'jaewoong', '1234', 'y');
 insert into user (id, user_id, name, password, state) values (3, 'test3', 'subin', '1234', 'y');
 
-INSERT INTO issue (id, contents, label, state, subject, write_date, writer_id) VALUES (1, 'first issue contents', 0, 'close', 'first issue', CURRENT_TIMESTAMP(), 1);
-INSERT INTO issue (id, contents, label, state, subject, write_date, writer_id) VALUES (2, 'second issue contents', 0, 'close', 'second issue', CURRENT_TIMESTAMP(), 2);
-INSERT INTO issue (id, contents, label, state, subject, write_date, writer_id) VALUES (3, 'third issue contents', 0, 'close', 'third issue', CURRENT_TIMESTAMP(), 1);
-INSERT INTO issue (id, contents, label, state, subject, write_date, writer_id) VALUES (4, 'fourth issue contents', 0, 'close', 'fourth issue', CURRENT_TIMESTAMP(), 3);
+INSERT INTO issue (id, contents, label, state, subject, write_date, writer_id, milestone_id) VALUES (1, 'first issue contents', 0, 'close', 'first issue', CURRENT_TIMESTAMP(), 1, 2);
+INSERT INTO issue (id, contents, label, state, subject, write_date, writer_id, milestone_id) VALUES (2, 'second issue contents', 0, 'close', 'second issue', CURRENT_TIMESTAMP(), 2, 2);
+INSERT INTO issue (id, contents, label, state, subject, write_date, writer_id, milestone_id) VALUES (3, 'third issue contents', 0, 'close', 'third issue', CURRENT_TIMESTAMP(), 1, 5);
+INSERT INTO issue (id, contents, label, state, subject, write_date, writer_id, milestone_id) VALUES (4, 'fourth issue contents', 0, 'close', 'fourth issue', CURRENT_TIMESTAMP(), 3, 3);
 
 INSERT INTO comment (id, contents, write_date, issue_id, writer_id) VALUES (1, 'hi', CURRENT_TIMESTAMP(), 1, 2);

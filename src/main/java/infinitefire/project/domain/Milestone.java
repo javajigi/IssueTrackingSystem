@@ -115,13 +115,13 @@ public class Milestone {
 			e.printStackTrace();
 		}
 	}
-//	public List<Issue> getIssueList() {
-//		return issueList;
-//	}
-//
-//	public void setIssueList(List<Issue> issueList) {
-//		this.issueList = issueList;
-//	}
+	public List<Issue> getIssueList() {
+		return issueList;
+	}
+
+	public void setIssueList(List<Issue> issueList) {
+		this.issueList = issueList;
+	}
 
 	@Override
 	public String toString() {

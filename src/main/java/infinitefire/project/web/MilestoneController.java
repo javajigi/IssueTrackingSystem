@@ -2,6 +2,8 @@ package infinitefire.project.web;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -52,7 +54,7 @@ public class MilestoneController {
 	
 	
 	@GetMapping("/list")
-	public String show(Model model) {
+	public String show(Model model) {			
 		model.addAttribute("milestones", milestoneRepository.findAll());
 		return "milestone/list";
 	}
