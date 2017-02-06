@@ -2,6 +2,8 @@ package infinitefire.project.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
@@ -33,7 +35,10 @@ public class User {
 	@Column(name = "state", nullable = false)
 	private String state;
 	
-	public User() {}
+	public User() {
+		this.profileUrl = "none.jpg";
+		this.state = "join";
+	}
 
 	public User(String userId, String name, String password, String profileUrl, String state) {
 		super();
@@ -42,6 +47,10 @@ public class User {
 		this.password = password;
 		this.profileUrl = profileUrl;
 		this.state = state;
+	}
+	
+	public boolean matchUser(User otherUser) {
+		return this.equals(otherUser);
 	}
 
 	public boolean isMatchId(Long inputId) {

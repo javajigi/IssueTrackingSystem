@@ -119,6 +119,9 @@ public class IssueController {
 			Issue modifyIssue = issueRepository.findOne(id);
 			User myAccount = HttpSessionUtils.getUserFromSession(session);
 			
+			if (modifyIssue.isOwner(myAccount)) {
+				issueRepository.delete(id);
+			}
 			if(myAccount.isMatchId(modifyIssue.getWriter().getId())) {
 				issueRepository.delete(id);
 			}

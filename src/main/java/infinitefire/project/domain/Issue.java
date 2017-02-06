@@ -71,6 +71,19 @@ public class Issue {
 		//this.commentList = commentList;
 		this.writeDate = new Date();
 	}
+	
+	public boolean isOwner(User loginUser) {
+		return writer.equals(loginUser);
+	}
+	
+	public void update(User loginUser, String subject, String contents) {
+		if (!isOwner(loginUser)) {
+			
+		}
+		
+		this.subject = subject;
+		this.contents = contents;
+	}
 
 	public Long getId() {
 		return id;

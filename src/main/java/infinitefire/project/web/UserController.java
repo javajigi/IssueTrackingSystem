@@ -42,8 +42,6 @@ public class UserController {
 	@PostMapping("/new")
 	public String newUser(User newUser) {
 		log.debug("/user/new [POST] - newUser()");
-		newUser.setProfileUrl("none.jpg");
-		newUser.setState("join");
 		userRepository.save(newUser);
 		
 		return "redirect:/user/login";
