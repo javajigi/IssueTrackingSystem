@@ -1,7 +1,7 @@
 {{#partial "container"}}
 <div class="main_wrap mdl-grid">
 	<h2 class="title">Issues</h2>
-	<div class="container">
+	<div class="container">	
 		<ul class="card_list clearfix">
 			{{#each issueList}}
 			<li class="card_item mdl-shadow--2dp">
@@ -15,7 +15,10 @@
 						<div class="card_thumb_wrap">
 							<img class="card_thumb mdl-list__item-avatar" height="48" width="48" src="https://avatars2.githubusercontent.com/u/520500?v=3&amp;s=140" alt="javajigi">
 						</div>
-						by <a href="/user/{{writer.id}}/detail" aria-label="View all issues opened by javajigi" class="tooltipped tooltipped-s muted-link"><b>{{writer.userId}}</b></a>
+						<strong class="writer_by">by</strong>
+						<a href="/user/{{writer.id}}/detail" aria-label="View all issues opened by javajigi" class="tooltipped tooltipped-s muted-link">
+							<strong class="writer_name">{{writer.userId}}</strong>
+						</a>
 					</span>
 				</div>
 				<div class="card_bottom">
@@ -26,7 +29,7 @@
 					<!-- Number badge on icon -->
 					<span class="material-icons mdl-badge mdl-badge--overlap comment_count" data-badge="1">comment</span>
 				</div>
-			</li>			
+			</li>
 			{{/each}}
 		</ul>
 	</div>
