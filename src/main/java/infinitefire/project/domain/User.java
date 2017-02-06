@@ -29,17 +29,20 @@ public class User {
 	
 	@JsonIgnore
 	@Column(name = "state", nullable = false)
-	private String state;
+	private UserState state;
 	
-	public User() {}
+	public User() {
+		this.profileUrl = "none.jpg";
+		this.state = UserState.JOIN;
+	}
 
-	public User(String userId, String name, String password, String profileUrl, String state) {
+	public User(String userId, String name, String password, String profileUrl, UserState userState) {
 		super();
 		this.userId = userId;
 		this.name = name;
 		this.password = password;
 		this.profileUrl = profileUrl;
-		this.state = state;
+		this.state = userState;
 	}
 
 	public boolean isMatchId(Long inputId) {
@@ -60,15 +63,15 @@ public class User {
 		this.profileUrl = modifiedUser.profileUrl;
 	}
 	
-	public void withdraw(String newState) {
-		this.state = newState;
+	public void withdraw() {
+		this.state = UserState.WITHDRAW;
 	}
 	
 	public boolean isWithdraw() {
-		return this.state.equals("withdraw");
+		return state.isWithdraw(this);
 	}
 	
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -108,11 +111,11 @@ public class User {
 		this.profileUrl = profileUrl;
 	}
 
-	public String getState() {
+	public UserState getState() {
 		return state;
 	}
 
-	public void setState(String state) {
+	public void setState(UserState state) {
 		this.state = state;
 	}
 	
