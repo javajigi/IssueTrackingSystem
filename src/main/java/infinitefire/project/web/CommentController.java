@@ -1,21 +1,28 @@
 package infinitefire.project.web;
 
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import infinitefire.project.domain.Comment;
 import infinitefire.project.domain.CommentRepository;
+import infinitefire.project.domain.Issue;
+import infinitefire.project.domain.IssueRepository;
+import infinitefire.project.domain.User;
 import infinitefire.project.domain.UserRepository;
+import infinitefire.project.security.LoginUser;
 
-@Controller
-@RequestMapping("/comment")
+@RestController
+@RequestMapping("/comment") //api라는 url을 보통 많이 쓴다.
 public class CommentController {
 	private static final Logger log = LoggerFactory.getLogger(CommentController.class);
+	
+	@Autowired
+	IssueRepository issueRepository;
 	
 	@Autowired
 	CommentRepository commentRepository;
@@ -23,9 +30,15 @@ public class CommentController {
 	@Autowired
 	UserRepository userRepository;
 	
-	@PostMapping("/new")
-	public String createComment(HttpSession session) {
+	@PostMapping("/{issueId}/new")
+	public Comment createComment(@LoginUser User loginUser, @PathVariable Long issueId, Comment comment) {
+		log.debug("Access >> CreateComment");
 		
-		return "redirect:/";
+		Issue issue = issueRepository.findOne(issueId);
+		comment.setIssue(issue);
+		comment.setWriter(loginUser);
+		log.debug("print comment : "+comment);
+		
+		return commentRepository.save(comment);
 	}
 }

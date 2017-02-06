@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import infinitefire.project.utils.DateTimeUtils;
 
 @Entity
@@ -52,6 +54,7 @@ public class Issue {
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_issue_milestone"))
 	private Milestone milestone;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "issue")
 	private List<Comment> commentList;
 	

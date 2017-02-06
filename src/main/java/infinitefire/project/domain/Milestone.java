@@ -16,6 +16,8 @@ import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Milestone {
 	
@@ -37,6 +39,7 @@ public class Milestone {
 	@Column(name = "endDate")
 	private Date endDate;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "milestone")
 	@OrderBy("id ASC")
 	private List<Issue> issueList;

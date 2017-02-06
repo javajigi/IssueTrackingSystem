@@ -36,17 +36,18 @@ public class Comment {
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_comment_user"))
 	private User writer;
 	
-	public Comment(){}
+	public Comment(){
+		this.writeDate = new Date();
+	}
 
 	public Comment(String contents, Issue issue, User writer) {
 		super();
 		this.contents = contents;
-		this.writeDate = new Date();
 		this.issue = issue;
 		this.writer = writer;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
