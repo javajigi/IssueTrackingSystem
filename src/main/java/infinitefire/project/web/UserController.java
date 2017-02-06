@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import infinitefire.project.domain.User;
 import infinitefire.project.domain.UserRepository;
-import infinitefire.project.domain.UserState;
+import infinitefire.project.security.LoginUser;
 import infinitefire.project.utils.HttpSessionUtils;
 
 @Controller
@@ -55,29 +55,28 @@ public class UserController {
 	
 	@GetMapping("/login")
 	public String loginPage() {
-		log.debug("/user/login [GET] - loginPage()");
-		
+		log.debug("/user/login [{}] - loginPage()", HttpMethod.GET);
 		return "/user/login";
 	}
 	
 	@PostMapping("/login")
 	public String login(String userId, String password, HttpSession session) {
-		log.debug("/user/login [post] - login()");
+		log.debug("/user/login [{}] - login()", HttpMethod.POST);
 		log.debug("userId=" + userId + ", password=" + password);
 		User loginUser = userRepository.findByUserId(userId);
 		if (loginUser == null) {	// 예외처리, 유저가 존재하지 않는 경우
 			log.debug("해당하는 유저가 존재하지 않습니다!");
-			return "redirect:/user/login";
+			return "/user/login_error";
 		}
 		
 		if (loginUser.isWithdraw()) {
 			log.debug("이미 탈퇴한 유저입니다.");
-			return "redirect:/user/login";
+			return "/user/login_error";
 		}
 		
 		if (!loginUser.isMatchPassword(password)) {
 			log.debug("로그인 실패. 비밀번호를 확인해주세요.");
-			return "redirect:/user/login";
+			return "/user/login_error";
 		}
 		
 		log.debug("로그인 성공. inputId=" + userId + ", inputPw=" + password);
@@ -89,33 +88,20 @@ public class UserController {
 	
 	@GetMapping("/login_error")
 	public String loginError() {
-		return "/user/login";
+		return "/user/login_error";
+	}
+	
+	@GetMapping("/login_require")
+	public String loginRequire() {
+		return "/user/login_require";
 	}
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
-		log.debug("/user/logout [GET] logout()");
+		log.debug("/user/logout [{}] logout()", HttpMethod.GET);
 		session.removeAttribute(HttpSessionUtils.USER_SESSION_KEY);
 		
 		return "redirect:/user/login";
-	}
-	
-	@GetMapping("/{id}/modify")
-	public String modifyPage(@PathVariable long id, Model model, HttpSession session) {
-		log.debug("/{id}/modify [GET] - modifyPage()");
-		if (!HttpSessionUtils.isLoginUser(session)) {
-			return "/user/login";
-		}
-		
-		User loginUser = HttpSessionUtils.getUserFromSession(session);
-		if (!loginUser.isMatchId(id)) {
-			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
-			return "/user/login";
-		}
-		
-		User user = userRepository.findOne(id);
-		model.addAttribute("user", user);
-		return "/user/modify";
 	}
 	
 	@GetMapping("/{id}/detail")
@@ -126,14 +112,25 @@ public class UserController {
 		return "/user/detail";
 	}
 	
-	@PutMapping("/{id}/modify")
-	public String modify(@PathVariable Long id, User modifiedUser, String newPassword, HttpSession session) {
-		log.debug("/user/{id}/modify [PUT] - modify()");
-		log.debug("newPassword : " + newPassword);
-		log.debug("Before : " + modifiedUser.toString());
-		if (!HttpSessionUtils.isLoginUser(session)) {
+	@GetMapping("/{id}/modify")
+	public String modifyPage(@LoginUser User loginUser, @PathVariable long id, Model model, HttpSession session) {
+		log.debug("/{id}/modify [{}] - modifyPage()", HttpMethod.GET);
+		//User loginUser = HttpSessionUtils.getUserFromSession(session);
+		if (!loginUser.isMatchId(id)) {
+			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
 			return "/user/login";
 		}
+		
+		User user = userRepository.findOne(id);
+		model.addAttribute("user", user);
+		return "/user/modify";
+	}
+	
+	@PutMapping("/{id}/modify")
+	public String modify(@PathVariable Long id, User modifiedUser, String newPassword, HttpSession session) {
+		log.debug("/user/{id}/modify [{}] - modify()", HttpMethod.PUT);
+		log.debug("newPassword : " + newPassword);
+		log.debug("Before : " + modifiedUser.toString());
 		
 		User loginUser = HttpSessionUtils.getUserFromSession(session);
 		if (!loginUser.isMatchId(id)) {
@@ -155,14 +152,11 @@ public class UserController {
 		return "redirect:/";
 	}
 	
+	
+	
 	@GetMapping("/{id}/delete")
-	public String delete(@PathVariable long id, Model model, HttpSession session) {
-		log.debug("/user/{id}/delete [GET] - delete()");
-		if (!HttpSessionUtils.isLoginUser(session)) {
-			return "/user/login";
-		}
-		
-		User loginUser = HttpSessionUtils.getUserFromSession(session);
+	public String delete(@LoginUser User loginUser, @PathVariable long id, Model model, HttpSession session) {
+		log.debug("/user/{id}/delete [{}] - delete()", HttpMethod.GET);
 		if (!loginUser.isMatchId(id)) {
 			log.debug("해당 유저를 탈퇴시킬 권한이 없습니다.");
 			return "/user/login";
@@ -175,10 +169,7 @@ public class UserController {
 	
 	@DeleteMapping("/{id}/delete")
 	public String delete(@PathVariable Long id, String password, HttpSession session) {
-		log.debug("/user/{id}/delete [DELETE] - delete()");
-		if (!HttpSessionUtils.isLoginUser(session)) {
-			return "/user/login";
-		}
+		log.debug("/user/{id}/delete [{}] - delete()", HttpMethod.DELETE);
 		
 		User loginUser = HttpSessionUtils.getUserFromSession(session);
 		if (!loginUser.isMatchId(id)) {
