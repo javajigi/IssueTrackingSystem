@@ -7,6 +7,7 @@ import org.apache.log4j.LogManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,13 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import infinitefire.project.domain.User;
 import infinitefire.project.domain.UserRepository;
+import infinitefire.project.domain.UserState;
 import infinitefire.project.utils.HttpSessionUtils;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);	
-	
+
 	@Autowired
 	private UserRepository userRepository;
 	
@@ -34,16 +36,18 @@ public class UserController {
 	
 	@GetMapping("/new")
 	public String newPage() {
-		log.debug("/user/new [GET] - newPage()");
+		log.debug("/user/new [{}] - newPage()", HttpMethod.GET);
 		
 		return "/user/new";
 	}
 	
 	@PostMapping("/new")
 	public String newUser(User newUser) {
-		log.debug("/user/new [POST] - newUser()");
-		newUser.setProfileUrl("none.jpg");
-		newUser.setState("join");
+		log.debug("/user/new [{}] - newUser()", HttpMethod.POST);
+		if (userRepository.findByUserId(newUser.getUserId()) != null) {
+			log.debug("해당 아이디는 사용 할 수 없습니다.");
+			return "redirect:/user/new";
+		}
 		userRepository.save(newUser);
 		
 		return "redirect:/user/login";
@@ -188,7 +192,7 @@ public class UserController {
 		}
 		
 		User outUser = userRepository.findOne(id);
-		outUser.withdraw("withdraw");
+		outUser.withdraw();
 		userRepository.save(outUser);
 		session.removeAttribute(HttpSessionUtils.USER_SESSION_KEY);
 		
