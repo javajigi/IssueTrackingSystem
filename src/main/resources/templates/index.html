@@ -1,44 +1,40 @@
 {{#partial "container"}}
-<div class="issues__posts mdl-grid">
-	<div class="issues-card-wide mdl-card mdl-shadow--2dp">
-		<div class="mdl-card__title" style="height:80px;">
-        	<h2 class="mdl-card__title-text mdl-color-text--grey-800">Issues</h2>
-		</div>
-		<!-- <a href="/issue/new"
-			class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored show-modal">
-			<i class="material-icons">add</i>
-		</a> -->
-		<form action="/issue/new" method="get">
-			<button type="submit" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored show-modal">
-			<i class="material-icons">add</i></button>
-		</form>
-		<div class="mdl-card__supporting-text">
-			<ul class="issue-list mdl-list">
-				{{#each issueList}}
-				<li class="mdl-list__item mdl-list__item--two-line">
-					<span class="mdl-list__item-primary-content">
-					    <a> 
-					         <img class="mdl-list__item-avatar" height="48" width="48" src="https://avatars2.githubusercontent.com/u/520500?v=3&s=140" alt="javajigi">
-						</a> 
-						<a href="/issue/{{id}}/detail">
-						    <strong>{{subject}}</strong>
-						</a>
-						<span class="mdl-list__item-sub-title"> 
-						    <a></a>#1
-						    Open
-						    {{writeDate}}
-						    by <a href="/user/{{writer.id}}/detail" aria-label="View all issues opened by javajigi" class="tooltipped tooltipped-s muted-link">{{writer.userId}}</a>
-						</span>
-					</span> 
-					<span class="mdl-list__item-secondary-content">
-						<span class="material-icons mdl-badge mdl-badge--overlap" data-badge="1">comment</span>
+<div class="main_wrap mdl-grid">
+	<h2 class="title">Issues</h2>
+	<div class="container">
+		<ul class="card_list clearfix">
+			{{#each issueList}}
+			<li class="card_item mdl-shadow--2dp">
+				<a class="card_title_link" href="/issue/{{id}}/detail">
+					<p class="card_title">#{{id}} {{subject}}</p>
+					<i class="card_arrow material-icons">arrow_forward</i>
+				</a>
+				<div class="card_contents">
+					{{contents}}
+					<span class="card_writer">
+						<div class="card_thumb_wrap">
+							<img class="card_thumb mdl-list__item-avatar" height="48" width="48" src="https://avatars2.githubusercontent.com/u/520500?v=3&amp;s=140" alt="javajigi">
+						</div>
+						by <a href="/user/{{writer.id}}/detail" aria-label="View all issues opened by javajigi" class="tooltipped tooltipped-s muted-link"><b>{{writer.userId}}</b></a>
 					</span>
-				</li>
-				{{/each}}
-			</ul>
-		</div>
+				</div>
+				<div class="card_bottom">
+					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-{{id}}">
+					  <input type="checkbox" id="switch-{{id}}" class="mdl-switch__input" checked>
+					  <span class="mdl-switch__label"></span>
+					</label>
+					<!-- Number badge on icon -->
+					<span class="material-icons mdl-badge mdl-badge--overlap comment_count" data-badge="1">comment</span>
+				</div>
+			</li>			
+			{{/each}}
+		</ul>
 	</div>
-</div>
+	<form class="btn_add" action="/issue/new" method="get">
+		<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" type="submit">
+			<i class="material-icons">add</i>
+		</button>
+	</form>
 {{/partial}}
 
 {{> template}}

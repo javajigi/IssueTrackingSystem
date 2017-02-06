@@ -1,3 +1,182 @@
+/* reset css */
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* global */
+
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+
+.ellipsize {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.multi_ellipsize {
+	display: -webkit-box;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+
+/*  */
+
+.main_wrap {
+  max-width: 1080px;
+  padding: 0;
+  position: relative;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  margin: 0 auto;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.main_wrap .title {
+	margin: 24px;
+	width: 100%;
+	font-size: 28px;
+	color: #888;
+}
+
+.main_wrap .container {
+	position: relative;
+	display: block;
+}
+
+.container .card_list {
+	padding: 36px 0;
+}
+
+.container .card_item {
+	float: left;
+	width: 320px;
+	height: 180px;
+	margin: 10px;
+}
+
+.container .card_title_link {
+	position: relative;
+	display: block;
+	height: 48px;
+	background-color: rgb(255,171,64);
+	padding: 12px;	
+}
+
+.container .card_title {
+	color: #fff;
+	font-size: 24px;
+}
+
+.container .card_arrow {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	color: #fff;
+	
+}
+.container .card_contents {
+	position: relative;
+	padding: 12px 56px 12px 16px;
+	height: 84px;
+	color: rgba(0,0,0,.54);
+}
+
+.container .card_writer {
+	position: absolute;	
+	bottom: 8px;
+	right: 8px;
+	font-style: italic;
+}
+.card_thumb_wrap {
+	text-align: right;
+}
+.card_thumb_wrap .card_thumb {
+	width: 40px;
+}
+
+.container .card_bottom {
+	position: relative;
+	padding: 0 16px;
+	min-height: 48px;
+	border-top: 1px solid rgba(0,0,0,.1);
+}
+.container .mdl-switch {
+	position: absolute;
+	width: 48px;
+	top: 12px;
+}
+
+.container .comment_count {
+	position: absolute;
+	top: 16px;
+	right: 8px;
+}
+
+.main_wrap .btn_add {
+	position: absolute;
+	top: 24px;
+	right: 0;
+}
+
 .milestone_description {
-	color : #000;
+	color : #888;
 }
