@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Label {
 	@Id
@@ -26,6 +28,7 @@ public class Label {
 	@Column(name = "color", nullable = false)
 	private LabelColor color;
 	
+	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "LABEL_ISSUE", joinColumns = { @JoinColumn(name = "LABEL_ID") }, inverseJoinColumns = { @JoinColumn(name = "ISSUE_ID") })
 	private List<Issue> issueList;

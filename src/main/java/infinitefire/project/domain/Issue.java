@@ -58,6 +58,7 @@ public class Issue {
 	@OneToMany(mappedBy = "issue")
 	private List<Comment> commentList;
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy = "issueList")
 	private List<Label> labelList;
 	
