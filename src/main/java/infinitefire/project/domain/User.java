@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class User {
+	public static final GuestUser GUEST_USER = new GuestUser();
+	
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -68,7 +70,7 @@ public class User {
 		return this.state.equals("withdraw");
 	}
 	
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -114,6 +116,17 @@ public class User {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+	
+	public boolean isGuestUser() {
+		return false;
+	}
+	
+	private static class GuestUser extends User {
+		@Override
+		public boolean isGuestUser() {
+			return true;
+		}
 	}
 	
 	@Override

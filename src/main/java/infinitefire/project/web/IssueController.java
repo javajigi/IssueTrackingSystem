@@ -16,6 +16,7 @@ import infinitefire.project.domain.Issue;
 import infinitefire.project.domain.IssueRepository;
 import infinitefire.project.domain.User;
 import infinitefire.project.domain.UserRepository;
+import infinitefire.project.security.LoginUser;
 import infinitefire.project.utils.HttpSessionUtils;
 
 @Controller
@@ -32,97 +33,63 @@ public class IssueController {
 	private static final Logger log = LoggerFactory.getLogger(IssueController.class);
 
 	@GetMapping("/")
-	public String index(HttpSession session, Model model) {
-		log.debug("Access >> / " + session.getAttribute(HttpSessionUtils.USER_SESSION_KEY));
-		
+	public String index(Model model) {
 		model.addAttribute("issueList", issueRepository.findAll());
 		return "index";
 	}
 	
 	@GetMapping("/issue/new")
-	public String createIssueForm(HttpSession session) {
+	public String createIssueForm(@LoginUser User loginUser) {
 		log.debug("Access >> /issue/new-Get");
 		
-		if(HttpSessionUtils.isLoginUser(session)) {
-			log.info("info >> is LoginUser");
-			return "issue/new";
-		}else {
-			log.info("info >> is not LoginUser");
-			return "redirect:/user/login";
-		}
+		return "issue/new";
 	}
 	@PostMapping("/issue/new")
-	public String createIssue(HttpSession session, Issue newIssue) {
-		log.debug("Access >> /issue/new-Post");
+	public String createIssue(@LoginUser User loginUser, Issue newIssue) {
+		log.debug("Access >> /issue/new-Post : " + newIssue);
 		
-		if(HttpSessionUtils.isLoginUser(session)) {
-			log.info("info >> is not LoginUser");
-			newIssue.setWriter(HttpSessionUtils.getUserFromSession(session));
-			newIssue.setLabel(0);
-			newIssue.setState("close");
-			issueRepository.save(new Issue(
-					newIssue.getSubject(),
-					newIssue.getContents(),
-					HttpSessionUtils.getUserFromSession(session),
-					0, "close", null, null));
-			return "redirect:/";
-		}else {
-			return "redirect:/user/login";
-		}
+		newIssue.setWriter(loginUser);
+		issueRepository.save(newIssue);
+		return "redirect:/";
 	}
 	
 	@GetMapping("issue/{id}/modify")
-	public String modifyIssueForm(HttpSession session, @PathVariable Long id, Model model) {
+	public String modifyIssueForm(@LoginUser User loginUser, @PathVariable Long id, Model model) {
 		log.debug("Access >> /issue/modify");
 		
-		if(HttpSessionUtils.isLoginUser(session)) {
-			Issue modifyIssue = issueRepository.findOne(id);
-			User myAccount = HttpSessionUtils.getUserFromSession(session);
-			
-			if(myAccount.isMatchId(modifyIssue.getWriter().getId())) {
-				model.addAttribute("modifyIssue", modifyIssue);
-				return "issue/modify";
-			} else
-				return "redirect:/";
-			
+		Issue modifyIssue = issueRepository.findOne(id);
+		
+		if(modifyIssue.isMatchWriter(loginUser)){
+			model.addAttribute("modifyIssue", modifyIssue);
+			return "issue/modify";
 		} else
 			return "redirect:/";
 	}
 	@PostMapping("issue/{id}/modify")
-	public String modifiedIssue(HttpSession session, @PathVariable Long id,
+	public String modifiedIssue(@LoginUser User loginUser, @PathVariable Long id,
 			String subject, String contents, Model model) {
 		log.debug("Access >> /issue/{" + id +"}/modify-put");
 		
-		if(HttpSessionUtils.isLoginUser(session)) {
-			Issue modifyIssue = issueRepository.findOne(id);
-			User myAccount = HttpSessionUtils.getUserFromSession(session);
+		Issue modifyIssue = issueRepository.findOne(id);
+		if(modifyIssue.isMatchWriter(loginUser)) {
+			modifyIssue.setSubject(subject);
+			modifyIssue.setContents(contents);
+			issueRepository.save(modifyIssue);
 			
-			if(myAccount.isMatchId(modifyIssue.getWriter().getId())) {
-				modifyIssue.setSubject(subject);
-				modifyIssue.setContents(contents);
-				issueRepository.save(modifyIssue);
-				
-				model.addAttribute("issueInfo", modifyIssue);
-				return "/issue/detail";
-			} else
-				return "redirect:/";
-		}
-		
-		return "redirect:/";
+			model.addAttribute("issueInfo", modifyIssue);
+			return "/issue/detail";
+		} else
+			return "redirect:/";
 	}
 	
 	@GetMapping("issue/{id}/delete")
-	public String deleteIssue(HttpSession session, @PathVariable Long id) {
+	public String deleteIssue(@LoginUser User loginUser, @PathVariable Long id) {
 		log.debug("Access >> /issue/{" + id + "}/delete");
 		
-		if(HttpSessionUtils.isLoginUser(session)) {
-			Issue modifyIssue = issueRepository.findOne(id);
-			User myAccount = HttpSessionUtils.getUserFromSession(session);
-			
-			if(myAccount.isMatchId(modifyIssue.getWriter().getId())) {
-				issueRepository.delete(id);
-			}
-		}
+		Issue deleteIssue = issueRepository.findOne(id);
+		if(deleteIssue.isMatchWriter(loginUser))
+			issueRepository.delete(id);
+		
 		return "redirect:/";
 	}
 

@@ -55,7 +55,11 @@ public class Issue {
 	@OneToMany(mappedBy = "issue")
 	private List<Comment> commentList;
 	
-	public Issue() {}
+	public Issue() {
+		this.state = "open";
+		this.label = 0;
+		this.writeDate = new Date();
+	}
 
 
 	public Issue(String subject, String contents, User writer, int label, String state, 
@@ -69,7 +73,7 @@ public class Issue {
 		this.assigneeList = assigneeList;
 		this.milestone = milestone;
 		//this.commentList = commentList;
-		this.writeDate = new Date();
+		//this.writeDate = new Date();
 	}
 
 	public Long getId() {
@@ -152,6 +156,10 @@ public class Issue {
 		this.milestone = milestone;
 	}
 	
+	public boolean isMatchWriter(User matchUser) {
+		return this.writer.equals(matchUser);
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -182,8 +190,10 @@ public class Issue {
 		String str = "Issue [id=" + id + ", subject=" + subject + ", contents=" + contents + ", writeDate=" + writeDate
 				+ ", writer=" + writer + ", label=" + label + ", state=" + state+"\n";
 		str += "-------------------CommentList----------------------------\n";
-		for(Comment comment : commentList){
-			str += comment+"\n";
+		if (commentList != null) {
+			for (Comment comment : commentList) {
+				str += comment + "\n";
+			}
 		}
 		
 		return str;
