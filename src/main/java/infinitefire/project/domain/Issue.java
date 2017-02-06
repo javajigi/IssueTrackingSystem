@@ -72,8 +72,6 @@ public class Issue {
 		this.state = state;
 		this.assigneeList = assigneeList;
 		this.milestone = milestone;
-		//this.commentList = commentList;
-		//this.writeDate = new Date();
 	}
 
 	public Long getId() {
