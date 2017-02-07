@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -43,8 +45,9 @@ public class Issue {
 	@Column(name = "label", nullable = false)
 	private int label;
 	
+	@Enumerated(EnumType.STRING)
 	@Column(name = "state", nullable = false)
-	private String state;
+	private IssueState state;
 	
 	@ManyToMany
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_issue_assignee"))
@@ -63,12 +66,12 @@ public class Issue {
 	private List<Label> labelList;
 	
 	public Issue() {
-		this.state = "open";
 		this.label = 0;
+		this.state = IssueState.OPEN;
 		this.writeDate = new Date();
 	}
 
-	public Issue(String subject, String contents, User writer, int label, String state, 
+	public Issue(String subject, String contents, User writer, int label, IssueState state, 
 			List<User> assigneeList, List<Label> labelList, Milestone milestone) {
 		super();
 		this.subject = subject;
@@ -131,11 +134,11 @@ public class Issue {
 		this.label = label;
 	}
 
-	public String getState() {
-		return state;
+	public String getStateCheck() {
+		return state.getStateCheck();
 	}
 
-	public void setState(String state) {
+	public void setState(IssueState state) {
 		this.state = state;
 	}
 
