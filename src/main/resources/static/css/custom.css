@@ -76,8 +76,12 @@ table {
 
 /*  */
 
+.issues .mdl-card {
+	max-width: 1400px;
+	margin: 0 auto;
+}
+
 .main_wrap {
-  max-width: 1400px;
   padding: 0;
   position: relative;
   display: -webkit-flex;
@@ -91,7 +95,7 @@ table {
 }
 
 .main_wrap .title {
-	margin: 16px;
+	padding: 16px;
 	width: 100%;
 	font-size: 28px;
 	color: #888;
@@ -99,34 +103,13 @@ table {
 
 .main_wrap .container {
 	position: relative;
-	display: block;
 	margin: 0 auto;
 }
 
 .container .card_list {
+	width: 100%;
 	padding: 36px 0;
 	text-align: left;
-}
-
-@media screen and (min-width: 380px) {
-	.container .card_list {
-		max-width: 340px;
-	}
-}
-@media screen and (min-width: 720px) {
-	.container .card_list {
-		max-width: 680px;
-	}
-}
-@media screen and (min-width: 1060px) {
-	.container .card_list {
-		max-width: 1020px;
-	}
-}
-@media screen and (min-width: 1400px) {
-	.container .card_list {
-		max-width: 1360px;
-	}
 }
 
 .container .card_item {
@@ -207,6 +190,76 @@ table {
 	right: 16px;
 }
 
+/*  */
+.main_wrap .article_container {
+	position: relative;
+	width: 100%;
+	padding: 20px 0;
+	
+}
+
+.main_wrap .article_title {
+	width: 100%;
+	font-size: 28px;	
+	color: #fff;
+	background-color: orange;
+	padding: 16px 86px 16px 16px;
+}
+
+.main_wrap .article_menu {
+	position: absolute ;
+	top: 16px;
+	right: 16px;
+	color: #fff;	
+}
+
+.article_container .article {
+	float: left;
+	width: 75%;
+	height: 500px;
+	padding: 0 20px;
+	border-right: 1px solid rgba(0,0,0,.1);
+	
+}
+
+.article_container .navigation {
+	float: left;
+	width: 25%;
+	padding: 0;   		
+}
+
+.article .contents {
+	padding: 16px;
+}
+
+.navigation .nav_category {
+	position: relative;
+	padding: 16px;
+}
+
+.nav_category .nav_title {
+	padding-bottom: 8px;
+	color: rgba(0,0,0,.54);
+	font-size: 20px;
+}
+
+.nav_category .add_nav {
+	position: absolute;
+	color: rgba(0,0,0,.54);
+	top: 16px;
+	right: 16px;
+}
+
+.nav_category .assignee {
+	margin: 4px 2px;
+}
+
+.nav_category .label {
+	margin: 4px 2px;
+	color: #fff;
+}
+
+
 /* issue/detail */
 .label_container {
 	padding: 12px;
@@ -217,4 +270,26 @@ table {
 
 .milestone_description {
 	color : #888;
+}
+
+
+@media screen and (min-width: 380px) {
+	.container{
+		max-width: 340px;
+	}
+}
+@media screen and (min-width: 720px) {
+	.container{
+		max-width: 680px;
+	}
+}
+@media screen and (min-width: 1060px) {
+	.container{
+		max-width: 1020px;
+	}
+}
+@media screen and (min-width: 1400px) {
+	.container{
+		max-width: 1360px;
+	}
 }

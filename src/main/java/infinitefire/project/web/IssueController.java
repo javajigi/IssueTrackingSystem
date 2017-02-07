@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import infinitefire.project.domain.CommentRepository;
 import infinitefire.project.domain.Issue;
 import infinitefire.project.domain.IssueRepository;
+import infinitefire.project.domain.LabelRepository;
+import infinitefire.project.domain.MilestoneRepository;
 import infinitefire.project.domain.User;
 import infinitefire.project.domain.UserRepository;
 import infinitefire.project.security.LoginUser;
@@ -22,13 +24,15 @@ import infinitefire.project.utils.HttpSessionUtils;
 @Controller
 public class IssueController {
 	@Autowired
-	IssueRepository issueRepository;
-	
+	IssueRepository issueRepository;	
 	@Autowired
-	UserRepository userRepository;
-	
+	UserRepository userRepository;	
 	@Autowired
 	CommentRepository commentRepository;
+	@Autowired
+	MilestoneRepository milestoneRepository;
+	@Autowired
+	LabelRepository labelRepository;
 	
 	private static final Logger log = LoggerFactory.getLogger(IssueController.class);
 
@@ -98,7 +102,9 @@ public class IssueController {
 		log.debug("Access >> /issue/{" + id + "}/detail");
 		Issue issue = issueRepository.findOne(id);
 		model.addAttribute("issueInfo", issue);
-		
+		model.addAttribute("allLabel", labelRepository.findAll());
+		model.addAttribute("allUser", userRepository.findAll());
+		model.addAttribute("allMilestone", milestoneRepository.findAll());
 		log.debug("View Issue Property : " + issue);
 		return "issue/detail";
 	}

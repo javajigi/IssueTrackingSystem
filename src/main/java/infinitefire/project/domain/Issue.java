@@ -3,6 +3,7 @@ package infinitefire.project.domain;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,6 +12,7 @@ import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -42,15 +44,17 @@ public class Issue {
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_issue_writer"))
 	private User writer;
 	
-	@Column(name = "label", nullable = false)
-	private int label;
-	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "state", nullable = false)
 	private IssueState state;
 	
-	@ManyToMany
+/*	@ManyToMany
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_issue_assignee"))
+	private List<User> assigneeList;*/
+	
+	@JsonIgnore
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "ISSUE_ASSIGNEE", joinColumns = { @JoinColumn(name = "ISSUE_ID") }, inverseJoinColumns = { @JoinColumn(name = "ASSIGNEE_ID") })
 	private List<User> assigneeList;
 	
 	@ManyToOne
@@ -66,7 +70,6 @@ public class Issue {
 	private List<Label> labelList;
 	
 	public Issue() {
-		this.label = 0;
 		this.state = IssueState.OPEN;
 		this.writeDate = new Date();
 	}
@@ -77,7 +80,6 @@ public class Issue {
 		this.subject = subject;
 		this.contents = contents;
 		this.writer = writer;
-		this.label = label;
 		this.state = state;
 		this.assigneeList = assigneeList;
 		this.milestone = milestone;
@@ -110,7 +112,7 @@ public class Issue {
 		this.contents = contents;
 	}
 
-	public String getFormattedWriteDate() {
+	public String getWriteDate() {
 		return DateTimeUtils.format(writeDate, "yyyy.MM.dd HH:mm:ss");
 	}
 
@@ -126,14 +128,6 @@ public class Issue {
 		this.writer = writer;
 	}
 	
-	public int getLabel() {
-		return label;
-	}
-
-	public void setLabel(int label) {
-		this.label = label;
-	}
-
 	public String getStateCheck() {
 		return state.getStateCheck();
 	}
@@ -202,7 +196,7 @@ public class Issue {
 	@Override
 	public String toString() {
 		String str = "Issue [id=" + id + ", subject=" + subject + ", contents=" + contents + ", writeDate=" + writeDate
-				+ ", writer=" + writer + ", label=" + label + ", state=" + state+"\n";
+				+ ", writer=" + writer + ", label=" + ", state=" + state+"\n";
 		str += "-------------------CommentList----------------------------\n";
 		if (commentList != null) {
 			for (Comment comment : commentList) {
