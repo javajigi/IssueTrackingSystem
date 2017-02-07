@@ -1,5 +1,7 @@
 package infinitefire.project.web;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -10,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import infinitefire.project.domain.Comment;
 import infinitefire.project.domain.CommentRepository;
@@ -118,5 +122,16 @@ public class IssueController {
 
 		log.debug("View Issue Property : " + issue);
 		return "issue/detail";
+	}
+	
+	@PostMapping("/issue/{issueId}/modifyState")
+	public @ResponseBody Issue modifyState(@PathVariable Long issueId,
+									       @RequestParam(value="check") boolean isChecked) {
+		Issue issue = issueRepository.findOne(issueId);		
+		/* 권한 관리
+		 * 
+		*/
+		issue.toggleState(isChecked);
+		return issueRepository.save(issue);
 	}
 }
