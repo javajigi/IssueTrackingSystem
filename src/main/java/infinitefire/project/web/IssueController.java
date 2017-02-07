@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import infinitefire.project.domain.Comment;
 import infinitefire.project.domain.CommentRepository;
 import infinitefire.project.domain.Issue;
 import infinitefire.project.domain.IssueRepository;
@@ -94,10 +95,19 @@ public class IssueController {
 	}
 
 	@GetMapping("/issue/{id}/detail")
-	public String showIssueDetail(@PathVariable Long id, Model model) {
+	public String showIssueDetail(HttpSession session, @PathVariable Long id, Model model) {
 		log.debug("Access >> /issue/{" + id + "}/detail");
 		Issue issue = issueRepository.findOne(id);
 		model.addAttribute("issueInfo", issue);
+		
+		if(HttpSessionUtils.isLoginUser(session)) {
+			User loginUser = HttpSessionUtils.getUserFromSession(session);
+			
+			for(Comment comment : issue.getCommentList()) {
+				if (comment.isMyComment(loginUser.getId()))
+					comment.setIsMyComment(true);
+			}
+		}		
 		
 		log.debug("View Issue Property : " + issue);
 		return "issue/detail";

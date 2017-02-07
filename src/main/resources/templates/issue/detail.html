@@ -181,9 +181,10 @@
         
       </ul>
     </div>
+    <div></div>    
     <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
       <p>{{contents}}</p>
-    </div>
+	</div>
     <div class="label_container">
     {{#each labelList}}
 		<span id="label_{{id}}" class="label mdl-chip mdl-chip--deletable" style="background-color:{{color}}">
@@ -193,7 +194,8 @@
 	{{/each}}
 	</div>
     <div class="comment-form mdl-color-text--primary-contrast mdl-card__supporting-text comments">
-
+    
+    <!-- <script type="text/javascript">{{precompile "precompile/comment_compare"}}</script> -->
       <!-- comments start -->
       {{#each commentList}}
       <div class="comment mdl-color-text--grey-700">
@@ -203,8 +205,14 @@
             <strong>
             	<span>
             		<a href="/user/{{writer.id}}/detail"><font color="#0000ff">{{writer.userId}}</font></a>
-            		{{contents}}
+            		<span style="white-space: pre-line;">{{contents}}</span>
             		<font class="date_format">{{formattedWriteDate}}</font>
+            	</span>
+            	<span>
+            		{{#if isMyComment}}
+            			<a href="/comment/{{id}}/modify">수정</a>
+						<a href="/comment/{{id}}/delete">삭제</a>
+            		{{/if}}
             	</span>
             </strong>
           </div>
@@ -212,6 +220,9 @@
       </div>
       <hr>
       {{/each}}
+      
+      
+      
       <!-- comments end -->
     </div>
     <form action="/issue/1/uploadFile" enctype="multipart/form-data" method="POST">
@@ -245,6 +256,12 @@
             		{1}
             		<font class="date_format">{2}</font>
             	</span>
+				<span>
+            		{{#if 5}}
+            			<a href="/comment/{{id}}/modify">수정</a>
+						<a href="/comment/{{id}}/delete">삭제</a>
+            		{{/if}}
+            	</span>
             </strong>
           </div>
         </header>
@@ -255,3 +272,13 @@
 {{/partial}}
 
 {{> template}}
+    
+<script id="test-template" type="text/x-handlebars-template">
+    <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
+      <p>{{contents}}</p>
+	</div>
+</script>
+<script>
+    	//var source = $("#test-template").html();
+    	//var template = Handlebars.compile(source);
+</script>

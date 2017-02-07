@@ -12,6 +12,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import infinitefire.project.utils.DateTimeUtils;
 
@@ -35,6 +36,9 @@ public class Comment {
 	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_comment_user"))
 	private User writer;
+	
+	@Transient
+	private boolean isMyComment = false;
 	
 	public Comment(){
 		this.writeDate = new Date();
@@ -86,11 +90,23 @@ public class Comment {
 	public void setWriter(User writer) {
 		this.writer = writer;
 	}
+	
+	public void setIsMyComment(boolean isMyComment){
+		this.isMyComment = isMyComment;
+	}
+	
+	public boolean getIsMyComment() {
+		return isMyComment;
+	}
 
+	public boolean isMyComment(Long writerId) {
+		return writer.isMatchId(writerId);
+	}
+	
 	@Override
 	public String toString() {
 		return "Comment [id=" + id + ", contents=" + contents + ", writeDate=" + writeDate +
-				", writer=" + writer + "]";
+				", writer=" + writer + ", isMyComment="+ isMyComment + "]";
 	}
 }
 

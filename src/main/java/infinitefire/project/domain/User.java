@@ -131,7 +131,7 @@ public class User {
 			return true;
 		}
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

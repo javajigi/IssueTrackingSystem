@@ -16,7 +16,7 @@ function addComment(e) {
 			console.log(result);
 			
 			var template = $("#commentTemplate").html();
-			var returntemp = template.format(result.id, result.contents, result.formattedWriteDate, result.writer.id, result.writer.userId);
+			var returntemp = template.format(result.id, result.contents, result.formattedWriteDate, result.writer.id, result.writer.userId, result.isMyComment);
 			$(".comment-form").append(returntemp);
 			$("textarea[name=contents]").val("");
 		},
@@ -34,4 +34,4 @@ String.prototype.format = function() {
 	        : match
 	        ;
 	  });
-	};
+};
