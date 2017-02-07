@@ -4,9 +4,9 @@ INSERT INTO milestone (id, subject, description, start_date, end_date ) VALUES(3
 INSERT INTO milestone (id, subject, description, start_date, end_date ) VALUES(4, 'Fourth Milestone', 'Fourth Milestone Description', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
 INSERT INTO milestone (id, subject, description, start_date, end_date ) VALUES(5, 'Fifth Milestone', 'Fifth Milestone Description', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
 
-insert into user (id, user_id, name, password, state, profile_url) values (1, 'test', 'jkh', '1234', 0, 'http://localhost:8080/file/new.png');
-insert into user (id, user_id, name, password, state, profile_url) values (2, 'test2', 'jaewoong', '1234', 0, 'none.png');
-insert into user (id, user_id, name, password, state, profile_url) values (3, 'test3', 'subin', '1234', 0, 'none.png');
+insert into user (id, user_id, name, password, state, profile_url) values (1, 'test', 'jkh', '1234', 0, 'http://localhost:8080/file/test_profile.png');
+insert into user (id, user_id, name, password, state, profile_url) values (2, 'test2', 'jaewoong', '1234', 0, 'http://localhost:8080/file/test2_profile.png');
+insert into user (id, user_id, name, password, state, profile_url) values (3, 'test3', 'subin', '1234', 0, 'http://localhost:8080/file/test3_profile.png');
 
 INSERT INTO issue (id, contents, label, state, subject, write_date, writer_id, milestone_id) VALUES (1, 'first issue contents', 0, 'CLOSE', 'first issue', CURRENT_TIMESTAMP(), 1, 2);
 INSERT INTO issue (id, contents, label, state, subject, write_date, writer_id, milestone_id) VALUES (2, 'second issue contents', 0, 'OPEN', 'second issue', CURRENT_TIMESTAMP(), 2, 2);

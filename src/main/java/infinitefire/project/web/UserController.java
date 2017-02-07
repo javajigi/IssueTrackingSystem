@@ -115,7 +115,6 @@ public class UserController {
 	@GetMapping("/{id}/modify")
 	public String modifyPage(@LoginUser User loginUser, @PathVariable long id, Model model, HttpSession session) {
 		log.debug("/{id}/modify [{}] - modifyPage()", HttpMethod.GET);
-		//User loginUser = HttpSessionUtils.getUserFromSession(session);
 		if (!loginUser.isMatchId(id)) {
 			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
 			return "/user/login";
@@ -126,31 +125,31 @@ public class UserController {
 		return "/user/modify";
 	}
 	
-	@PutMapping("/{id}/modify")
-	public String modify(@PathVariable Long id, User modifiedUser, String newPassword, HttpSession session) {
-		log.debug("/user/{id}/modify [{}] - modify()", HttpMethod.PUT);
-		log.debug("newPassword : " + newPassword);
-		log.debug("Before : " + modifiedUser.toString());
-		
-		User loginUser = HttpSessionUtils.getUserFromSession(session);
-		if (!loginUser.isMatchId(id)) {
-			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
-			return "/user/login";
-		}
-		if (!loginUser.isMatchPassword(modifiedUser.getPassword())) {	
-			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
-			return "/user/login";
-		}
-		
-		if (!modifiedUser.isMatchPassword(newPassword))
-			modifiedUser.setPassword(newPassword);
-		
-		log.debug("After : " + modifiedUser.toString());
-		User user = userRepository.findOne(id);
-		user.modify(modifiedUser);
-		userRepository.save(user);		
-		return "redirect:/";
-	}
+//	@PutMapping("/{id}/modify")
+//	public String modify(@PathVariable Long id, User modifiedUser, String newPassword, HttpSession session) {
+//		log.debug("/user/{id}/modify [{}] - modify()", HttpMethod.PUT);
+//		log.debug("newPassword : " + newPassword);
+//		log.debug("Before : " + modifiedUser.toString());
+//		
+//		User loginUser = HttpSessionUtils.getUserFromSession(session);
+//		if (!loginUser.isMatchId(id)) {
+//			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
+//			return "/user/login";
+//		}
+//		if (!loginUser.isMatchPassword(modifiedUser.getPassword())) {	
+//			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
+//			return "/user/login";
+//		}
+//		
+//		if (!modifiedUser.isMatchPassword(newPassword))
+//			modifiedUser.setPassword(newPassword);
+//		
+//		log.debug("After : " + modifiedUser.toString());
+//		User user = userRepository.findOne(id);
+//		user.modify(modifiedUser);
+//		userRepository.save(user);		
+//		return "redirect:/";
+//	}
 	
 	
 	
