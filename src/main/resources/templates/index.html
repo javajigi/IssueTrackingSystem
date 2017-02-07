@@ -1,7 +1,7 @@
 {{#partial "container"}}
 <div class="main_wrap mdl-grid">
-	<h2 class="title">Issues</h2>
-	<div class="container">	
+	<div class="container">
+		<h2 class="title">Issues</h2>
 		<ul class="card_list clearfix">
 			{{#each issueList}}
 			<li class="card_item mdl-shadow--2dp">
@@ -32,12 +32,12 @@
 			</li>
 			{{/each}}
 		</ul>
+		<form class="btn_add" action="/issue/new" method="get">
+			<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" type="submit">
+				<i class="material-icons">add</i>
+			</button>
+		</form>
 	</div>
-	<form class="btn_add" action="/issue/new" method="get">
-		<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" type="submit">
-			<i class="material-icons">add</i>
-		</button>
-	</form>
 {{/partial}}
 
 {{> template}}
