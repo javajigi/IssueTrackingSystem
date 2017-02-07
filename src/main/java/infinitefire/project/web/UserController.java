@@ -41,17 +41,17 @@ public class UserController {
 		return "/user/new";
 	}
 	
-	@PostMapping("/new")
-	public String newUser(User newUser) {
-		log.debug("/user/new [{}] - newUser()", HttpMethod.POST);
-		if (userRepository.findByUserId(newUser.getUserId()) != null) {
-			log.debug("해당 아이디는 사용 할 수 없습니다.");
-			return "redirect:/user/new";
-		}
-		userRepository.save(newUser);
-		
-		return "redirect:/user/login";
-	}
+//	@PostMapping("/new")
+//	public String newUser(User newUser) {
+//		log.debug("/user/new [{}] - newUser()", HttpMethod.POST);
+//		if (userRepository.findByUserId(newUser.getUserId()) != null) {
+//			log.debug("해당 아이디는 사용 할 수 없습니다.");
+//			return "redirect:/user/new";
+//		}
+//		userRepository.save(newUser);
+//		
+//		return "redirect:/user/login";
+//	}
 	
 	@GetMapping("/login")
 	public String loginPage() {
