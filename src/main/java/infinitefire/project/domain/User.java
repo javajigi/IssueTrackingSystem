@@ -34,7 +34,7 @@ public class User {
 	private UserState state;
 	
 	public User() {
-		this.profileUrl = "none.jpg";
+//		this.profileUrl = "none.jpg";
 		this.state = UserState.JOIN;
 	}
 
@@ -44,7 +44,7 @@ public class User {
 		this.name = name;
 		this.password = password;
 		this.profileUrl = profileUrl;
-		this.state = userState;
+		this.state = UserState.JOIN;
 	}
 
 	public boolean isMatchId(Long inputId) {
