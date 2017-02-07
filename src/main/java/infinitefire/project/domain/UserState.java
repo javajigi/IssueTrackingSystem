@@ -5,7 +5,7 @@ public enum UserState {
 	WITHDRAW;
 	
 	public boolean isWithdraw(User user) {
-		return user.getState().equals(UserState.WITHDRAW);
+		return this == UserState.WITHDRAW;
 	}
 
 }
