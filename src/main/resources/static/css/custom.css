@@ -218,3 +218,8 @@ table {
 .milestone_description {
 	color : #888;
 }
+
+.date_format {
+	font-size : x-small;
+	color: silver;
+}

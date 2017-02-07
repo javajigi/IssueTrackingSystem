@@ -202,37 +202,16 @@
           <div class="comment__author">
             <strong>
             	<span>
-            		<a href="/user/{{writer.id}}/detail">{{writer.userId}}</a>
+            		<a href="/user/{{writer.id}}/detail"><font color="#0000ff">{{writer.userId}}</font></a>
             		{{contents}}
-            		{{writeDate}}
+            		<font class="date_format">{{formattedWriteDate}}</font>
             	</span>
             </strong>
           </div>
         </header>
       </div>
       <hr>
-      {{/each}}   
-            
-      <div class="comment mdl-color-text--grey-700">
-        <header class="comment__header">
-          <img class="comment__avatar2" height="48" width="48" src="https://avatars3.githubusercontent.com/u/14341811?v=3&s=400" alt="진저애비">
-          <div class="comment__author">
-            <strong>
-              <a>진저애비</a>
-
-              
-                
-                  upload file <a href="upload file" target="_blank">[view]</a>
-                
-                
-              
-            </strong>
-          </div>
-        </header>
-      </div>
-      <hr>
-      
-      
+      {{/each}}
       <!-- comments end -->
     </div>
     <form action="/issue/1/uploadFile" enctype="multipart/form-data" method="POST">
@@ -262,9 +241,9 @@
           <div class="comment__author">
             <strong>
             	<span>
-            		<a href="/user/{3}/detail">{4}</a>
+            		<a href="/user/{3}/detail"><font color="#0000ff">{4}</font></a>
             		{1}
-            		{2}
+            		<font class="date_format">{2}</font>
             	</span>
             </strong>
           </div>
