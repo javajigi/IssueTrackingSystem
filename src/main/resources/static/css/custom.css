@@ -107,9 +107,7 @@ table {
 }
 
 .container .card_list {
-	width: 100%;
 	padding: 36px 0;
-	text-align: left;
 }
 
 .container .card_item {
@@ -172,10 +170,9 @@ table {
 	min-height: 48px;
 	border-top: 1px solid rgba(0,0,0,.1);
 }
-.container .mdl-switch {
-	position: absolute;
+.mdl-switch {
+	margin-top: 12px;
 	width: 48px;
-	top: 12px;
 }
 
 .container .comment_count {
@@ -250,6 +247,14 @@ table {
 	right: 16px;
 }
 
+.nav_category .mdl-switch {
+	margin-top: 0;
+}
+.nav_category .state {
+	display: inline-block;
+	line-height: 48px;
+}
+
 .nav_category .assignee {
 	margin: 4px 2px;
 }
@@ -275,24 +280,25 @@ table {
 .date_format {
 	font-size : x-small;
 	color: silver;
+}
 
 @media screen and (min-width: 380px) {
-	.container{
+	.container .card_list {
 		max-width: 340px;
 	}
 }
 @media screen and (min-width: 720px) {
-	.container{
+	.container .card_list {
 		max-width: 680px;
 	}
 }
 @media screen and (min-width: 1060px) {
-	.container{
+	.container .card_list {
 		max-width: 1020px;
 	}
 }
 @media screen and (min-width: 1400px) {
-	.container{
+	.container .card_list {
 		max-width: 1360px;
 	}
 }

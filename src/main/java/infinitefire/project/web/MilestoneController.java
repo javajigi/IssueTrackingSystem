@@ -27,7 +27,7 @@ import infinitefire.project.utils.HttpSessionUtils;
 @Controller
 @RequestMapping("/milestone/")
 public class MilestoneController {
-	
+	// TODO 사용하지 않는 코드이면 제거한다.
 	private static final Logger log = LoggerFactory.getLogger(MilestoneController.class);
 		
 	@Autowired
@@ -42,6 +42,7 @@ public class MilestoneController {
 		}
 	}
 	
+	// TODO @LoginUser를 사용해 통일성을 가져간다.
 	@PostMapping("/new")
 	public String create(Milestone milestone, HttpSession session){
 		

@@ -131,9 +131,16 @@ public class Issue {
 	public String getStateCheck() {
 		return state.getStateCheck();
 	}
+	
+	public IssueState getState() {
+		return state;
+	}
 
 	public void setState(IssueState state) {
 		this.state = state;
+	}
+	public void toggleState(boolean state) {
+		this.state = state ? IssueState.OPEN : IssueState.CLOSE;
 	}
 
 	public List<User> getAssigneeList() {

@@ -1,4 +1,6 @@
 $('.add-comment-btn').click(addComment);
+$('.mdl-switch__input').bind("change", modifyIssueState);
+
 function addComment(e) {
 	e.preventDefault();
 	console.log('create Comment to Issue Page');
@@ -45,6 +47,25 @@ function delComment(e) {
 		error: function(error) {
 			console.log('fail-RequestData');
 			alert('please, your browser must be refresh : [f5]');
+		}
+	});
+}
+
+function modifyIssueState(e) {
+	e.preventDefault();
+	var isChecked = $(this).is(":checked");
+	var url = '/issue/' + $(this).val() + '/modifyState';
+	$.ajax({
+		type: 'post',
+		url: url,		
+		data: {'check' : isChecked},
+		dataType:"json",
+		success: function(result) {
+			$('.nav_category .state').html(result.state);
+			
+		},
+		error: function(error) {
+			console.log('fail-RequestData');
 		}
 	});
 }

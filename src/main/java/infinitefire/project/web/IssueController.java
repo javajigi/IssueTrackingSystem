@@ -1,5 +1,7 @@
 package infinitefire.project.web;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -10,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import infinitefire.project.domain.Comment;
 import infinitefire.project.domain.CommentRepository;
@@ -103,6 +107,8 @@ public class IssueController {
 		log.debug("Access >> /issue/{" + id + "}/detail");
 		Issue issue = issueRepository.findOne(id);
 		model.addAttribute("issueInfo", issue);
+		
+		// TODO 데이터 목록을 조회할 때 어떤 기준을 가지고 정렬을 하도록 개선해 보면 좋겠네요.
 		model.addAttribute("allLabel", labelRepository.findAll());
 		model.addAttribute("allUser", userRepository.findAll());
 		model.addAttribute("allMilestone", milestoneRepository.findAll());
@@ -110,6 +116,7 @@ public class IssueController {
 		if(HttpSessionUtils.isLoginUser(session)) {
 			User loginUser = HttpSessionUtils.getUserFromSession(session);
 			
+			// TODO 이 로직을 issue에서 구현하면 어떻게 될까요? 그런데 isMyComment 속성을 이처럼 매번 처리해야 되나요? 다른 방법은 없을까요?
 			for(Comment comment : issue.getCommentList()) {
 				if (comment.isMyComment(loginUser.getId()))
 					comment.setIsMyComment(true);
@@ -118,5 +125,16 @@ public class IssueController {
 
 		log.debug("View Issue Property : " + issue);
 		return "issue/detail";
+	}
+	
+	@PostMapping("/issue/{issueId}/modifyState")
+	public @ResponseBody Issue modifyState(@PathVariable Long issueId,
+									       @RequestParam(value="check") boolean isChecked) {
+		Issue issue = issueRepository.findOne(issueId);		
+		/* 권한 관리
+		 * 
+		*/
+		issue.toggleState(isChecked);
+		return issueRepository.save(issue);
 	}
 }
