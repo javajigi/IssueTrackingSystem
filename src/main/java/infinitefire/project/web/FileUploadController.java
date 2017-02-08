@@ -32,6 +32,8 @@ import infinitefire.project.utils.HttpSessionUtils;
 public class FileUploadController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);	
 	private final StorageService storageService;
+	
+	// TODO 다음과 같이 하드코딩하면 서버에 배포했을 때 문제가 될 수 있습니다. 
 	private String basicURL = "http://localhost:8080/file/"; 
 	
 	@Autowired

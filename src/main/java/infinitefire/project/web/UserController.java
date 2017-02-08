@@ -41,6 +41,7 @@ public class UserController {
 		return "/user/new";
 	}
 	
+	// TODO 사용하지 않는 코드이면 제거한다.
 //	@PostMapping("/new")
 //	public String newUser(User newUser) {
 //		log.debug("/user/new [{}] - newUser()", HttpMethod.POST);
@@ -125,6 +126,7 @@ public class UserController {
 		return "/user/modify";
 	}
 	
+	// TODO 사용하지 않는 코드이면 제거한다.
 //	@PutMapping("/{id}/modify")
 //	public String modify(@PathVariable Long id, User modifiedUser, String newPassword, HttpSession session) {
 //		log.debug("/user/{id}/modify [{}] - modify()", HttpMethod.PUT);
@@ -166,6 +168,7 @@ public class UserController {
 		return "/user/delete";
 	}
 	
+	// TODO @LoginUser를 사용해 통일성을 가져간다.
 	@DeleteMapping("/{id}/delete")
 	public String delete(@PathVariable Long id, String password, HttpSession session) {
 		log.debug("/user/{id}/delete [{}] - delete()", HttpMethod.DELETE);
