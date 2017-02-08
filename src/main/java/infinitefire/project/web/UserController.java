@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import infinitefire.project.domain.User;
@@ -40,19 +39,6 @@ public class UserController {
 		
 		return "/user/new";
 	}
-	
-	// TODO 사용하지 않는 코드이면 제거한다.
-//	@PostMapping("/new")
-//	public String newUser(User newUser) {
-//		log.debug("/user/new [{}] - newUser()", HttpMethod.POST);
-//		if (userRepository.findByUserId(newUser.getUserId()) != null) {
-//			log.debug("해당 아이디는 사용 할 수 없습니다.");
-//			return "redirect:/user/new";
-//		}
-//		userRepository.save(newUser);
-//		
-//		return "redirect:/user/login";
-//	}
 	
 	@GetMapping("/login")
 	public String loginPage() {
@@ -109,6 +95,7 @@ public class UserController {
 	public String profile(@PathVariable Long id, Model model) {
 		User selectedUser = userRepository.findOne(id);
 		model.addAttribute("user", selectedUser);
+		log.debug("SRC : " + selectedUser.getProfile());
 		
 		return "/user/detail";
 	}
@@ -126,35 +113,6 @@ public class UserController {
 		return "/user/modify";
 	}
 	
-	// TODO 사용하지 않는 코드이면 제거한다.
-//	@PutMapping("/{id}/modify")
-//	public String modify(@PathVariable Long id, User modifiedUser, String newPassword, HttpSession session) {
-//		log.debug("/user/{id}/modify [{}] - modify()", HttpMethod.PUT);
-//		log.debug("newPassword : " + newPassword);
-//		log.debug("Before : " + modifiedUser.toString());
-//		
-//		User loginUser = HttpSessionUtils.getUserFromSession(session);
-//		if (!loginUser.isMatchId(id)) {
-//			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
-//			return "/user/login";
-//		}
-//		if (!loginUser.isMatchPassword(modifiedUser.getPassword())) {	
-//			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
-//			return "/user/login";
-//		}
-//		
-//		if (!modifiedUser.isMatchPassword(newPassword))
-//			modifiedUser.setPassword(newPassword);
-//		
-//		log.debug("After : " + modifiedUser.toString());
-//		User user = userRepository.findOne(id);
-//		user.modify(modifiedUser);
-//		userRepository.save(user);		
-//		return "redirect:/";
-//	}
-	
-	
-	
 	@GetMapping("/{id}/delete")
 	public String delete(@LoginUser User loginUser, @PathVariable long id, Model model, HttpSession session) {
 		log.debug("/user/{id}/delete [{}] - delete()", HttpMethod.GET);
@@ -168,12 +126,10 @@ public class UserController {
 		return "/user/delete";
 	}
 	
-	// TODO @LoginUser를 사용해 통일성을 가져간다.
 	@DeleteMapping("/{id}/delete")
-	public String delete(@PathVariable Long id, String password, HttpSession session) {
+	public String delete(@LoginUser User loginUser, @PathVariable Long id, String password, HttpSession session) {
 		log.debug("/user/{id}/delete [{}] - delete()", HttpMethod.DELETE);
 		
-		User loginUser = HttpSessionUtils.getUserFromSession(session);
 		if (!loginUser.isMatchId(id)) {
 			log.debug("해당 유저를 탈퇴시킬 권한이 없습니다.");
 			return "/user/login";
