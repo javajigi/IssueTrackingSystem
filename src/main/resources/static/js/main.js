@@ -1,5 +1,4 @@
 $('.add-comment-btn').click(addComment);
-
 function addComment(e) {
 	e.preventDefault();
 	console.log('create Comment to Issue Page');
@@ -22,6 +21,30 @@ function addComment(e) {
 		},
 		error: function(error) {
 			console.log('fail-RequestData');
+		}
+	});
+}
+
+//$(".commentDelete").click(delComment);
+function delComment(e) {
+	event.preventDefault();
+	console.log('delete Comment to Issue Page');
+	
+	var url = $('#commentForm_'+e).attr("action")+'delete';
+	console.log("url : "+url);
+	
+	$.ajax({
+		type: 'delete',
+		url: url,
+		success: function(result) {
+			if(result == true) {
+				var selectedDiv = $("#comment_"+e);
+				selectedDiv.remove();
+			}
+		},
+		error: function(error) {
+			console.log('fail-RequestData');
+			alert('please, your browser must be refresh : [f5]');
 		}
 	});
 }

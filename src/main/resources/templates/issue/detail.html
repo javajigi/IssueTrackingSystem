@@ -18,9 +18,7 @@
 	    </div>
 		<div class="article_container">		
 			<div class="article">	    
-			    <div class="contents">
-	  	   			{{contents}}
-			    </div>
+			    <pre class="contents">{{contents}}</pre>
 			</div>
 			<div class="navigation">
 			    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
@@ -101,7 +99,7 @@
 	</div>
 <div class="comment-form mdl-color-text--primary-contrast mdl-card__supporting-text comments">
 	{{#each commentList}}
-      <div class="comment mdl-color-text--grey-700">
+      <div id="comment_{{id}}" class="comment mdl-color-text--grey-700" >
         <header class="comment__header">
           <img class="comment__avatar2" height="48" width="48" src="https://avatars2.githubusercontent.com/u/520500?v=3&s=140" alt="javajigi">
           <div class="comment__author">
@@ -111,19 +109,24 @@
             		<span style="white-space: pre-line;">{{contents}}</span>
             		<font class="date_format">{{formattedWriteDate}}</font>
             	</span>
+            </strong>
+            <form id="commentForm_{{id}}" action="/comment/{{id}}/">
+            <strong>
             	<span>
             		{{#if isMyComment}}
-            			<a href="/comment/{{id}}/modify">수정</a>
-						<a href="/comment/{{id}}/delete">삭제</a>
+            			<a href="/comment/{{id}}/modify" >수정</a>
+            			
+						<a class="commentDelete" onclick="delComment({{id}})">삭제</a>
             		{{/if}}
             	</span>
             </strong>
+            </form>
           </div>
         </header>
-      </div>
       <hr>
+      </div>
       {{/each}}  
-	<div class="comment mdl-color-text--grey-700">
+	<!-- <div class="comment mdl-color-text--grey-700">
 	  <header class="comment__header">
 	    <img class="comment__avatar2" height="48" width="48" src="https://avatars3.githubusercontent.com/u/14341811?v=3&s=400" alt="진저애비">
 	    <div class="comment__author">
@@ -134,7 +137,7 @@
 	    </div>
 	  </header>
 	</div>
-	<hr>
+	<hr> -->
 </div>
 <form action="/issue/1/uploadFile" enctype="multipart/form-data" method="POST">
 	<div style="margin:10px;">
@@ -145,7 +148,7 @@
 <div class="mdl-color-text--primary-contrast mdl-card__supporting-text new-comment">
 	<form class="comment-create" action="/comment/{{id}}/new" method="POST">
 	  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-	    <textarea rows=5 class="mdl-textfield__input" id="contents" name="contents"></textarea>
+	    <textarea row=5 class="mdl-textfield__input" id="contents" name="contents"></textarea>
 	    <label for="contents" class="mdl-textfield__label">Leave a comment</label>
 	  </div>
 	  <button type="submit" class="add-comment-btn mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
@@ -158,7 +161,7 @@
 {{/partial}}
 {{> template}}
 <script type="text/template" id="commentTemplate">
-<div class="comment mdl-color-text--grey-700">
+<div id="comment_{0}" class="comment mdl-color-text--grey-700">
         <header class="comment__header">
           <img class="comment__avatar2" height="48" width="48" src="https://avatars2.githubusercontent.com/u/520500?v=3&s=140" alt="javajigi">
           <div class="comment__author">
@@ -168,17 +171,21 @@
             		{1}
             		<font class="date_format">{2}</font>
             	</span>
+			</strong>
+			<form id="commentForm_{0}" action="/comment/{0}/">
+			<strong>
 				<span>
             		{{#if 5}}
-            			<a href="/comment/{{id}}/modify">수정</a>
-						<a href="/comment/{{id}}/delete">삭제</a>
+            			<a href="/comment/{0}/modify">수정</a>
+						<a class="commentDelete" onclick="delComment({0})">삭제</a>
             		{{/if}}
             	</span>
             </strong>
+			</form>
           </div>
         </header>
-      </div>
       <hr>
+      </div>
 </script>
 <script id="test-template" type="text/x-handlebars-template">
     <div class="mdl-color-text--grey-700 mdl-card__supporting-text">

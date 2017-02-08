@@ -50,9 +50,15 @@ public class CommentController {
 		return commentRepository.save(comment);
 	}
 	
-	@DeleteMapping("/{issueId}/delete")
-	public String deleteComment(@LoginUser User loginUser, @PathVariable Long issueId, Comment comment) {
+	@DeleteMapping("/{commentId}/delete")
+	public boolean deleteComment(@LoginUser User loginUser, @PathVariable Long commentId) {
+		log.debug("Access >> CommentDelete");
 		
-		return "redirect:/";
+		Comment getComment = commentRepository.findOne(commentId);
+		if(getComment.isMatchWriter(loginUser)) {
+			commentRepository.delete(commentId);
+			return true;
+		} else
+			return false;
 	}
 }
