@@ -24,10 +24,10 @@ public class User {
 	@JsonIgnore
 	@Column(name = "password", length = 20, nullable = false)
 	private String password;
-	
+
 	@JsonIgnore
-	@Column(name = "profileUrl")
-	private String profileUrl;
+	@Column(name = "profile")
+	private String profile;
 	
 	@JsonIgnore
 	@Column(name = "state", nullable = false)
@@ -38,12 +38,12 @@ public class User {
 		this.state = UserState.JOIN;
 	}
 
-	public User(String userId, String name, String password, String profileUrl, UserState userState) {
+	public User(String userId, String name, String password, String profile, UserState userState) {
 		super();
 		this.userId = userId;
 		this.name = name;
 		this.password = password;
-		this.profileUrl = profileUrl;
+		this.profile = profile;
 		this.state = UserState.JOIN;
 	}
 
@@ -62,7 +62,7 @@ public class User {
 	public void modify(User modifiedUser) {
 		this.password = modifiedUser.password;
 		this.name = modifiedUser.name;
-		this.profileUrl = modifiedUser.profileUrl;
+		this.profile = modifiedUser.profile;
 	}
 	
 	public void withdraw() {
@@ -70,7 +70,7 @@ public class User {
 	}
 	
 	public boolean isWithdraw() {
-		return state.isWithdraw(this);
+		return state.isWithdraw();
 	}
 	
 	public Long getId() {
@@ -105,12 +105,12 @@ public class User {
 		this.password = password;
 	}
 
-	public String getProfileUrl() {
-		return profileUrl;
+	public String getProfile() {
+		return profile;
 	}
 
-	public void setProfileUrl(String profileUrl) {
-		this.profileUrl = profileUrl;
+	public void setProfile(String profile) {
+		this.profile = profile;
 	}
 
 	public UserState getState() {
@@ -159,7 +159,7 @@ public class User {
 	
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", userId=" + userId + ", name=" + name + ", password=" + password + ", profileUrl="
-				+ profileUrl + ", state=" + state + "]";
+		return "User [id=" + id + ", userId=" + userId + ", name=" + name + ", password=" + password + ", profile="
+				+ profile + ", state=" + state + "]";
 	}
 }
