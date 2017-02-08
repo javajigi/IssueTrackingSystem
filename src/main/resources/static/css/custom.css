@@ -199,6 +199,7 @@ table {
 	width: 100%;
 	font-size: 28px;	
 	color: #fff;
+	//색을 표현할때 16지수로 항상 표현하는게 일반적이에요 
 	background-color: orange;
 	padding: 16px 86px 16px 16px;
 }
@@ -278,6 +279,7 @@ table {
 
 .comment_date {
 	padding: 0 8px;
+	//em, rem이 있으니 어떻게 사용하는게 확인해보세요.
 	font-size : 14px;
 	color: #aaa;
 }

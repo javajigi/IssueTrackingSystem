@@ -7,6 +7,8 @@ body .issues {
 .issues .issues__posts {
   max-width: 900px;
   padding: 0;
+  //flex 는 브라우저 제한사항이 있으니 호환성을 알고 사용하는게 좋겠네요
+  //flex는 모바일웹에서는 쓸만할 것이고, pc환경에서는 아직도 float 속성과 position속성을 사용한 layout을 잡는게 일반적입니다.
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;

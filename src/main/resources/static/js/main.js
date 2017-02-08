@@ -45,6 +45,7 @@ function modifyIssueState(e) {
 			
 		},
 		error: function(error) {
+			//console.error 메서드가 있으니 그걸 사용하는게 나을 듯.
 			console.log('fail-RequestData');
 		}
 	});
@@ -58,6 +59,7 @@ function delComment(commentId) {
 		type: 'delete',
 		url: url,
 		success: function(result) {
+			//if(result) 라고만 하면 될 듯.
 			if(result == true) {
 				var selectedDiv = $("#comment_" + commentId);
 				selectedDiv.remove();
@@ -65,6 +67,7 @@ function delComment(commentId) {
 		},
 		error: function(error) {
 			console.log('fail-RequestData');
+			//refresh를 해야 해결되는 경우는 언제죠..?  정상적이지 않은 거 같아요.
 			alert('please, your browser must be refresh : [f5]');
 		}
 	});
