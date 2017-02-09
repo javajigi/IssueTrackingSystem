@@ -112,6 +112,18 @@ public class User {
 	public void setProfile(String profile) {
 		this.profile = profile;
 	}
+	
+	public void setDefaultProfile() {
+		this.profile = "default.png";
+	}
+	
+	public boolean isDefaultProfile() {
+		return this.profile.equals("default.png");
+	}
+	
+	public void setNoneProfile() {
+		this.profile = "none.png";
+	}
 
 	public UserState getState() {
 		return state;
