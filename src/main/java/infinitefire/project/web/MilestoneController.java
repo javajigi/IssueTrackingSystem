@@ -1,6 +1,6 @@
 package infinitefire.project.web;
 
-import javax.servlet.http.HttpSession;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,6 @@ import infinitefire.project.domain.Milestone;
 import infinitefire.project.domain.MilestoneRepository;
 import infinitefire.project.domain.User;
 import infinitefire.project.security.LoginUser;
-import infinitefire.project.utils.HttpSessionUtils;
 
 @Controller
 @RequestMapping("/milestone/")
@@ -35,19 +34,28 @@ public class MilestoneController {
 	// TODO @LoginUser를 사용해 통일성을 가져간다.
 	@PostMapping("/new")
 	public String create(@LoginUser User loginUser, Milestone milestone){
+		log.debug("Access >> /milestone/new - " + milestone);
+		
 		milestoneRepository.save(milestone);
 		return "redirect:/milestone/list";
 	}
 	
 	
 	@GetMapping("/list")
-	public String show(@LoginUser User loginUser, Model model) {			
-		model.addAttribute("milestones", milestoneRepository.findAll());
+	public String show(@LoginUser User loginUser, Model model) {
+		List<Milestone> milestoneList = (List<Milestone>) milestoneRepository.findAll();
+		model.addAttribute("milestones", milestoneList);
+		
+		for(Milestone m : milestoneList){
+			m.countOpenIssue();
+			log.debug("Data  :  " + m);
+		}
+		
 		return "milestone/list";
 	}
 	
 	@GetMapping("/{id}/detail")
-	public String detail(@LoginUser User loginUser, @PathVariable long id, Model model){
+	public String detail(@LoginUser User loginUser, @PathVariable Long id, Model model){
 		
 		Milestone milestone = milestoneRepository.findOne(id);
 		model.addAttribute("milestone", milestone);

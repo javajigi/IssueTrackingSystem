@@ -15,15 +15,18 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Milestone {
-	
 	@Id
 	@GeneratedValue
-	private long id;
+	private Long id;
 	
 	@Column(name = "subject", length = 100, nullable = false)
 	private String subject;
@@ -44,23 +47,29 @@ public class Milestone {
 	@OrderBy("id ASC")
 	private List<Issue> issueList;
 	
-	public Milestone() {}
+	@Transient
+	private double openedIssuePs;
+	
+	private static final Logger log = LoggerFactory.getLogger(Milestone.class);
+	
+	public Milestone() {
+		startDate = new Date();
+	}
 
-	public Milestone(long id, String subject, String description, Date startDate, Date endDate) {
+	public Milestone(String subject, String description, List<Issue> issueList, Date startDate, Date endDate) {
 		super();
-		this.id = id;
 		this.subject = subject;
 		this.description = description;
-		//this.issueList = issueList;
+		this.issueList = issueList;
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -125,11 +134,43 @@ public class Milestone {
 	public void setIssueList(List<Issue> issueList) {
 		this.issueList = issueList;
 	}
+	
+	public double getOpenedIssuePs() {
+		return openedIssuePs;
+	}
+
+	public void setOpenedIssuePs(double openedIssuePs) {
+		this.openedIssuePs = openedIssuePs;
+	}
+
+	public void countOpenIssue() {
+		double totalOpenState = 0.0;
+		
+		for(Issue issue : issueList) {
+			if(issue.getState() == IssueState.OPEN) {
+				totalOpenState += 1;
+			}
+		}
+		
+		if(issueList.size() == 0)
+			this.openedIssuePs = 0;
+		else
+			this.openedIssuePs = totalOpenState/issueList.size();
+	}
+	
 
 	@Override
 	public String toString() {
-		return "Milestone [subject=" + subject + ", description=" + description + ", startDate=" + startDate
-				+ ", endDate=" + endDate + "]";
+		String str = "\n-------------------MilestoneList----------------------------\n";
+		str += "Milestone [id="+id+", subject=" + subject + ", description=" + description + ", startDate=" + startDate
+				+ ", endDate=" + endDate + ", openIssueSize="+openedIssuePs+"]";
+		str += "\n-------------------IssueList----------------------------\n";
+		if (issueList != null) {
+			for (Issue issue : issueList) {
+				str += issue + "\n";
+			}
+		}
+		return str;
 	}
 
 }

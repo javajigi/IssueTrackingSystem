@@ -19,7 +19,12 @@
           </span>
           <span class="mdl-list__item-secondary-content">
             <span class="progress-bar">
-              <span class="progress" style="width:200.0px"> </span>
+              <span id="progress_{{id}}" class="progress"> </span>
+            	<script>
+            		var progress = document.getElementById("progress_{{id}}");
+            		var count = 300*{{openedIssuePs}};
+            		progress.style.width = count+'px';
+            	</script>
             </span>
             <span class="mdl-list__item-sub-title" style="font-size:13px; color:#888">
             	{{#each issueList}}

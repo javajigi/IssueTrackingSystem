@@ -1,10 +1,14 @@
 {{#partial "container"}}
 <div class="issues-back">
+<p>
   <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon back-btn" title="go back" role="button">
     <i class="material-icons" role="presentation">arrow_back</i>
   </a>
+ </p>
 </div>
 <div class="issues__posts mdl-grid">
+<strong><font style="font-size: xx-large;">Create Milestone</font></strong>
+<hr>
   <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
   	<form name="milestone" method="post" action="/milestone/new">
 	    <div class="mdl-card__title mdl-color-text--grey-50" style="height:100px;">
@@ -22,10 +26,10 @@
 		  </div>
 		</div>
 	    <div class="mdl-color-text--primary-contrast" style="padding-top:40px; padding-bottom:40px;">
-	      <div class="input-date" style="padding:15px;">
+	      <!-- <div class="input-date" style="padding:15px;">
 	        <label for="startDate" style="color:#888">start date</label>
 	        <input type="datetime-local" name="formatStartDate" id="startDate" required>
-	      </div>
+	      </div> -->
 	      <div class="input-date" style="padding:15px;">
 	        <label for="endDate" style="color:#888">end date</label>
 	        <input type="datetime-local" name="formatEndDate" id="endDate" required>

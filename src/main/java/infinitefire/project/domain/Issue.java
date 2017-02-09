@@ -75,7 +75,7 @@ public class Issue {
 	}
 
 	public Issue(String subject, String contents, User writer, int label, IssueState state, 
-			List<User> assigneeList, List<Label> labelList, Milestone milestone) {
+			List<User> assigneeList, List<Label> labelList, Milestone milestone, List<Comment> commentList) {
 		super();
 		this.subject = subject;
 		this.contents = contents;
@@ -84,7 +84,7 @@ public class Issue {
 		this.assigneeList = assigneeList;
 		this.milestone = milestone;
 		this.labelList = labelList;
-		//this.commentList = commentList;
+		this.commentList = commentList;
 		//this.writeDate = new Date();
 	}
 
