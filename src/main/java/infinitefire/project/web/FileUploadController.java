@@ -1,5 +1,7 @@
 package infinitefire.project.web;
 
+import java.util.UUID;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Level;
@@ -24,6 +26,7 @@ import com.google.common.net.HttpHeaders;
 
 import infinitefire.project.domain.User;
 import infinitefire.project.domain.UserRepository;
+import infinitefire.project.storage.FileType;
 import infinitefire.project.storage.StorageFileNotFoundException;
 import infinitefire.project.storage.StorageService;
 import infinitefire.project.utils.HttpSessionUtils;
@@ -32,9 +35,6 @@ import infinitefire.project.utils.HttpSessionUtils;
 public class FileUploadController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);	
 	private final StorageService storageService;
-	
-	// TODO 다음과 같이 하드코딩하면 서버에 배포했을 때 문제가 될 수 있습니다. 
-	private String basicURL = "http://localhost:8080/file/"; 
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -45,10 +45,10 @@ public class FileUploadController {
 		LogManager.getRootLogger().setLevel(Level.DEBUG);
 	}
 	
-	@GetMapping("/file/{filename:.+}")
+	@GetMapping("/profile/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-		Resource file = storageService.loadAsResource(filename);
+		Resource file = storageService.loadAsResource(filename, FileType.PROFILE);
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 	
@@ -60,9 +60,9 @@ public class FileUploadController {
 			return "redirect:/user/new";
 		}
 		
-		String newFileName = newUser.getUserId() + "_profile.png";
-		storageService.store(file, newFileName);
-		newUser.setProfileUrl(basicURL + newFileName);
+		String newFileName = UUID.randomUUID().toString() + ".png";
+		storageService.store(file, newFileName, FileType.PROFILE);
+		newUser.setProfile(newFileName);
 		userRepository.save(newUser);
 		
 		return "redirect:/user/login";
@@ -88,9 +88,8 @@ public class FileUploadController {
 		
 		log.debug("After : " + modifiedUser.toString());
 		User user = userRepository.findOne(id);
-		String newFileName = user.getUserId() + "_profile.png";
-		storageService.store(file, newFileName);
-		modifiedUser.setProfileUrl(basicURL + newFileName);
+		String newFileName = user.getProfile();
+		storageService.store(file, newFileName, FileType.PROFILE);
 		user.modify(modifiedUser);
 		userRepository.save(user);
 		
@@ -98,7 +97,7 @@ public class FileUploadController {
 	}
 	
 	@ExceptionHandler(StorageFileNotFoundException.class)
-	public ResponseEntity handleStorageFileNotFound(StorageFileNotFoundException exc) {
+	public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
 		return ResponseEntity.notFound().build();
 	}
 }

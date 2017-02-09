@@ -1,5 +1,10 @@
-$('.add-comment-btn').click(addComment);
-$('.mdl-switch__input').bind("change", modifyIssueState);
+$(function() {
+	$('.add-comment-btn').click(addComment);
+	$('.mdl-switch__input').bind("change", modifyIssueState);
+	$('#comment_list').delegate('#btn_comment_modify', "click", openCommentForm);
+	$('#comment_list').delegate('#btn_comment_delete', "click", deleteComment);
+	$('#comment_list').delegate('#btn_comment_complete', "click", modifyComment);
+});
 
 function addComment(e) {
 	e.preventDefault();
@@ -13,9 +18,9 @@ function addComment(e) {
 		type: 'post',
 		url: url,
 		data: queryString,
+		dataType:"json",
 		success: function(result) {
 			console.log(result);
-			
 			var template = $("#commentTemplate").html();
 			var returntemp = template.format(result.id, result.contents, result.formattedWriteDate, result.writer.id, result.writer.userId, result.isMyComment);
 			$(".comment-form").append(returntemp);
@@ -23,30 +28,6 @@ function addComment(e) {
 		},
 		error: function(error) {
 			console.log('fail-RequestData');
-		}
-	});
-}
-
-//$(".commentDelete").click(delComment);
-function delComment(e) {
-	event.preventDefault();
-	console.log('delete Comment to Issue Page');
-	
-	var url = $('#commentForm_'+e).attr("action")+'delete';
-	console.log("url : "+url);
-	
-	$.ajax({
-		type: 'delete',
-		url: url,
-		success: function(result) {
-			if(result == true) {
-				var selectedDiv = $("#comment_"+e);
-				selectedDiv.remove();
-			}
-		},
-		error: function(error) {
-			console.log('fail-RequestData');
-			alert('please, your browser must be refresh : [f5]');
 		}
 	});
 }
@@ -68,6 +49,73 @@ function modifyIssueState(e) {
 			console.log('fail-RequestData');
 		}
 	});
+}
+
+function deleteComment(e) {
+	e.preventDefault();
+	
+	var commentId = $(this).data("id");
+	var url = '/comment/' + commentId + '/delete';
+	$.ajax({
+		type: 'delete',
+		url: url,
+		success: function(result) {
+			if(result) {
+				var selectedDiv = $("#comment_" + commentId);
+				selectedDiv.remove();
+			}
+		},
+		error: function(error) {
+			console.log('fail-RequestData');
+			alert('please, your browser must be refresh : [f5]');
+		}
+	});
+}
+
+function modifyComment(e) {
+	event.preventDefault();
+	
+	var commentId = $(this).data("id");
+	var contents = $(".comment_input").val();
+	var url = '/comment/' + commentId + '/modify';
+	$.ajax({
+		type: 'put',
+		url: url,
+		data: {'contents' : contents},			
+		success: function(result) {
+			console.log(contents);
+			if(result) {
+				console.log("aaa");
+				$('#comment_input').remove();
+				$('#comment_contents_'+commentId).text(contents);
+				$('#comment_contents_'+commentId).show();
+			}	
+		},
+		error: function(error) {
+			console.log('fail-RequestData');
+			alert('please, your browser must be refresh : [f5]');
+		}
+	});
+}
+
+function openCommentForm(e) {
+	e.preventDefault();
+	
+	// get comment id
+	var commentId = $(this).data("id");
+	console.log(commentId);
+	
+	// close pre comment
+	var preId = $("#comment_input").data("id");
+	$("#comment_input").remove();
+	$('#comment_contents_'+preId).show();	
+	
+	// click modify btn	
+	var contents = $("#comment_contents_" + commentId).text();
+	var template = $("#comment_input_template").html();
+	var commentInputForm = template.format(commentId, contents);
+	$('#comment_contents_'+commentId).after(commentInputForm);
+	$('#comment_contents_'+commentId).hide();
 }
 
 String.prototype.format = function() {
