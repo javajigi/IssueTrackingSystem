@@ -106,7 +106,7 @@
 	    		<a class="comment_user" href="/user/{{writer.id}}/detail">{{writer.userId}}</a>        
 	  			<span class="comment_date">{{formattedWriteDate}}</span>
 		        	{{#if isMyComment}}
-		        		<a class="btn_comment_modify" onclick="openCommentForm({{id}}, '{{contents}}')">수정</a>            			
+		        		<a id="btn_modify_{{id}}" class="btn_comment_modify" onclick="openCommentForm({{id}}, '{{contents}}')">수정</a>            			
 		        		<a class="btn_comment_delete" onclick="delComment({{id}})">삭제</a>
 		     		{{/if}}
 		     	<div id="comment_contents_{{id}}" class="comment_contents">
@@ -145,7 +145,7 @@
 		<a class="comment_user" href="/user/{3}/detail">{4}</a>        
 	  	<span class="comment_date">{2}</span>
 		{{#if 5}}
-		 	<a class="btn_comment_modify" onclick="openCommentForm({0}, '{1}')">수정</a>            			
+		 	<a id="btn_modify_{0}" class="btn_comment_modify" onclick="openCommentForm({0}, '{1}')">수정</a>            			
 		    <a class="btn_comment_delete" onclick="delComment({0})">삭제</a>
 		{{/if}}
 		<div id="comment_contents_{0}" class="comment_contents">
@@ -159,8 +159,10 @@
 <script type="text/template" id="comment_input_template">
   	<div id="comment_input" class="comment_input_wrap" data-id="{0}">
   		<textarea class="comment_input">{1}</textarea>
-  		<a class="btn_comment_complete mdl-js-button mdl-js-ripple-effect mdl-button--icon" data-upgraded=",MaterialButton,MaterialRipple">
-	   	<i class="material-icons" role="presentation">check</i><span class="visuallyhidden">add comment</span>
+  		<a class="btn_comment_complete mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+		   data-id="{0}" data-upgraded=",MaterialButton,MaterialRipple"
+		   onclick="modifyComment({0})">
+	   		<i class="material-icons" role="presentation">check</i><span class="visuallyhidden">add comment</span>
 	    	<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
   		</a>
 	</div>  

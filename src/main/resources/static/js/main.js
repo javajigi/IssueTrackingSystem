@@ -1,6 +1,7 @@
 $(function() {
 	$('.add-comment-btn').click(addComment);
 	$('.mdl-switch__input').bind("change", modifyIssueState);
+//	$('#btn_comment_modify').bind("click", modifyComment);
 //	$('.btn_comment_modify').click(openCommentForm);
 //	$(".btn_comment_delete").click(delComment);
 });
@@ -62,6 +63,30 @@ function delComment(commentId) {
 				var selectedDiv = $("#comment_" + commentId);
 				selectedDiv.remove();
 			}
+		},
+		error: function(error) {
+			console.log('fail-RequestData');
+			alert('please, your browser must be refresh : [f5]');
+		}
+	});
+}
+
+function modifyComment(commentId) {
+	event.preventDefault();
+	var contents = $("#comment_input textarea").val();
+	var url = '/comment/' + commentId + '/modify';
+	$.ajax({
+		type: 'put',
+		url: url,
+		data: {'contents' : contents},			
+		success: function(result) {
+			console.log(contents);
+			if(result == true) {
+				console.log("aaa");
+				$('#comment_input').remove();
+				$('#comment_contents_'+commentId).text(contents);
+				$('#comment_contents_'+commentId).show();
+			}	$('#btn_modify_' + commentId).attr("onclick", "openCommentForm(" + commentId + ",'" + contents + "')");
 		},
 		error: function(error) {
 			console.log('fail-RequestData');

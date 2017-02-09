@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import infinitefire.project.domain.Comment;
@@ -45,9 +47,18 @@ public class CommentController {
 		return commentRepository.save(comment);
 	}
 	
-	@PutMapping("/{issueId}/modify")
-	public Comment modifyComment(@LoginUser User loginUser, @PathVariable Long issueId, Comment comment) {
-		return commentRepository.save(comment);
+	@PutMapping("/{commentId}/modify")
+	public boolean modifyComment(@LoginUser User loginUser,
+							     @PathVariable Long commentId, 
+							     @RequestParam(value="contents") String contents) {
+		
+		Comment comment = commentRepository.findOne(commentId);
+		if(comment.isMatchWriter(loginUser)) {
+			comment.setContents(contents);
+			commentRepository.save(comment);
+			return true;
+		} else
+			return false;
 	}
 	
 	@DeleteMapping("/{commentId}/delete")
