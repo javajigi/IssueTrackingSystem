@@ -1,5 +1,7 @@
 package infinitefire.project.web;
 
+import java.util.UUID;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Level;
@@ -7,6 +9,7 @@ import org.apache.log4j.LogManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +17,16 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import infinitefire.project.domain.User;
 import infinitefire.project.domain.UserRepository;
 import infinitefire.project.security.LoginUser;
+import infinitefire.project.storage.FileType;
+import infinitefire.project.storage.StorageService;
 import infinitefire.project.utils.HttpSessionUtils;
 
 @Controller
@@ -29,8 +37,17 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 	
-	public UserController() {
+	private final StorageService storageService;
+	
+	@Value("${file.upload_path}")
+	private String basicPath; 
+	
+	@Value("${file.upload_path_profile}")
+	private String profilePath;
+	
+	public UserController(StorageService storageService) {
 		LogManager.getRootLogger().setLevel(Level.DEBUG);
+		this.storageService = storageService;
 	}
 	
 	@GetMapping("/new")
@@ -38,6 +55,26 @@ public class UserController {
 		log.debug("/user/new [{}] - newPage()", HttpMethod.GET);
 		
 		return "/user/new";
+	}
+	
+	@PostMapping("/new")
+	public String newUser(User newUser, @RequestParam("file") MultipartFile file) {
+		log.debug("/user/new [{}] - newUser()", HttpMethod.POST);
+		if (userRepository.findByUserId(newUser.getUserId()) != null) {
+			log.debug("해당 아이디는 사용 할 수 없습니다.");
+			return "redirect:/user/new";
+		}
+
+		if (!file.isEmpty()) {	// 업로드 한 파일이 있을 경우
+			String newFileName = UUID.randomUUID().toString() + ".png";
+			storageService.store(file, newFileName, FileType.PROFILE);
+			newUser.setProfile(newFileName);
+		} else {	// 업로드한 파일이 없을 경우에 대한 예외처리
+			newUser.setDefaultProfile();
+		}
+		userRepository.save(newUser);
+		
+		return "redirect:/user/login";
 	}
 	
 	@GetMapping("/login")
@@ -113,6 +150,39 @@ public class UserController {
 		return "/user/modify";
 	}
 	
+	@PutMapping("/{id}/modify")
+	public String modify(@PathVariable Long id, User modifiedUser, @RequestParam("file") MultipartFile file, String newPassword, HttpSession session) {
+		log.debug("/user/{id}/modify [{}] - modify()", HttpMethod.PUT);
+		
+		User loginUser = HttpSessionUtils.getUserFromSession(session);
+		if (!loginUser.isMatchId(id)) {
+			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
+			return "/user/login";
+		}
+		if (!loginUser.isMatchPassword(modifiedUser.getPassword())) {	
+			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
+			return "/user/login";
+		}
+		
+		if (!modifiedUser.isMatchPassword(newPassword))
+			modifiedUser.setPassword(newPassword);
+		
+		User user = userRepository.findOne(id);
+		String newFileName = user.getProfile();
+		if (user.isDefaultProfile() && !file.isEmpty()) {
+			// Profile Image가 Default이며 새로운 사진을 등록할 경우
+			newFileName = UUID.randomUUID().toString() + ".png";
+		}
+		if (!file.isEmpty()) {	// 사진을 변경할 경우
+			storageService.store(file, newFileName, FileType.PROFILE);
+		}
+		modifiedUser.setProfile(newFileName);
+		user.modify(modifiedUser);
+		userRepository.save(user);
+		
+		return "redirect:/";
+	}
+	
 	@GetMapping("/{id}/delete")
 	public String delete(@LoginUser User loginUser, @PathVariable long id, Model model, HttpSession session) {
 		log.debug("/user/{id}/delete [{}] - delete()", HttpMethod.GET);
@@ -139,8 +209,14 @@ public class UserController {
 			log.debug("비밀번호가 일치하지 않아 탈퇴할 수 없습니다.");
 			return "/user/delete";
 		}
-		
+				
 		User outUser = userRepository.findOne(id);
+		
+		// 탈퇴 유저의 프로필 이미지 파일 제거 & 프로필 이미지 이름 DB에서 삭제		
+		String fileName = outUser.getProfile();
+		storageService.deleteFile(basicPath + profilePath + fileName);
+		
+		outUser.setNoneProfile();
 		outUser.withdraw();
 		userRepository.save(outUser);
 		session.removeAttribute(HttpSessionUtils.USER_SESSION_KEY);
