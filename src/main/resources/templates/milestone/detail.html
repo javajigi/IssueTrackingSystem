@@ -20,6 +20,27 @@
         <p class="milestone_description">{{description}}</p>
       </div>
     </div>
+    {{#if issueList}}
+    {{#each issueList}}
+    <div class="mdl-card__supporting-text">
+    	<span>
+    		<a href="/issue/{{id}}/detail" style="font-size: xx-large;">{{subject}}</a>
+    		opened by 
+    		<strong style="font-size: x-large;">
+    			<a href="/user/{{writer.id}}/detail">{{writer.userId}}</a>
+    		</strong>
+    		<strong style="text-align: right;">complete</strong>
+    	</span>
+    </div>
+    <hr>
+    {{/each}}
+    {{else}}
+    <div style="text-align: center;width: 100%;">
+    	<span>
+    		<strong style="font-size: xx-large;">There are no Issue in this milestone.</strong>
+    	</span>
+    </div>
+    {{/if}}
   </div>
 </div>
 {{/milestone}}
