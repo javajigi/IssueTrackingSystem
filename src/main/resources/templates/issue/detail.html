@@ -99,25 +99,23 @@
 			</div>
 		</div>
 	</div>
-	<div class="comment-form mdl-color-text--primary-contrast mdl-card__supporting-text comments">
+	<ul id="comment_list" class="comment-form mdl-color-text--primary-contrast mdl-card__supporting-text comments">
 	{{#each commentList}}
- 	<div id="comment_{{id}}" class="comment_container">
+	 	<li id="comment_{{id}}" class="comment_container">
 			<img class="comment_thumb minilogo" height="48" width="48" src="/profile/{{writer.profile}}" alt="javajigi">
 			<div class="comment_info">
 	    		<a class="comment_user" href="/user/{{writer.id}}/detail">{{writer.userId}}</a>        
 	  			<span class="comment_date">{{formattedWriteDate}}</span>
 		        	{{#if isMyComment}}
-		        		<a id="btn_modify_{{id}}" class="btn_comment_modify" onclick="openCommentForm({{id}}, '{{contents}}')">수정</a>            			
-		        		<a class="btn_comment_delete" onclick="delComment({{id}})">삭제</a>
+		        		<a id="btn_comment_modify" class="btn_comment_modify" data-id="{{id}}">수정</a>            			
+		        		<a id="btn_comment_delete" class="btn_comment_delete" data-id="{{id}}">삭제</a>
 		     		{{/if}}
-		     	<div id="comment_contents_{{id}}" class="comment_contents">
-			  		{{contents}}        	
-				  </div>
- 			  </div>
+		     	<pre id="comment_contents_{{id}}" class="comment_contents">{{contents}}</pre>
+ 			</div>
 			<hr>
-		</div>
+		</li>
     {{/each}}
-	</div>
+	</ul>
 	<form action="/issue/1/uploadFile" enctype="multipart/form-data" method="POST">
 		<div style="margin:10px;">
 		  <input type="file" name="file" id="file" />
@@ -138,31 +136,27 @@
 </div>
 {{/issueInfo}}
 {{/partial}}
-{{> template}}
+{{#partial "script"}}
 <script type="text/template" id="commentTemplate">
-<div id="comment_{0}" class="comment_container">
+<li id="comment_{0}" class="comment_container">
 	<img class="comment_thumb minilogo" height="48" width="48" src="https://avatars2.githubusercontent.com/u/520500?v=3&amp;s=140" alt="javajigi">
 	<div class="comment_info">
 		<a class="comment_user" href="/user/{3}/detail">{4}</a>        
 	  	<span class="comment_date">{2}</span>
 		{{#if 5}}
-		 	<a id="btn_modify_{0}" class="btn_comment_modify" onclick="openCommentForm({0}, '{1}')">수정</a>            			
-		    <a class="btn_comment_delete" onclick="delComment({0})">삭제</a>
+		 	<a id="btn_comment_modify" class="btn_comment_modify" data-id="{0}">수정</a>            			
+		    <a id="btn_comment_delete" class="btn_comment_delete" data-id="{0}">삭제</a>
 		{{/if}}
-		<div id="comment_contents_{0}" class="comment_contents">
-			{1}        	
-		</div>
+		<pre id="comment_contents_{0}" class="comment_contents">{1}</pre>
  	</div>
 	<hr>
-</div>
+</li>
 </script>
-
 <script type="text/template" id="comment_input_template">
   	<div id="comment_input" class="comment_input_wrap" data-id="{0}">
   		<textarea class="comment_input">{1}</textarea>
-  		<a class="btn_comment_complete mdl-js-button mdl-js-ripple-effect mdl-button--icon"
-		   data-id="{0}" data-upgraded=",MaterialButton,MaterialRipple"
-		   onclick="modifyComment({0})">
+  		<a id="btn_comment_complete" class="btn_comment_complete mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+		   data-id="{0}" data-upgraded=",MaterialButton,MaterialRipple">
 	   		<i class="material-icons" role="presentation">check</i><span class="visuallyhidden">add comment</span>
 	    	<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
   		</a>
@@ -178,3 +172,6 @@
     	//var source = $("#test-template").html();
     	//var template = Handlebars.compile(source);
 </script>
+{{/partial}}
+
+{{> template}}
