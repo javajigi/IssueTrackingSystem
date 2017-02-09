@@ -32,7 +32,6 @@ public class MilestoneController {
 		return "/milestone/new";
 	}
 	
-	// TODO @LoginUser를 사용해 통일성을 가져간다.
 	@PostMapping("/new")
 	public String create(@LoginUser User loginUser, Milestone milestone){
 		milestoneRepository.save(milestone);

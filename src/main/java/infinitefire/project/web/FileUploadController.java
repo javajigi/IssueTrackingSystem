@@ -9,7 +9,6 @@ import org.apache.log4j.LogManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -36,9 +35,6 @@ import infinitefire.project.utils.HttpSessionUtils;
 public class FileUploadController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);	
 	private final StorageService storageService;
-	
-	@Value("${file.basicUrl}")
-	private String basicURL; 
 	
 	@Autowired
 	private UserRepository userRepository;

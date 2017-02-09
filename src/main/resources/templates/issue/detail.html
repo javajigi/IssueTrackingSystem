@@ -22,7 +22,7 @@
 			</div>
 			<div class="navigation">
 			    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
-			      <img class="minilogo" height="48" width="48" src="https://avatars2.githubusercontent.com/u/520500?v=3&s=140" alt="javajigi"/>
+			      <img class="minilogo" height="48" width="48" src="/profile/{{writer.profile}}" alt="{{writer.userId}}"/>
 			      <div style="margin-right:20px;">
 			        <div class="author-text">
 			          <strong>
@@ -56,7 +56,7 @@
 					</ul>
 					{{#assigneeList}}
 		      		<span class="assignee mdl-chip mdl-chip--contact mdl-chip--deletable">
-					    <img class="mdl-chip__contact" src="https://avatars2.githubusercontent.com/u/520500?v=3&s=140"></img>
+					    <img class="mdl-chip__contact" src="/profile/{{profile}}"></img>
 					    <span class="mdl-chip__text">{{userId}}</span>
 					    <a href="#" class="mdl-chip__action"><i class="material-icons">cancel</i></a>
 					</span>
@@ -102,7 +102,7 @@
 	{{#each commentList}}
       <div id="comment_{{id}}" class="comment mdl-color-text--grey-700" >
         <header class="comment__header">
-          <img class="comment__avatar2" height="48" width="48" src="https://avatars2.githubusercontent.com/u/520500?v=3&s=140" alt="javajigi">
+          <img class="comment__avatar2" height="48" width="48" src="/profile/{{writer.profile}}" alt="javajigi">
           <div class="comment__author">
             <strong>
             	<span>

@@ -6,7 +6,7 @@ INSERT INTO milestone (id, subject, description, start_date, end_date ) VALUES(5
 
 insert into user (id, user_id, name, password, state, profile) values (1, 'test', 'jkh', '1234', 0, '7df8a893-c5c6-4158-910f-52d9ada4960a.png');
 insert into user (id, user_id, name, password, state, profile) values (2, 'test2', 'jaewoong', '1234', 0, 'fb663aab-823e-48b4-9919-d08f6a493113.png');
-insert into user (id, user_id, name, password, state, profile) values (3, 'test3', 'subin', '1234', 0, 'c487c936-ce94-4c51-88b2-4287cc20b4a1.png.png');
+insert into user (id, user_id, name, password, state, profile) values (3, 'test3', 'subin', '1234', 0, 'c487c936-ce94-4c51-88b2-4287cc20b4a1.png');
 
 INSERT INTO issue (id, contents, state, subject, write_date, writer_id, milestone_id) VALUES (1, 'first issue contents', 'CLOSE', 'first issue', CURRENT_TIMESTAMP(), 1, 2);
 INSERT INTO issue (id, contents, state, subject, write_date, writer_id, milestone_id) VALUES (2, 'second issue contents', 'OPEN', 'second issue', CURRENT_TIMESTAMP(), 2, 2);
