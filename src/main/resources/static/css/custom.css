@@ -264,7 +264,6 @@ table {
 	color: #fff;
 }
 
-
 /* issue/detail */
 .label_container {
 	padding: 12px;
@@ -277,10 +276,98 @@ table {
 	color : #888;
 }
 
-.date_format {
-	font-size : x-small;
-	color: silver;
+.comment_date {
+	padding: 0 8px;
+	font-size : 14px;
+	color: #aaa;
 }
+
+.comment_thumb {
+	float: left;
+}
+
+.comment_info {
+	position: relative;
+	overflow: hidden;
+	padding: 0 16px;
+}
+.comment_user {
+	color: #000;
+	font-size: 18px;
+}
+.comment_contents {
+	overflow: hidden;
+	padding: 8px 8px 0;
+	font-size: 18px;
+	color: rgba(0,0,0,.54);
+}
+
+.comment_input_wrap {
+	padding-right: 48px;
+}
+
+.comment_input {
+	overflow: hidden;
+	width: 100%;
+	font-size: 18px;
+    padding: 8px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.btn_comment_modify {
+	display: inline-block;
+	-webkit-border-radius: 8;
+	-moz-border-radius: 8;
+	border-radius: 8px;
+	font-family: Arial;
+	color: #fff;
+	font-size: 14px;
+	background: #00A0B0;
+	padding: 4px 8px 4px 8px;
+	cursor: pointer;
+	transition: box-shadow .2s cubic-bezier(.4,0,1,1),background-color .2s cubic-bezier(.4,0,.2,1),color .2s cubic-bezier(.4,0,.2,1);
+}
+.btn_comment_modify:hover {
+	background: #005b63;
+}
+
+.btn_comment_delete {
+	display: inline-block;
+	-webkit-border-radius: 8;
+	-moz-border-radius: 8;
+	border-radius: 8px;
+	font-family: Arial;
+	color: #fff;
+	font-size: 14px;
+	background: #CC333F;
+	padding: 4px 8px 4px 8px;
+	cursor: pointer;
+	transition: box-shadow .2s cubic-bezier(.4,0,1,1),background-color .2s cubic-bezier(.4,0,.2,1),color .2s cubic-bezier(.4,0,.2,1);
+}
+.btn_comment_delete:hover {
+	background: #99000d;
+}
+
+.btn_comment_complete {
+	position: absolute;
+	bottom: 16px;
+	right: 16px; 
+	display: inline-block;
+	background-color: rgba(0, 0, 0, 0.5);
+	transition: box-shadow .2s cubic-bezier(.4,0,1,1),background-color .2s cubic-bezier(.4,0,.2,1),color .2s cubic-bezier(.4,0,.2,1);
+	color: white;
+	cursor: pointer;
+}
+
+.btn_comment_complete:hover {
+    background-color: rgba(158,158,158,.5);
+}
+
+
+
 
 @media screen and (min-width: 380px) {
 	.container .card_list {

@@ -57,6 +57,7 @@
 					{{#assigneeList}}
 		      		<span class="assignee mdl-chip mdl-chip--contact mdl-chip--deletable">
 					    <img class="mdl-chip__contact" src="/profile/{{profile}}"></img>
+
 					    <span class="mdl-chip__text">{{userId}}</span>
 					    <a href="#" class="mdl-chip__action"><i class="material-icons">cancel</i></a>
 					</span>
@@ -98,84 +99,76 @@
 			</div>
 		</div>
 	</div>
-<div class="comment-form mdl-color-text--primary-contrast mdl-card__supporting-text comments">
+	<div class="comment-form mdl-color-text--primary-contrast mdl-card__supporting-text comments">
 	{{#each commentList}}
-      <div id="comment_{{id}}" class="comment mdl-color-text--grey-700" >
-        <header class="comment__header">
-          <img class="comment__avatar2" height="48" width="48" src="/profile/{{writer.profile}}" alt="javajigi">
-          <div class="comment__author">
-            <strong>
-            	<span>
-            		<a href="/user/{{writer.id}}/detail"><font color="#0000ff">{{writer.userId}}</font></a>
-            		<span style="white-space: pre-line;">{{contents}}</span>
-            		<font class="date_format">{{formattedWriteDate}}</font>
-            	</span>
-            </strong>
-            <form id="commentForm_{{id}}" action="/comment/{{id}}/">
-            <strong>
-            	<span>
-            		{{#if isMyComment}}
-            			<a href="/comment/{{id}}/modify" >수정</a>
-            			
-						<a class="commentDelete" onclick="delComment({{id}})">삭제</a>
-            		{{/if}}
-            	</span>
-            </strong>
-            </form>
-          </div>
-        </header>
-      <hr>
-      </div>
-      {{/each}}
-</div>
-<form action="/issue/1/uploadFile" enctype="multipart/form-data" method="POST">
-	<div style="margin:10px;">
-	  <input type="file" name="file" id="file" />
-	  <button class="mdl-button" type="submit">upload file</button>
+ 	<div id="comment_{{id}}" class="comment_container">
+			<img class="comment_thumb minilogo" height="48" width="48" src="/profile/{{writer.profile}}" alt="javajigi">
+			<div class="comment_info">
+	    		<a class="comment_user" href="/user/{{writer.id}}/detail">{{writer.userId}}</a>        
+	  			<span class="comment_date">{{formattedWriteDate}}</span>
+		        	{{#if isMyComment}}
+		        		<a id="btn_modify_{{id}}" class="btn_comment_modify" onclick="openCommentForm({{id}}, '{{contents}}')">수정</a>            			
+		        		<a class="btn_comment_delete" onclick="delComment({{id}})">삭제</a>
+		     		{{/if}}
+		     	<div id="comment_contents_{{id}}" class="comment_contents">
+			  		{{contents}}        	
+				  </div>
+ 			  </div>
+			<hr>
+		</div>
+    {{/each}}
 	</div>
-</form>
-<div class="mdl-color-text--primary-contrast mdl-card__supporting-text new-comment">
-	<form class="comment-create" action="/comment/{{id}}/new" method="POST">
-	  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-	    <textarea row=5 class="mdl-textfield__input" id="contents" name="contents"></textarea>
-	    <label for="contents" class="mdl-textfield__label">Leave a comment</label>
-	  </div>
-	  <button type="submit" class="add-comment-btn mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-	    <i class="material-icons" role="presentation">check</i><span class="visuallyhidden">add comment</span>
-	  </button>
+	<form action="/issue/1/uploadFile" enctype="multipart/form-data" method="POST">
+		<div style="margin:10px;">
+		  <input type="file" name="file" id="file" />
+		  <button class="mdl-button" type="submit">upload file</button>
+		</div>
 	</form>
-</div>
+	<div class="mdl-color-text--primary-contrast mdl-card__supporting-text new-comment">
+		<form class="comment-create" action="/comment/{{id}}/new" method="POST">
+		  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+		    <textarea row=5 class="mdl-textfield__input" id="contents" name="contents"></textarea>
+		    <label for="contents" class="mdl-textfield__label">Leave a comment</label>
+		  </div>
+		  <a class="btn_comment_complete add-comment-btn mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+		    <i class="material-icons" role="presentation">check</i><span class="visuallyhidden">add comment</span>
+		  </a>
+		</form>
+	</div>
 </div>
 {{/issueInfo}}
 {{/partial}}
 {{> template}}
 <script type="text/template" id="commentTemplate">
-<div id="comment_{0}" class="comment mdl-color-text--grey-700">
-        <header class="comment__header">
-          <img class="comment__avatar2" height="48" width="48" src="https://avatars2.githubusercontent.com/u/520500?v=3&s=140" alt="javajigi">
-          <div class="comment__author">
-            <strong>
-            	<span>
-            		<a href="/user/{3}/detail"><font color="#0000ff">{4}</font></a>
-            		{1}
-            		<font class="date_format">{2}</font>
-            	</span>
-			</strong>
-			<form id="commentForm_{0}" action="/comment/{0}/">
-			<strong>
-				<span>
-            		{{#if 5}}
-            			<a href="/comment/{0}/modify">수정</a>
-						<a class="commentDelete" onclick="delComment({0})">삭제</a>
-            		{{/if}}
-            	</span>
-            </strong>
-			</form>
-          </div>
-        </header>
-      <hr>
-      </div>
+<div id="comment_{0}" class="comment_container">
+	<img class="comment_thumb minilogo" height="48" width="48" src="https://avatars2.githubusercontent.com/u/520500?v=3&amp;s=140" alt="javajigi">
+	<div class="comment_info">
+		<a class="comment_user" href="/user/{3}/detail">{4}</a>        
+	  	<span class="comment_date">{2}</span>
+		{{#if 5}}
+		 	<a id="btn_modify_{0}" class="btn_comment_modify" onclick="openCommentForm({0}, '{1}')">수정</a>            			
+		    <a class="btn_comment_delete" onclick="delComment({0})">삭제</a>
+		{{/if}}
+		<div id="comment_contents_{0}" class="comment_contents">
+			{1}        	
+		</div>
+ 	</div>
+	<hr>
+</div>
 </script>
+
+<script type="text/template" id="comment_input_template">
+  	<div id="comment_input" class="comment_input_wrap" data-id="{0}">
+  		<textarea class="comment_input">{1}</textarea>
+  		<a class="btn_comment_complete mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+		   data-id="{0}" data-upgraded=",MaterialButton,MaterialRipple"
+		   onclick="modifyComment({0})">
+	   		<i class="material-icons" role="presentation">check</i><span class="visuallyhidden">add comment</span>
+	    	<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
+  		</a>
+	</div>  
+</script>
+
 <script id="test-template" type="text/x-handlebars-template">
     <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
       <p>{{contents}}</p>
