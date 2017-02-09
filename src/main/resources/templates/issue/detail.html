@@ -22,7 +22,7 @@
 			</div>
 			<div class="navigation">
 			    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
-		          <img class="minilogo" height="48" width="48" src="https://avatars2.githubusercontent.com/u/520500?v=3&s=140" alt="javajigi"/>
+			      <img class="minilogo" height="48" width="48" src="/profile/{{writer.profile}}" alt="{{writer.userId}}"/>
 			      <div style="margin-right:20px;">
 			        <div class="author-text">
 			          <strong>
@@ -55,8 +55,9 @@
 					  	{{/allUser}}
 					</ul>
 					{{#assigneeList}}
-         			<span class="assignee mdl-chip mdl-chip--contact mdl-chip--deletable">
-					    <img class="mdl-chip__contact" src="https://avatars2.githubusercontent.com/u/520500?v=3&s=140"></img>
+		      		<span class="assignee mdl-chip mdl-chip--contact mdl-chip--deletable">
+					    <img class="mdl-chip__contact" src="/profile/{{profile}}"></img>
+
 					    <span class="mdl-chip__text">{{userId}}</span>
 					    <a href="#" class="mdl-chip__action"><i class="material-icons">cancel</i></a>
 					</span>
@@ -100,8 +101,8 @@
 	</div>
 	<div class="comment-form mdl-color-text--primary-contrast mdl-card__supporting-text comments">
 	{{#each commentList}}
-	 	<div id="comment_{{id}}" class="comment_container">
-			<img class="comment_thumb minilogo" height="48" width="48" src="https://avatars2.githubusercontent.com/u/520500?v=3&amp;s=140" alt="javajigi">
+ 	<div id="comment_{{id}}" class="comment_container">
+			<img class="comment_thumb minilogo" height="48" width="48" src="/profile/{{writer.profile}}" alt="javajigi">
 			<div class="comment_info">
 	    		<a class="comment_user" href="/user/{{writer.id}}/detail">{{writer.userId}}</a>        
 	  			<span class="comment_date">{{formattedWriteDate}}</span>
@@ -111,8 +112,8 @@
 		     		{{/if}}
 		     	<div id="comment_contents_{{id}}" class="comment_contents">
 			  		{{contents}}        	
-				</div>
- 			</div>
+				  </div>
+ 			  </div>
 			<hr>
 		</div>
     {{/each}}
