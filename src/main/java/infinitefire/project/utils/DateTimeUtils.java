@@ -10,6 +10,6 @@ public class DateTimeUtils {
 		}
 
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
-		return sdf.format(new Date());
+		return sdf.format(date);
 	}
 }
