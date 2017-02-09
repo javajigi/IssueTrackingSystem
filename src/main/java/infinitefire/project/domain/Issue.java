@@ -29,46 +29,46 @@ public class Issue {
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	@Column(name = "subject", length = 100, nullable = false)
 	private String subject;
-	
+
 	@Lob
 	private String contents;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "writeDate", nullable = false, updatable = false)
 	private Date writeDate;
-	
+
 	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_issue_writer"))
 	private User writer;
-	
+
 	@Enumerated(EnumType.STRING)
 	@Column(name = "state", nullable = false)
 	private IssueState state;
-	
+
 /*	@ManyToMany
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_issue_assignee"))
 	private List<User> assigneeList;*/
-	
+
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "ISSUE_ASSIGNEE", joinColumns = { @JoinColumn(name = "ISSUE_ID") }, inverseJoinColumns = { @JoinColumn(name = "ASSIGNEE_ID") })
 	private List<User> assigneeList;
-	
+
 	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_issue_milestone"))
 	private Milestone milestone;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "issue")
 	private List<Comment> commentList;
-	
+
 	@JsonIgnore
 	@ManyToMany(mappedBy = "issueList")
 	private List<Label> labelList;
-	
+
 	public Issue() {
 		this.state = IssueState.OPEN;
 		this.writeDate = new Date();
@@ -127,11 +127,11 @@ public class Issue {
 	public void setWriter(User writer) {
 		this.writer = writer;
 	}
-	
+
 	public String getStateCheck() {
 		return state.getStateCheck();
 	}
-	
+
 	public IssueState getState() {
 		return state;
 	}
@@ -166,7 +166,7 @@ public class Issue {
 	public void setMilestone(Milestone milestone) {
 		this.milestone = milestone;
 	}
-	
+
 	public List<Label> getLabelList() {
 		return labelList;
 	}
@@ -174,7 +174,20 @@ public class Issue {
 	public boolean isMatchWriter(User matchUser) {
 		return this.writer.equals(matchUser);
 	}
+
+	public boolean addAssignee(User user) {
+		if(assigneeList.contains(user)) {
+			return false;
+		}
+		assigneeList.add(user);
+		return true;
+	}
 	
+	public boolean deleteAssignee(User user) {
+		
+		return assigneeList.remove(user);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -199,7 +212,7 @@ public class Issue {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		String str = "Issue [id=" + id + ", subject=" + subject + ", contents=" + contents + ", writeDate=" + writeDate
@@ -210,7 +223,7 @@ public class Issue {
 				str += comment + "\n";
 			}
 		}
-		
+
 		return str;
 	}
 }

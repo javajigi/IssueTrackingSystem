@@ -9,9 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -29,16 +31,16 @@ import infinitefire.project.utils.HttpSessionUtils;
 @Controller
 public class IssueController {
 	@Autowired
-	IssueRepository issueRepository;	
+	IssueRepository issueRepository;
 	@Autowired
-	UserRepository userRepository;	
+	UserRepository userRepository;
 	@Autowired
 	CommentRepository commentRepository;
 	@Autowired
 	MilestoneRepository milestoneRepository;
 	@Autowired
 	LabelRepository labelRepository;
-	
+
 	private static final Logger log = LoggerFactory.getLogger(IssueController.class);
 
 	@GetMapping("/")
@@ -46,28 +48,28 @@ public class IssueController {
 		model.addAttribute("issueList", issueRepository.findAll());
 		return "index";
 	}
-	
+
 	@GetMapping("/issue/new")
 	public String createIssueForm(@LoginUser User loginUser) {
 		log.debug("Access >> /issue/new-Get");
-		
+
 		return "issue/new";
 	}
 	@PostMapping("/issue/new")
 	public String createIssue(@LoginUser User loginUser, Issue newIssue) {
 		log.debug("Access >> /issue/new-Post : " + newIssue);
-		
+
 		newIssue.setWriter(loginUser);
 		issueRepository.save(newIssue);
 		return "redirect:/";
 	}
-	
+
 	@GetMapping("issue/{id}/modify")
 	public String modifyIssueForm(@LoginUser User loginUser, @PathVariable Long id, Model model) {
 		log.debug("Access >> /issue/modify");
-		
+
 		Issue modifyIssue = issueRepository.findOne(id);
-		
+
 		if(modifyIssue.isMatchWriter(loginUser)){
 			model.addAttribute("modifyIssue", modifyIssue);
 			return "issue/modify";
@@ -78,27 +80,27 @@ public class IssueController {
 	public String modifiedIssue(@LoginUser User loginUser, @PathVariable Long id,
 			String subject, String contents, Model model) {
 		log.debug("Access >> /issue/{" + id +"}/modify-put");
-		
+
 		Issue modifyIssue = issueRepository.findOne(id);
 		if(modifyIssue.isMatchWriter(loginUser)) {
 			modifyIssue.setSubject(subject);
 			modifyIssue.setContents(contents);
 			issueRepository.save(modifyIssue);
-			
+
 			model.addAttribute("issueInfo", modifyIssue);
 			return "/issue/detail";
 		} else
 			return "redirect:/";
 	}
-	
+
 	@GetMapping("issue/{id}/delete")
 	public String deleteIssue(@LoginUser User loginUser, @PathVariable Long id) {
 		log.debug("Access >> /issue/{" + id + "}/delete");
-		
+
 		Issue deleteIssue = issueRepository.findOne(id);
 		if(deleteIssue.isMatchWriter(loginUser))
 			issueRepository.delete(id);
-		
+
 		return "redirect:/";
 	}
 
@@ -107,34 +109,67 @@ public class IssueController {
 		log.debug("Access >> /issue/{" + id + "}/detail");
 		Issue issue = issueRepository.findOne(id);
 		model.addAttribute("issueInfo", issue);
-		
+
 		// TODO 데이터 목록을 조회할 때 어떤 기준을 가지고 정렬을 하도록 개선해 보면 좋겠네요.
 		model.addAttribute("allLabel", labelRepository.findAll());
 		model.addAttribute("allUser", userRepository.findAll());
 		model.addAttribute("allMilestone", milestoneRepository.findAll());
-		
+
 		if(HttpSessionUtils.isLoginUser(session)) {
 			User loginUser = HttpSessionUtils.getUserFromSession(session);
-			
+
 			// TODO 이 로직을 issue에서 구현하면 어떻게 될까요? 그런데 isMyComment 속성을 이처럼 매번 처리해야 되나요? 다른 방법은 없을까요?
 			for(Comment comment : issue.getCommentList()) {
 				if (comment.isMyComment(loginUser.getId()))
 					comment.setIsMyComment(true);
 			}
-		}		
+		}
 
 		log.debug("View Issue Property : " + issue);
 		return "issue/detail";
 	}
-	
+
 	@PostMapping("/issue/{issueId}/modifyState")
 	public @ResponseBody Issue modifyState(@PathVariable Long issueId,
 									       @RequestParam(value="check") boolean isChecked) {
-		Issue issue = issueRepository.findOne(issueId);		
+		Issue issue = issueRepository.findOne(issueId);
 		/* 권한 관리
-		 * 
+		 *
 		*/
 		issue.toggleState(isChecked);
 		return issueRepository.save(issue);
+	}
+
+	@PutMapping("/issue/{issueId}/addAssignee/{userId}")
+	public @ResponseBody User addAssignee(@LoginUser User loginUser,
+										  @PathVariable Long issueId,
+										  @PathVariable Long userId) {
+		Issue issue = issueRepository.findOne(issueId);
+		User assignee = userRepository.findOne(userId);
+		/* 권한 관리
+		 *
+		*/
+		if(issue.addAssignee(assignee)) {
+			issueRepository.save(issue);
+			return assignee;
+		}
+		return null;
+	}
+	
+	@DeleteMapping("/issue/{issueId}/deleteAssignee/{userId}")
+	public @ResponseBody boolean deleteAssignee(@LoginUser User loginUser,
+								  @PathVariable Long issueId,
+								  @PathVariable Long userId) {
+		
+		Issue issue = issueRepository.findOne(issueId);
+		User assignee = userRepository.findOne(userId);
+		/* 권한 관리
+		 *
+		*/
+		boolean isDelete = issue.deleteAssignee(assignee); 
+		if(isDelete) {
+			issueRepository.save(issue);
+		}
+		return isDelete;
 	}
 }

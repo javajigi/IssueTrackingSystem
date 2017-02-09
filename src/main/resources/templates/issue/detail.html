@@ -16,8 +16,8 @@
 			  <i class="material-icons">delete</i>
 			</a>
 	    </div>
-		<div class="article_container">		
-			<div class="article">	    
+		<div class="article_container">
+			<div class="article">
 			    <pre class="contents">{{contents}}</pre>
 			</div>
 			<div class="navigation">
@@ -45,28 +45,33 @@
 		      	<div class="nav_category">
 			      	<div class="nav_title">Assignee</div>
 			      	<button id="btn_add_assignee"
-					        class="add_nav mdl-button mdl-js-button mdl-button--icon">
-					  <i class="material-icons">record_voice_over</i>
-					</button>
-					<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-					    for="btn_add_assignee">
-						{{#allUser}}
-					 		<li class="mdl-menu__item">{{userId}}</li>
-					  	{{/allUser}}
-					</ul>
-					{{#assigneeList}}
-		      		<span class="assignee mdl-chip mdl-chip--contact mdl-chip--deletable">
-					    <img class="mdl-chip__contact" src="/profile/{{profile}}"></img>
-
-					    <span class="mdl-chip__text">{{userId}}</span>
-					    <a href="#" class="mdl-chip__action"><i class="material-icons">cancel</i></a>
-					</span>
-					{{/assigneeList}}
+					        class="btn_menu mdl-button mdl-js-button mdl-button--icon">
+					        <i class="material-icons">record_voice_over</i>
+					    </button>
+    					<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+    					    for="btn_add_assignee">
+    						  {{#allUser}}
+    					 		<li class="add_assignee mdl-menu__item"
+                      data-id="{{id}}" data-issue="{{../id}}">{{userId}}</li>
+    					  	{{/allUser}}
+    					</ul>
+              <ul id="assignee_list">
+      					{{#each assigneeList}}
+  		      		<li id="assignee_{{id}}" class="assignee mdl-chip mdl-chip--contact mdl-chip--deletable"
+                    data-id="{{id}}">
+  					      <img class="mdl-chip__contact" src="/profile/{{profile}}"></img>
+    					    <span class="mdl-chip__text">{{userId}}</span>
+    					    <a class="delete_assignee mdl-chip__action" data-id="{{id}}" data-issue="{{../id}}">
+                    <i class="material-icons">cancel</i>
+                  </a>
+                </li>
+      					{{/each}}
+              </ul>
 		      	</div>
 		      	<div class="nav_category">
 		      		<div class="nav_title">Milestone</div>
 			      	<button id="btn_add_milestone"
-					        class="add_nav mdl-button mdl-js-button mdl-button--icon">
+					        class="btn_menu mdl-button mdl-js-button mdl-button--icon">
 					  <i class="material-icons">settings</i>
 					</button>
 					<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
@@ -80,7 +85,7 @@
 		      	<div class="nav_category">
 		      		<div class="nav_title">Label</div>
 						<button id="btn_add_label"
-					    	    class="add_nav mdl-button mdl-js-button mdl-button--icon">
+					    	    class="btn_menu mdl-button mdl-js-button mdl-button--icon">
 					  	<i class="material-icons">label</i>
 					</button>
 					<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
@@ -104,10 +109,10 @@
 	 	<li id="comment_{{id}}" class="comment_container">
 			<img class="comment_thumb minilogo" height="48" width="48" src="/profile/{{writer.profile}}" alt="javajigi">
 			<div class="comment_info">
-	    		<a class="comment_user" href="/user/{{writer.id}}/detail">{{writer.userId}}</a>        
+	    		<a class="comment_user" href="/user/{{writer.id}}/detail">{{writer.userId}}</a>
 	  			<span class="comment_date">{{formattedWriteDate}}</span>
 		        	{{#if isMyComment}}
-		        		<a id="btn_comment_modify" class="btn_comment_modify" data-id="{{id}}">수정</a>            			
+		        		<a id="btn_comment_modify" class="btn_comment_modify" data-id="{{id}}">수정</a>
 		        		<a id="btn_comment_delete" class="btn_comment_delete" data-id="{{id}}">삭제</a>
 		     		{{/if}}
 		     	<pre id="comment_contents_{{id}}" class="comment_contents">{{contents}}</pre>
@@ -138,19 +143,19 @@
 {{/partial}}
 {{#partial "script"}}
 <script type="text/template" id="commentTemplate">
-<li id="comment_{0}" class="comment_container">
-	<img class="comment_thumb minilogo" height="48" width="48" src="https://avatars2.githubusercontent.com/u/520500?v=3&amp;s=140" alt="javajigi">
-	<div class="comment_info">
-		<a class="comment_user" href="/user/{3}/detail">{4}</a>        
-	  	<span class="comment_date">{2}</span>
-		{{#if 5}}
-		 	<a id="btn_comment_modify" class="btn_comment_modify" data-id="{0}">수정</a>            			
-		    <a id="btn_comment_delete" class="btn_comment_delete" data-id="{0}">삭제</a>
-		{{/if}}
-		<pre id="comment_contents_{0}" class="comment_contents">{1}</pre>
- 	</div>
-	<hr>
-</li>
+  <li id="comment_{0}" class="comment_container">
+  	<img class="comment_thumb minilogo" height="48" width="48" src="https://avatars2.githubusercontent.com/u/520500?v=3&amp;s=140" alt="javajigi">
+  	<div class="comment_info">
+  		<a class="comment_user" href="/user/{3}/detail">{4}</a>
+  	  	<span class="comment_date">{2}</span>
+  		{{#if 5}}
+  		 	<a id="btn_comment_modify" class="btn_comment_modify" data-id="{0}">수정</a>
+  		    <a id="btn_comment_delete" class="btn_comment_delete" data-id="{0}">삭제</a>
+  		{{/if}}
+  		<pre id="comment_contents_{0}" class="comment_contents">{1}</pre>
+   	</div>
+  	<hr>
+  </li>
 </script>
 <script type="text/template" id="comment_input_template">
   	<div id="comment_input" class="comment_input_wrap" data-id="{0}">
@@ -160,9 +165,17 @@
 	   		<i class="material-icons" role="presentation">check</i><span class="visuallyhidden">add comment</span>
 	    	<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
   		</a>
-	</div>  
+	</div>
 </script>
-
+<script type="text/template" id="asignee_item">
+  <li id="assignee_{0}" class="assignee mdl-chip mdl-chip--contact mdl-chip--deletable" data-id="{0}">
+    <img class="mdl-chip__contact" src="/profile/{1}"></img>
+    <span class="mdl-chip__text">{2}</span>
+    <a class="delete_assignee mdl-chip__action" data-id="{0}" data-issue="{3}">
+      <i class="material-icons">cancel</i>
+    </a>
+  </li>
+</script>
 <script id="test-template" type="text/x-handlebars-template">
     <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
       <p>{{contents}}</p>

@@ -240,10 +240,10 @@ table {
 	font-size: 20px;
 }
 
-.nav_category .add_nav {
+.nav_category .btn_menu {
 	position: absolute;
 	color: rgba(0,0,0,.54);
-	top: 16px;
+	top: 12px;
 	right: 16px;
 }
 
