@@ -1,5 +1,15 @@
 package infinitefire.project.storage;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
+import javax.annotation.PostConstruct;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.slf4j.Logger;
@@ -12,15 +22,6 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import infinitefire.project.web.UserController;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-
-import javax.annotation.PostConstruct;
 
 @Service
 public class StorageService {
@@ -100,6 +101,12 @@ public class StorageService {
     	return resource;
     }
 
+    public void deleteFile(String path) {
+    	File file = new File(path);
+    	if (file.exists())
+    		file.delete();
+    }
+    
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
     }
