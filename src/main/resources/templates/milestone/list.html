@@ -12,26 +12,29 @@
       	{{#each milestones}}
       	<li class="mdl-list__item mdl-list__item--two-line">
           <span class="mdl-list__item-primary-content">
-            <a href="/milestone/{{id}}/detail"><strong>{{subject}}</strong></a>
+            <a href="/milestone/{{id}}/detail"><strong style="font-size: x-large;">{{subject}}</strong></a>
             <span class="mdl-list__item-sub-title">
-              {{endDate}}
+              <strong>Due by</strong> {{endDate}}
             </span>
           </span>
           <span class="mdl-list__item-secondary-content">
             <span class="progress-bar">
               <span id="progress_{{id}}" class="progress"> </span>
-            	<script>
-            		var progress = document.getElementById("progress_{{id}}");
-            		var count = 300*{{openedIssuePs}};
-            		progress.style.width = count+'px';
-            	</script>
             </span>
             <span class="mdl-list__item-sub-title" style="font-size:13px; color:#888">
-            	{{#each issueList}}
-            		[{{@index}}:{{subject}}]             					
-            	{{/each}} 
+            	{{#if issueList}}
+            		{{#each issueList}}
+            		{{/each}}
+            	{{else}}
+            		Issue doesn't Exist.
+            	{{/if}}
             </span>
           </span>
+          <script>
+        	var progress = document.getElementById("progress_{{id}}");
+            var count = 300 - 300*{{openedIssuePs}};
+            progress.style.width = count+'px';
+        </script>
         </li>
         {{/each}}
       </ul>

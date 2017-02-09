@@ -370,3 +370,7 @@ a {
   border-radius: 5px;
   background:rgb(255,171,64);
 }
+
+.mdl-list__item:hover {
+	background-color: #FAFAD2;
+}
