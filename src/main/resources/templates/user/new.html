@@ -15,7 +15,7 @@
         <input class="mdl-textfield__input" type="text" id="userId" name="userId" required placeholder="16자 내외">
         <label class="mdl-textfield__label" for="userId">User ID</label>
       </div>
-      <div><font color="red" id="userId_alert"></font></div>
+      <span><font color="red" id="userId_alert"></font></span>
     </div>
     <div class="mdl-card__supporting-text">
       <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="margin:0 auto">
@@ -48,21 +48,5 @@
 
 {{> template}}
 <script>
-	function checkLength(e) {
-		var checkId = $('#userId').val();
-		if(checkId.length > 16) {
-			$('#userId_alert').html('ID가 너무 깁니다.');
-			e.preventDefault();
-		}
-		var checkName = $('#name').val();
-		if(checkName.length > 20) {
-			$('#name_alert').html('NAME이 너무 깁니다.');
-			e.preventDefault();
-		}
-		var checkPwd = $('#password').val();
-		if(checkPwd.length > 20) {
-			$('#password_alert').html('PASSWORD가 너무 깁니다.');
-			e.preventDefault();
-		}
-	}
+	
 </script>

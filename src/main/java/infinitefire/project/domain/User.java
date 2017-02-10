@@ -18,11 +18,11 @@ public class User {
 	@Column(name = "userId", length = 16, nullable = false, updatable = false, unique = true)
 	private String userId;
 	
-	@Column(name = "name", length = 20, nullable = false)
+	@Column(name = "name", length = 16, nullable = false)
 	private String name;
 	
 	@JsonIgnore
-	@Column(name = "password", length = 20, nullable = false)
+	@Column(name = "password", length = 16, nullable = false)
 	private String password;
 
 	@JsonIgnore

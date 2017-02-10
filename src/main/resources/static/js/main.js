@@ -12,10 +12,64 @@ $(function() {
 	$('.add_label').bind("click", addLabel);
 	$('#label_list').delegate('.delete_label', 'click', deleteLabel);
 	
-	$('.user-new-btn').click(checkLength);
-	$('.modify-issue-btn').click(checkLogin);
-	$('.delete-issue-btn').click(checkLogin);
+	//$('.user-new-btn').click(checkLength);
+	$('#userId').keyup(checkValue);
+	$('#name').keyup(checkValue);
+	$('#password').keyup(checkValue);
+	//$('.modify-issue-btn').click(checkLogin);
+	//$('.delete-issue-btn').click(checkLogin);
 });
+
+function checkValue(e) {
+	var check = $(this).val();
+	var thisName = $(this).attr('id');
+	
+	if(check.length < 4) {
+		console.log(thisName);
+		$('#'+thisName+'_alert').html('4자 이상 입력');
+	} else if (check.length > 16) {
+		$('#'+thisName+'_alert').html('16자 이하 입력');
+	} else if (thisName == 'userId') {
+		$.ajax({
+			type: 'post',
+			url: '/api/user/check',
+			data: 'checkUserId='+check,
+			success: function(result) {
+				console.log(result);
+				if(result){
+					$('#'+thisName+'_alert').css("color", "red");
+					$('#'+thisName+'_alert').html('존재하는 ID입니다');
+				} else {
+					$('#'+thisName+'_alert').css("color", "blue");
+					$('#'+thisName+'_alert').html('사용가능한 ID입니다');
+				}
+					
+			},
+			error: function(error) {
+				alert('로그인후 댓글을 달 수 있습니다.');
+			}
+		});
+	} else
+		$('#'+thisName+'_alert').html('');
+}
+
+function checkLength(e) {
+	var checkId = $('#userId').val();
+	if(checkId.length > 16) {
+		$('#userId_alert').html('ID가 너무 깁니다.');
+		e.preventDefault();
+	}
+	var checkName = $('#name').val();
+	if(checkName.length > 20) {
+		$('#name_alert').html('NAME이 너무 깁니다.');
+		e.preventDefault();
+	}
+	var checkPwd = $('#password').val();
+	if(checkPwd.length > 20) {
+		$('#password_alert').html('PASSWORD가 너무 깁니다.');
+		e.preventDefault();
+	}
+}
 
 function addComment(e) {
 	e.preventDefault();
