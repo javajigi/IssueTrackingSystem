@@ -259,6 +259,18 @@ table {
 	margin: 4px 2px;
 }
 
+.nav_category .milestone_wrap {
+	position: relative;
+}
+.nav_category .milestone_link {
+	padding-right: 32px;
+}
+.nav_category .btn_milestone_delete {
+	position: absolute;
+	top: 3px;
+	right: 4px;
+}
+
 .nav_category .label {
 	margin: 4px 2px;
 	color: #fff;

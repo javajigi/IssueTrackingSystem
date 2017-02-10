@@ -7,6 +7,8 @@ $(function() {
 
 	$('.add_assignee').bind("click", addAssignee);
 	$('#assignee_list').delegate('.delete_assignee', 'click', deleteAssignee);
+	$('.set_milestone').bind("click", setMilestone);
+  $('#milestone_category').delegate('.btn_milestone_delete', 'click', deleteMilestone);	
 	$('.add_label').bind("click", addLabel);
 	$('#label_list').delegate('.delete_label', 'click', deleteLabel);
 	
@@ -174,6 +176,49 @@ function deleteAssignee(e) {
 	});
 }
 
+function setMilestone(e) {
+	e.preventDefault();
+	var milestoneId = $(this).data("id");
+	var issueId = $(this).data("issue");
+	var url = "/issue/" + issueId + "/setMilestone/" + milestoneId;
+	$.ajax({
+		type: 'put',
+		url: url,
+		success: function(result) {
+			if(result != "") {
+				// $("#milestone").attr("href", "/milestone/" + result.id + "/detail");
+				// $("#milestone .mdl-chip__text").text(result.subject);
+				$(".milestone_wrap").remove();
+				var milestone = $("#milestone_item").html();
+				var template = milestone.format(result.id, result.subject, issueId);
+				$("#milestone_category").append(template);
+			}
+		},
+		error: function(error) {
+			console.log('fail-RequestData');
+		}
+	});
+}
+
+function deleteMilestone(e) {
+	e.preventDefault();
+	var milestoneId = $(this).data("id");
+	var issueId = $(this).data("issue");
+	var url = "/issue/" + issueId + "/deleteMilestone/" + milestoneId;
+	$.ajax({
+		type: 'delete',
+		url: url,
+		success: function(result) {
+			if(result != "") {
+				$(".milestone_wrap").remove();
+			}
+		},
+		error: function(error) {
+			console.log('fail-RequestData');
+		}
+	});
+}
+
 function addLabel(e) {
 	e.preventDefault();
 	var labelId = $(this).data("id");
@@ -200,7 +245,6 @@ function deleteLabel(e) {
 	var labelId = $(this).data("id");
 	var issueId = $(this).data("issue");
 	var url = "/issue/" + issueId + "/deleteLabel/" + labelId;
-	debugger;
 	$.ajax({
 		type: 'delete',
 		url: url,
