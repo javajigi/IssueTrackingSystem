@@ -5,129 +5,127 @@
   </a>
 </div>
 {{#issueInfo}}
-<div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
-	<div class="main_wrap mdl-grid">
-		<h2 class="article_title">{{subject}}</h2>
-		<div class="article_menu">
-			<a href="/issue/{{id}}/modify" class="modify-issue-btn mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-			  <i class="material-icons">edit</i>
-			</a>
-			<a href="/issue/{{id}}/delete" id="issues-menu-lower-right" class="delete-issue-btn mdl-button mdl-js-button mdl-button--icon">
-			  <i class="material-icons">delete</i>
-			</a>
-			<script type="text/javascript">
-				function checkLogin(e) {
-					var loginUser = '{{sessionedUser.id}}';
-					var myId = '{{writer.id}}';
-					if(loginUser != myId) {
-						e.preventDefault();
-						alert('Issue에 대한 권한이 없습니다.');
-					}
+<div class="main_wrap mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+	<h2 class="article_title">{{subject}}</h2>
+	<div class="article_menu">
+		<a href="/issue/{{id}}/modify" class="modify-issue-btn mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+		  <i class="material-icons">edit</i>
+		</a>
+		<a href="/issue/{{id}}/delete" id="issues-menu-lower-right" class="delete-issue-btn mdl-button mdl-js-button mdl-button--icon">
+		  <i class="material-icons">delete</i>
+		</a>
+		<script type="text/javascript">
+			function checkLogin(e) {
+				var loginUser = '{{sessionedUser.id}}';
+				var myId = '{{writer.id}}';
+				if(loginUser != myId) {
+					e.preventDefault();
+					alert('Issue에 대한 권한이 없습니다.');
 				}
-			</script>
-	    </div>
-		<div class="article_container">
-			<div class="article">
-			    <pre class="contents">{{contents}}</pre>
-			</div>
-			<div class="navigation">
-			    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
-			      <img class="minilogo" height="48" width="48" src="/profile/{{writer.profile}}" alt="{{writer.userId}}"/>
-			      <div style="margin-right:20px;">
-			        <div class="author-text">
-			          <strong>
-			            <a href="/user/{{writer.id}}/detail" class="author">
-			            	<strong class="writer_name">{{writer.userId}}</strong>
-		            	</a>
-			          </strong>
-			        </div>
-			        <span>Create By {{writeDate}} </span>
-			      </div>
-		      	</div>
-		      	<div class="nav_category">
-		      		<div class="nav_title">State</div>
-	   		      	<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-{{id}}">
-					  <input type="checkbox" id="switch-{{id}}" value="{{id}}" class="mdl-switch__input" {{stateCheck}}>
-					  <span class="mdl-switch__label"></span>
-					</label>
-					<span class="state">{{state}}</span>
-		      	</div>
-		      	<div class="nav_category">
-			      	<div class="nav_title">Assignee</div>
-			      	<button id="btn_add_assignee"
-					        class="btn_menu mdl-button mdl-js-button mdl-button--icon">
-					        <i class="material-icons">record_voice_over</i>
-					    </button>
-    					<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-    					    for="btn_add_assignee">
-    						  {{#allUser}}
-    					 		<li class="add_assignee mdl-menu__item"
-                      data-id="{{id}}" data-issue="{{../id}}">{{userId}}</li>
-    					  	{{/allUser}}
-    					</ul>
-              <ul id="assignee_list">
-      					{{#each assigneeList}}
-  		      		<li id="assignee_{{id}}" class="assignee mdl-chip mdl-chip--contact mdl-chip--deletable"
-                    data-id="{{id}}">
-  					      <img class="mdl-chip__contact" src="/profile/{{profile}}"></img>
-    					    <span class="mdl-chip__text">{{userId}}</span>
-    					    <a class="delete_assignee mdl-chip__action" data-id="{{id}}" data-issue="{{../id}}">
-                    <i class="material-icons">cancel</i>
-                  </a>
-                </li>
-      					{{/each}}
-              </ul>
-		      	</div>
-		      	<div id="milestone_category" class="nav_category">
-		      		<div class="nav_title">Milestone</div>
-			      	<button id="btn_add_milestone"
-					        class="btn_menu mdl-button mdl-js-button mdl-button--icon">
-					  <i class="material-icons">settings</i>
+			}
+		</script>
+    </div>
+	<div class="article_container">
+		<div class="article">
+		    <pre class="contents">{{contents}}</pre>
+		</div>
+		<div class="navigation">
+		    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+		      <img class="minilogo" height="48" width="48" src="/profile/{{writer.profile}}" alt="{{writer.userId}}"/>
+		      <div style="margin-right:20px;">
+		        <div class="author-text">
+		          <strong>
+		            <a href="/user/{{writer.id}}/detail" class="author">
+		            	<strong class="writer_name">{{writer.userId}}</strong>
+	            	</a>
+		          </strong>
+		        </div>
+		        <span>Create By {{writeDate}} </span>
+		      </div>
+	      	</div>
+	      	<div class="nav_category">
+	      		<div class="nav_title">State</div>
+   		      	<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-{{id}}">
+				  <input type="checkbox" id="switch-{{id}}" value="{{id}}" class="mdl-switch__input" {{stateCheck}}>
+				  <span class="mdl-switch__label"></span>
+				</label>
+				<span class="state">{{state}}</span>
+	      	</div>
+	      	<div class="nav_category">
+		      	<div class="nav_title">Assignee</div>
+		      	<button id="btn_add_assignee"
+				        class="btn_menu mdl-button mdl-js-button mdl-button--icon">
+				        <i class="material-icons">record_voice_over</i>
+				    </button>
+   					<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+   					    for="btn_add_assignee">
+   						  {{#allUser}}
+   					 		<li class="add_assignee mdl-menu__item"
+                     data-id="{{id}}" data-issue="{{../id}}">{{userId}}</li>
+   					  	{{/allUser}}
+   					</ul>
+             <ul id="assignee_list">
+     					{{#each assigneeList}}
+ 		      		<li id="assignee_{{id}}" class="assignee mdl-chip mdl-chip--contact mdl-chip--deletable"
+                   data-id="{{id}}">
+ 					      <img class="mdl-chip__contact" src="/profile/{{profile}}"></img>
+   					    <span class="mdl-chip__text">{{userId}}</span>
+   					    <a class="delete_assignee mdl-chip__action" data-id="{{id}}" data-issue="{{../id}}">
+                   <i class="material-icons">cancel</i>
+                 </a>
+               </li>
+     					{{/each}}
+             </ul>
+	      	</div>
+	      	<div id="milestone_category" class="nav_category">
+	      		<div class="nav_title">Milestone</div>
+		      	<button id="btn_add_milestone"
+				        class="btn_menu mdl-button mdl-js-button mdl-button--icon">
+				  <i class="material-icons">settings</i>
+				</button>
+				<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+				    for="btn_add_milestone">
+					{{#allMilestone}}
+				 		<li class="set_milestone mdl-menu__item"
+				 			data-id="{{id}}" data-issue="{{../id}}">{{subject}}</li>
+				  	{{/allMilestone}}
+				</ul>
+				{{#milestone}}
+				<span class="milestone_wrap">
+					<a id="milestone" class="milestone_link mdl-chip" href="/milestone/{{milestone.id}}/detail">
+					    <span class="mdl-chip__text">{{milestone.subject}}</span>
+					</a>
+					<button type="button" class="btn_milestone_delete mdl-chip__action"
+							data-id="{{id}}" data-issue="{{../id}}">
+						<i class="material-icons">cancel</i>
 					</button>
-					<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-					    for="btn_add_milestone">
-						{{#allMilestone}}
-					 		<li class="set_milestone mdl-menu__item"
-					 			data-id="{{id}}" data-issue="{{../id}}">{{subject}}</li>
-					  	{{/allMilestone}}
-					</ul>
-					{{#milestone}}
-					<span class="milestone_wrap">
-						<a id="milestone" class="milestone_link mdl-chip" href="/milestone/{{milestone.id}}/detail">
-						    <span class="mdl-chip__text">{{milestone.subject}}</span>
-						</a>
-						<button type="button" class="btn_milestone_delete mdl-chip__action"
-								data-id="{{id}}" data-issue="{{../id}}">
-							<i class="material-icons">cancel</i>
-						</button>
-					</span>
-					{{/milestone}}
-		      	</div>
-		      	<div class="nav_category">
-		      		<div class="nav_title">Label</div>
-						<button id="btn_add_label"
-					    	    class="btn_menu mdl-button mdl-js-button mdl-button--icon">
-					  	<i class="material-icons">label</i>
-					</button>
-					<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-					    for="btn_add_label">
-						{{#each allLabel}}
-					 		<li class="add_label mdl-menu__item" data-id="{{id}}" data-issue="{{../id}}">{{name}}</li>
-					  	{{/each}}
-					</ul>
-					<ul id="label_list">
-		      		{{#each labelList}}
-					<li id="label_{{id}}" class="label mdl-chip mdl-chip--deletable" style="background-color:{{color}}"
-						data-id="{{id}}">
-					    <span class="mdl-chip__text">{{name}}</span>
-					    <button type="button" class="delete_label mdl-chip__action" data-id="{{id}}" data-issue="{{../id}}">
-					    	<i class="material-icons">cancel</i>
-				    	</button>
-					</li>
-					{{/each}}
-					</ul>
-		      	</div>
-			</div>
+				</span>
+				{{/milestone}}
+	      	</div>
+	      	<div class="nav_category">
+	      		<div class="nav_title">Label</div>
+					<button id="btn_add_label"
+				    	    class="btn_menu mdl-button mdl-js-button mdl-button--icon">
+				  	<i class="material-icons">label</i>
+				</button>
+				<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+				    for="btn_add_label">
+					{{#each allLabel}}
+				 		<li class="add_label mdl-menu__item" data-id="{{id}}" data-issue="{{../id}}">{{name}}</li>
+				  	{{/each}}
+				</ul>
+				<ul id="label_list">
+	      		{{#each labelList}}
+				<li id="label_{{id}}" class="label mdl-chip mdl-chip--deletable" style="background-color:{{color}}"
+					data-id="{{id}}">
+				    <span class="mdl-chip__text">{{name}}</span>
+				    <button type="button" class="delete_label mdl-chip__action" data-id="{{id}}" data-issue="{{../id}}">
+				    	<i class="material-icons">cancel</i>
+			    	</button>
+				</li>
+				{{/each}}
+				</ul>
+	      	</div>
 		</div>
 	</div>
 	<ul id="comment_list" class="comment-form mdl-color-text--primary-contrast mdl-card__supporting-text comments">
@@ -164,11 +162,11 @@
 		  </a>
 		</form>
 	</div>
-</div>
+</div>	
 {{/issueInfo}}
 {{/partial}}
 {{#partial "script"}}
-<script type="text/template" id="commentTemplate">
+	<script type="text/template" id="commentTemplate">
   <li id="comment_{0}" class="comment_container">
   	<img class="comment_thumb minilogo" height="48" width="48" src="https://avatars2.githubusercontent.com/u/520500?v=3&amp;s=140" alt="javajigi">
   	<div class="comment_info">
@@ -182,8 +180,8 @@
    	</div>
   	<hr>
   </li>
-</script>
-<script type="text/template" id="comment_input_template">
+	</script>
+	<script type="text/template" id="comment_input_template">
   	<div id="comment_input" class="comment_input_wrap" data-id="{0}">
   		<textarea class="comment_input">{1}</textarea>
   		<a id="btn_comment_complete" class="btn_comment_complete mdl-js-button mdl-js-ripple-effect mdl-button--icon"
@@ -192,8 +190,8 @@
 	    	<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
   		</a>
 	</div>
-</script>
-<script type="text/template" id="asignee_item">
+	</script>
+	<script type="text/template" id="asignee_item">
   <li id="assignee_{0}" class="assignee mdl-chip mdl-chip--contact mdl-chip--deletable" data-id="{0}">
     <img class="mdl-chip__contact" src="/profile/{1}"></img>
     <span class="mdl-chip__text">{2}</span>
@@ -201,8 +199,8 @@
       <i class="material-icons">cancel</i>
     </a>
   </li>
-</script>
-<script type="text/template" id="label_item">
+	</script>
+	<script type="text/template" id="label_item">
 	<li id="label_{0}" class="label mdl-chip mdl-chip--deletable" style="background-color:{1}"
 		data-id="{0}">
     	<span class="mdl-chip__text">{2}</span>
@@ -210,8 +208,8 @@
     		<i class="material-icons">cancel</i>
    		</button>
 	</li>
-</script>
-<script type="text/template" id="milestone_item">
+	</script>
+	<script type="text/template" id="milestone_item">
 	<span class="milestone_wrap">
 		<a id="milestone" class="milestone_link mdl-chip" href="/milestone/{0}/detail">
 	    	<span class="mdl-chip__text">{1}</span>
@@ -221,16 +219,16 @@
 			<i class="material-icons">cancel</i>
 		</button>
 	</span>
-</script>
-<script id="test-template" type="text/x-handlebars-template">
+	</script>
+	<script id="test-template" type="text/x-handlebars-template">
     <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
       <p>{{contents}}</p>
 	</div>
-</script>
-<script>
-    	//var source = $("#test-template").html();
-    	//var template = Handlebars.compile(source);
-</script>
+	</script>
+	<script>
+	    	//var source = $("#test-template").html();
+	    	//var template = Handlebars.compile(source);
+	</script>
 {{/partial}}
 
 {{> template}}
