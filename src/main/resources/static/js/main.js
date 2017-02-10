@@ -10,6 +10,7 @@ $(function() {
 	$('.add_label').bind("click", addLabel);
 	$('#label_list').delegate('.delete_label', 'click', deleteLabel);
 	
+	$('.user-new-btn').click(checkLength);
 	$('.modify-issue-btn').click(checkLogin);
 	$('.delete-issue-btn').click(checkLogin);
 });
