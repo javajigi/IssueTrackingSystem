@@ -5,11 +5,11 @@
 			{{#each issueList}}
 			<li class="card_item mdl-shadow--2dp">
 				<a class="card_title_link" href="/issue/{{id}}/detail">
-					<p class="card_title">#{{id}} {{subject}}</p>
+					<p class="card_title ellipsize">#{{id}} {{subject}}</p>
 					<i class="card_arrow material-icons">arrow_forward</i>
 				</a>
 				<div class="card_contents">
-					{{contents}}
+					<p class="multi_ellipsize contents_text">{{contents}}</p>
 					<span class="card_writer">
 						<div class="card_thumb_wrap">
 							<img class="card_thumb mdl-list__item-avatar" height="48" width="48" src="/profile/{{writer.profile}}" alt="writer.userId">

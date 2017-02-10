@@ -70,9 +70,8 @@ table {
 	text-overflow: ellipsis;
 	overflow: hidden;
 	-webkit-box-orient: vertical;
-	-webkit-line-clamp: 2;
+	-webkit-line-clamp: 3;
 }
-
 
 /*  */
 
@@ -122,6 +121,7 @@ table {
 .main_wrap .card_title {
 	color: #fff;
 	font-size: 24px;
+	padding-right: 36px;
 }
 
 .main_wrap .card_arrow {
@@ -136,6 +136,10 @@ table {
 	padding: 12px 56px 12px 16px;
 	height: 84px;
 	color: rgba(0,0,0,.54);
+}
+
+.main_wrap .contents_text {
+	line-height: 18px;
 }
 
 .main_wrap .card_writer {
