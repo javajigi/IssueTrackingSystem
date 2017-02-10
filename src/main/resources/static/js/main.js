@@ -7,6 +7,8 @@ $(function() {
 
 	$('.add_assignee').bind("click", addAssignee);
 	$('#assignee_list').delegate('.delete_assignee', 'click', deleteAssignee);
+	$('.add_label').bind("click", addLabel);
+	$('#label_list').delegate('.delete_label', 'click', deleteLabel);
 });
 
 function addComment(e) {
@@ -130,12 +132,6 @@ function addAssignee(e) {
 		type: 'put',
 		url: url,
 		success: function(result) {
-			/* 1. userid 전달
-				 2. 이미 등록된 assignee인지 확인
-				 3. 이미 등록되어있다면 null 반환
-				 4. 등록되어있지 않다면 assignee라면 assignee추가
-				 5. 페이지에 동적으로 assignee 추가
-			*/
 			if(result != "") {
 				var assigneeList = $("#asignee_item").html();
 				var template = assigneeList.format(result.id, result.profile, result.userId, issueId);
@@ -160,6 +156,49 @@ function deleteAssignee(e) {
 			if(result) {
 				var assignee = $("#assignee_" + userId);
 				assignee.remove();
+			}
+		},
+		error: function(error) {
+			console.log('fail-RequestData');
+			alert('please, your browser must be refresh : [f5]');
+		}
+	});
+}
+
+function addLabel(e) {
+	e.preventDefault();
+	var labelId = $(this).data("id");
+	var issueId = $(this).data("issue");
+	var url = "/issue/" + issueId + "/addLabel/" + labelId;
+	$.ajax({
+		type: 'put',
+		url: url,
+		success: function(result) {
+			if(result != "") {
+				var labelList = $("#label_item").html();
+				var template = labelList.format(result.id, result.color, result.name, issueId);
+				$("#label_list").append(template);
+			}
+		},
+		error: function(error) {
+			console.log('fail-RequestData');
+		}
+	});
+}
+
+function deleteLabel(e) {
+	e.preventDefault();
+	var labelId = $(this).data("id");
+	var issueId = $(this).data("issue");
+	var url = "/issue/" + issueId + "/deleteLabel/" + labelId;
+	debugger;
+	$.ajax({
+		type: 'delete',
+		url: url,
+		success: function(result) {
+			if(result) {
+				var label = $("#label_" + labelId);
+				label.remove();
 			}
 		},
 		error: function(error) {

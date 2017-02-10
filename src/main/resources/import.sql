@@ -20,11 +20,11 @@ INSERT INTO label (id, name, color) VALUES (2, 'ENHANCEMENT', 'ENHANCEMENT');
 INSERT INTO label (id, name, color) VALUES (3, 'PROPOSAL', 'PROPOSAL');
 INSERT INTO label (id, name, color) VALUES (4, 'BUG', 'BUG');
 
-INSERT INTO label_issue (label_id, issue_id) VALUES (1, 1);
-INSERT INTO label_issue (label_id, issue_id) VALUES (2, 1);
-INSERT INTO label_issue (label_id, issue_id) VALUES (3, 1);
-INSERT INTO label_issue (label_id, issue_id) VALUES (4, 2);
-INSERT INTO label_issue (label_id, issue_id) VALUES (2, 3);
+INSERT INTO issue_label (issue_id, label_id) VALUES (1, 1);
+INSERT INTO issue_label (issue_id, label_id) VALUES (1, 2);
+INSERT INTO issue_label (issue_id, label_id) VALUES (1, 3);
+INSERT INTO issue_label (issue_id, label_id) VALUES (2, 4);
+INSERT INTO issue_label (issue_id, label_id) VALUES (3, 2);
 
 INSERT INTO issue_assignee (issue_id, assignee_id) VALUES (2, 1);
 INSERT INTO issue_assignee (issue_id, assignee_id) VALUES (2, 3);

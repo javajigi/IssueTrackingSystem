@@ -29,8 +29,7 @@ public class Label {
 	private LabelColor color;
 	
 	@JsonIgnore
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "LABEL_ISSUE", joinColumns = { @JoinColumn(name = "LABEL_ID") }, inverseJoinColumns = { @JoinColumn(name = "ISSUE_ID") })
+	@ManyToMany(mappedBy = "labelList")
 	private List<Issue> issueList;
 	
 	public Label() {

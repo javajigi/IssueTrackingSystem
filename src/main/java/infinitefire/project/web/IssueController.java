@@ -21,6 +21,7 @@ import infinitefire.project.domain.Comment;
 import infinitefire.project.domain.CommentRepository;
 import infinitefire.project.domain.Issue;
 import infinitefire.project.domain.IssueRepository;
+import infinitefire.project.domain.Label;
 import infinitefire.project.domain.LabelRepository;
 import infinitefire.project.domain.MilestoneRepository;
 import infinitefire.project.domain.User;
@@ -167,6 +168,39 @@ public class IssueController {
 		 *
 		*/
 		boolean isDelete = issue.deleteAssignee(assignee); 
+		if(isDelete) {
+			issueRepository.save(issue);
+		}
+		return isDelete;
+	}
+	
+	@PutMapping("/issue/{issueId}/addLabel/{labelId}")
+	public @ResponseBody Label addLabel(@LoginUser User loginUser,
+										  @PathVariable Long issueId,
+										  @PathVariable Long labelId) {
+		Issue issue = issueRepository.findOne(issueId);
+		Label label = labelRepository.findOne(labelId);
+		/* 권한 관리
+		 *
+		*/
+		if(issue.addLabel(label)) {
+			issueRepository.save(issue);
+			return label;
+		}
+		return null;
+	}
+	
+	@DeleteMapping("/issue/{issueId}/deleteLabel/{labelId}")
+	public @ResponseBody boolean deleteLabel(@LoginUser User loginUser,
+								  @PathVariable Long issueId,
+								  @PathVariable Long labelId) {
+		
+		Issue issue = issueRepository.findOne(issueId);
+		Label label = labelRepository.findOne(labelId);
+		/* 권한 관리
+		 *
+		*/
+		boolean isDelete = issue.deleteLabel(label); 
 		if(isDelete) {
 			issueRepository.save(issue);
 		}

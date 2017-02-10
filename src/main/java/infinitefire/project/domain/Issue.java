@@ -66,7 +66,8 @@ public class Issue {
 	private List<Comment> commentList;
 
 	@JsonIgnore
-	@ManyToMany(mappedBy = "issueList")
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "ISSUE_LABEL", joinColumns = { @JoinColumn(name = "ISSUE_ID") }, inverseJoinColumns = { @JoinColumn(name = "LABEL_ID") })
 	private List<Label> labelList;
 
 	public Issue() {
@@ -170,6 +171,10 @@ public class Issue {
 	public List<Label> getLabelList() {
 		return labelList;
 	}
+	
+	public void setLabelList(List<Label> labelList) {
+		this.labelList = labelList;
+	}
 
 	public boolean isMatchWriter(User matchUser) {
 		return this.writer.equals(matchUser);
@@ -188,6 +193,18 @@ public class Issue {
 		return assigneeList.remove(user);
 	}
 
+	public boolean addLabel(Label label) {
+		if(labelList.contains(label)) {
+			return false;
+		}
+		labelList.add(label);
+		return true;
+	}
+	public boolean deleteLabel(Label label) {
+		
+		return labelList.remove(label);
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

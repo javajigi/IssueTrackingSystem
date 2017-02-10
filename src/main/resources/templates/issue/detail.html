@@ -91,15 +91,20 @@
 					<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
 					    for="btn_add_label">
 						{{#each allLabel}}
-					 		<li class="mdl-menu__item">{{name}}</li>
+					 		<li class="add_label mdl-menu__item" data-id="{{id}}" data-issue="{{../id}}">{{name}}</li>
 					  	{{/each}}
 					</ul>
+					<ul id="label_list">
 		      		{{#each labelList}}
-					<span id="label_{{id}}" class="label mdl-chip mdl-chip--deletable" style="background-color:{{color}}">
+					<li id="label_{{id}}" class="label mdl-chip mdl-chip--deletable" style="background-color:{{color}}"
+						data-id="{{id}}">
 					    <span class="mdl-chip__text">{{name}}</span>
-					    <button type="button" class="mdl-chip__action"><i class="material-icons">cancel</i></button>
-					</span>
+					    <button type="button" class="delete_label mdl-chip__action" data-id="{{id}}" data-issue="{{../id}}">
+					    	<i class="material-icons">cancel</i>
+				    	</button>
+					</li>
 					{{/each}}
+					</ul>
 		      	</div>
 			</div>
 		</div>
@@ -175,6 +180,15 @@
       <i class="material-icons">cancel</i>
     </a>
   </li>
+</script>
+<script type="text/template" id="label_item">
+	<li id="label_{0}" class="label mdl-chip mdl-chip--deletable" style="background-color:{1}"
+		data-id="{0}">
+    	<span class="mdl-chip__text">{2}</span>
+    	<button type="button" class="delete_label mdl-chip__action" data-id="{0}" data-issue="{3}">
+    		<i class="material-icons">cancel</i>
+   		</button>
+	</li>
 </script>
 <script id="test-template" type="text/x-handlebars-template">
     <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
