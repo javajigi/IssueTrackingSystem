@@ -78,7 +78,7 @@
       					{{/each}}
               </ul>
 		      	</div>
-		      	<div class="nav_category">
+		      	<div id="milestone_category" class="nav_category">
 		      		<div class="nav_title">Milestone</div>
 			      	<button id="btn_add_milestone"
 					        class="btn_menu mdl-button mdl-js-button mdl-button--icon">
@@ -87,10 +87,21 @@
 					<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
 					    for="btn_add_milestone">
 						{{#allMilestone}}
-					 		<li class="mdl-menu__item">{{subject}}</li>
+					 		<li class="set_milestone mdl-menu__item"
+					 			data-id="{{id}}" data-issue="{{../id}}">{{subject}}</li>
 					  	{{/allMilestone}}
 					</ul>
-		      		<a href="/milestone/{{milestone.id}}/detail"><strong>{{milestone.subject}}</strong></a>
+					{{#milestone}}
+					<span class="milestone_wrap">
+						<a id="milestone" class="milestone_link mdl-chip" href="/milestone/{{milestone.id}}/detail">
+						    <span class="mdl-chip__text">{{milestone.subject}}</span>
+						</a>
+						<button type="button" class="btn_milestone_delete mdl-chip__action"
+								data-id="{{id}}" data-issue="{{../id}}">
+							<i class="material-icons">cancel</i>
+						</button>
+					</span>
+					{{/milestone}}
 		      	</div>
 		      	<div class="nav_category">
 		      		<div class="nav_title">Label</div>
@@ -199,6 +210,17 @@
     		<i class="material-icons">cancel</i>
    		</button>
 	</li>
+</script>
+<script type="text/template" id="milestone_item">
+	<span class="milestone_wrap">
+		<a id="milestone" class="milestone_link mdl-chip" href="/milestone/{0}/detail">
+	    	<span class="mdl-chip__text">{1}</span>
+		</a>
+		<button type="button" class="btn_milestone_delete mdl-chip__action
+				data-id="{0}" data-issue="{2}">
+			<i class="material-icons">cancel</i>
+		</button>
+	</span>
 </script>
 <script id="test-template" type="text/x-handlebars-template">
     <div class="mdl-color-text--grey-700 mdl-card__supporting-text">

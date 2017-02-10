@@ -1,7 +1,5 @@
 package infinitefire.project.web;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -23,6 +21,7 @@ import infinitefire.project.domain.Issue;
 import infinitefire.project.domain.IssueRepository;
 import infinitefire.project.domain.Label;
 import infinitefire.project.domain.LabelRepository;
+import infinitefire.project.domain.Milestone;
 import infinitefire.project.domain.MilestoneRepository;
 import infinitefire.project.domain.User;
 import infinitefire.project.domain.UserRepository;
@@ -171,6 +170,37 @@ public class IssueController {
 		return isDelete;
 	}
 	
+	@PutMapping("/issue/{issueId}/setMilestone/{milestoneId}")
+	public @ResponseBody Milestone setMilestone(@LoginUser User loginUser,
+										  @PathVariable Long issueId,
+										  @PathVariable Long milestoneId) {
+		Issue issue = issueRepository.findOne(issueId);
+		Milestone milestone = milestoneRepository.findOne(milestoneId);
+		/* 권한 관리
+		 * 	*
+		 * 	*/
+		issue.setMilestone(milestone);
+		issueRepository.save(issue);
+		return milestone;
+	}
+	
+	@DeleteMapping("/issue/{issueId}/deleteMilestone/{milestoneId}")
+	public @ResponseBody Milestone deleteMilestone(@LoginUser User loginUser,
+										  @PathVariable Long issueId,
+										  @PathVariable Long milestoneId) {
+		Issue issue = issueRepository.findOne(issueId);
+		Milestone milestone = milestoneRepository.findOne(milestoneId);
+		/* 권한 관리
+		 * 	*
+		 * 	*/
+		if(issue.deleteMilestone(milestone)) {
+			log.info("milestone");
+			issueRepository.save(issue);
+			return milestone;
+		}
+		return null;
+	}
+
 	@PutMapping("/issue/{issueId}/addLabel/{labelId}")
 	public @ResponseBody Label addLabel(@LoginUser User loginUser,
 										  @PathVariable Long issueId,

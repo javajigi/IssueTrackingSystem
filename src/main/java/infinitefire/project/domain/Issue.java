@@ -167,6 +167,14 @@ public class Issue {
 	public void setMilestone(Milestone milestone) {
 		this.milestone = milestone;
 	}
+	
+	public boolean deleteMilestone(Milestone milestone) {
+		if(this.milestone.equals(milestone)) {
+			this.milestone = null;
+			return true;
+		}		
+		return false;
+	}
 
 	public List<Label> getLabelList() {
 		return labelList;
