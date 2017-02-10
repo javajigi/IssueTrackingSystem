@@ -9,6 +9,9 @@ $(function() {
 	$('#assignee_list').delegate('.delete_assignee', 'click', deleteAssignee);
 	$('.add_label').bind("click", addLabel);
 	$('#label_list').delegate('.delete_label', 'click', deleteLabel);
+	
+	$('.modify-issue-btn').click(checkLogin);
+	$('.delete-issue-btn').click(checkLogin);
 });
 
 function addComment(e) {
@@ -32,7 +35,7 @@ function addComment(e) {
 			$("textarea[name=contents]").val("");
 		},
 		error: function(error) {
-			console.log('fail-RequestData');
+			alert('로그인후 댓글을 달 수 있습니다.');
 		}
 	});
 }

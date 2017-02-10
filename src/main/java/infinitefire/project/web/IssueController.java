@@ -106,7 +106,7 @@ public class IssueController {
 	}
 
 	@GetMapping("/issue/{id}/detail")
-	public String showIssueDetail(HttpSession session, @PathVariable Long id, Model model) {
+	public String showIssueDetail(@LoginUser User loginUser, @PathVariable Long id, Model model) {
 		log.debug("Access >> /issue/{" + id + "}/detail");
 		Issue issue = issueRepository.findOne(id);
 		model.addAttribute("issueInfo", issue);
@@ -115,15 +115,12 @@ public class IssueController {
 		model.addAttribute("allLabel", labelRepository.findAll());
 		model.addAttribute("allUser", userRepository.findAll());
 		model.addAttribute("allMilestone", milestoneRepository.findAll());
+		model.addAttribute("loginUser", loginUser);
 
-		if(HttpSessionUtils.isLoginUser(session)) {
-			User loginUser = HttpSessionUtils.getUserFromSession(session);
-
-			// TODO 이 로직을 issue에서 구현하면 어떻게 될까요? 그런데 isMyComment 속성을 이처럼 매번 처리해야 되나요? 다른 방법은 없을까요?
-			for(Comment comment : issue.getCommentList()) {
-				if (comment.isMyComment(loginUser.getId()))
-					comment.setIsMyComment(true);
-			}
+		// TODO 이 로직을 issue에서 구현하면 어떻게 될까요? 그런데 isMyComment 속성을 이처럼 매번 처리해야 되나요? 다른 방법은 없을까요?
+		for(Comment comment : issue.getCommentList()) {
+			if (comment.isMyComment(loginUser.getId()))
+				comment.setIsMyComment(true);
 		}
 
 		log.debug("View Issue Property : " + issue);

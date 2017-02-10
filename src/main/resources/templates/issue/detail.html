@@ -9,12 +9,22 @@
 	<div class="main_wrap mdl-grid">
 		<h2 class="article_title">{{subject}}</h2>
 		<div class="article_menu">
-			<a href="/issue/{{id}}/modify" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+			<a href="/issue/{{id}}/modify" class="modify-issue-btn mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
 			  <i class="material-icons">edit</i>
 			</a>
-			<a href="/issue/{{id}}/delete" id="issues-menu-lower-right" class="mdl-button mdl-js-button mdl-button--icon">
+			<a href="/issue/{{id}}/delete" id="issues-menu-lower-right" class="delete-issue-btn mdl-button mdl-js-button mdl-button--icon">
 			  <i class="material-icons">delete</i>
 			</a>
+			<script type="text/javascript">
+				function checkLogin(e) {
+					var loginUser = '{{sessionedUser.id}}';
+					var myId = '{{writer.id}}';
+					if(loginUser != myId) {
+						e.preventDefault();
+						alert('Issue에 대한 권한이 없습니다.');
+					}
+				}
+			</script>
 	    </div>
 		<div class="article_container">
 			<div class="article">
