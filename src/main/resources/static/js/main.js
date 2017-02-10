@@ -16,8 +16,8 @@ $(function() {
 	$('#userId').keyup(checkValue);
 	$('#name').keyup(checkValue);
 	$('#password').keyup(checkValue);
-	//$('.modify-issue-btn').click(checkLogin);
-	//$('.delete-issue-btn').click(checkLogin);
+	$('.modify-issue-btn').click(checkLogin);
+	$('.delete-issue-btn').click(checkLogin);
 });
 
 function checkValue(e) {
@@ -28,6 +28,7 @@ function checkValue(e) {
 		console.log(thisName);
 		$('#'+thisName+'_alert').html('4자 이상 입력');
 	} else if (check.length > 16) {
+		$('#'+thisName+'_alert').css("color", "red");
 		$('#'+thisName+'_alert').html('16자 이하 입력');
 	} else if (thisName == 'userId') {
 		$.ajax({
