@@ -46,6 +46,16 @@ public class StorageService {
         this.profilePath = Paths.get(basicDir + profileDir);
         this.attachmentPath = Paths.get(basicDir + attachmentDir);
         LogManager.getRootLogger().setLevel(Level.DEBUG);
+        
+        try {
+        	Files.createDirectories(rootLocation);
+        	Files.createDirectories(profilePath);
+        	Files.createDirectories(attachmentPath);
+        } catch (IOException e) {
+        	e.printStackTrace();
+        }
+        
+        log.info("basicDir : " + basicDir);
     }
 
     public void store(MultipartFile file, String newFileName, FileType type) {
