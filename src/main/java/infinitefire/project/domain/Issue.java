@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import infinitefire.project.utils.DateTimeUtils;
 
 @Entity
-public class Issue {
+public class Issue implements Ownerable {
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -174,8 +174,13 @@ public class Issue {
 	public boolean isMatchWriter(User matchUser) {
 		return this.writer.equals(matchUser);
 	}
+	
+	@Override
+    public boolean isOwner(User loginUser) {
+        return isMatchWriter(loginUser);
+    }
 
-	public boolean addAssignee(User user) {
+    public boolean addAssignee(User user) {
 		if(assigneeList.contains(user)) {
 			return false;
 		}

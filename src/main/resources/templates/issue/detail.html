@@ -8,6 +8,7 @@
 <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
 	<div class="main_wrap mdl-grid">
 		<h2 class="article_title">{{subject}}</h2>
+		{{#owner this}}
 		<div class="article_menu">
 			<a href="/issue/{{id}}/modify" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
 			  <i class="material-icons">edit</i>
@@ -16,6 +17,7 @@
 			  <i class="material-icons">delete</i>
 			</a>
 	    </div>
+	    {{/owner}}
 		<div class="article_container">
 			<div class="article">
 			    <pre class="contents">{{contents}}</pre>
