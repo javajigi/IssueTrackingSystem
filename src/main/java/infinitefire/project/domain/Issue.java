@@ -62,7 +62,7 @@ public class Issue {
 	private Milestone milestone;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "issue")
+	@OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
 	private List<Comment> commentList;
 
 	@JsonIgnore
