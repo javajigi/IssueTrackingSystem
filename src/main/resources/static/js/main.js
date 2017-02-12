@@ -90,7 +90,7 @@ function addComment(e) {
 			success: function(result) {
 				console.log(result);
 				var template = $("#commentTemplate").html();
-				var returntemp = template.format(result.id, result.contents, result.formattedWriteDate, result.writer.id, result.writer.userId, result.isMyComment);
+				var returntemp = template.format(result.id, result.contents, result.formattedWriteDate, result.writer.id, result.writer.userId, result.isMyComment, result.writer.profile);
 				$(".comment-form").append(returntemp);
 				$("textarea[name=contents]").val("");
 			},
