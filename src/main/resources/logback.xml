@@ -10,7 +10,7 @@
   	WARN
   	ERROR
     -->
-  <logger name="infinitefire.project" level="DEBUG"/>
+  <logger name="infinitefire.project" level="INFO"/>
 
   <root level="INFO">
     <appender-ref ref="STDOUT" />
