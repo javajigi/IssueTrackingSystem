@@ -43,7 +43,8 @@ public class CommentController {
 		comment.setWriter(loginUser);
 		comment.setIsMyComment(true);
 		log.debug("print comment : "+comment);
-		
+		log.debug(comment.getWriter().getProfile());
+
 		return commentRepository.save(comment);
 	}
 	

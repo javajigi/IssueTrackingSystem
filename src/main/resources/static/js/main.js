@@ -78,8 +78,8 @@ function addComment(e) {
 	
 	var contents = $('.mdl-textfield__input').val();
 	if(contents != ''){
-		var url = $('.comment-create').attr("action");
-		var queryString = $('.comment-create').serialize();
+		var url = $('.comment_new').attr("action");
+		var queryString = $('.comment_new').serialize();
 		console.log("url : "+url+"\nqueryString : "+queryString);
 	
 		$.ajax({
@@ -89,10 +89,10 @@ function addComment(e) {
 			dataType:"json",
 			success: function(result) {
 				console.log(result);
-				var template = $("#commentTemplate").html();
-				var returntemp = template.format(result.id, result.contents, result.formattedWriteDate, result.writer.id, result.writer.userId, result.isMyComment);
-				$(".comment-form").append(returntemp);
-				$("textarea[name=contents]").val("");
+				var template = $("#comment_template").html();
+				var comment = template.format(result.id, result.contents, result.formattedWriteDate, result.writer.id, result.writer.userId, result.isMyComment);
+				$(".article_comment").append(comment);
+				$(".comment_new #contents").val('');
 			},
 			error: function(error) {
 				alert('로그인후 댓글을 달 수 있습니다.');

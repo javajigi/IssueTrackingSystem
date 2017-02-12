@@ -5,25 +5,30 @@
   </a>
 </div>
 {{#modifyIssue}}
-<div class="issues__posts main_wrap mdl-grid">
-  <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
-<form action="/issue/{{id}}/modify" method="post">
-    <div class="mdl-card__title mdl-color-text--grey-50" style="height:100px;">
-      <i class="material-icons">check_circle</i>
-      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:90%">
-        <input class="mdl-textfield__input" type="text" id="subject" name="subject" value="{{subject}}" required>
-      </div>
-    </div>
-    <div class="mdl-color-text--primary-contrast mdl-card__supporting-text new-comment">
-      <div class="mdl-textfield mdl-js-textfield" style="width:100%">
-        <textarea class="mdl-textfield__input" style="color:#888" type="text" rows= "10" id="contents" name="contents" required>{{contents}}</textarea>
-      </div>
-    </div>
-    <div class="mdl-color-text--primary-contrast mdl-card__supporting-text">
-      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" style="margin:10px auto; width:200px;">Submit</button>
-    </div>
-  </form>
-  </div>
+<div class="main_wrap">
+	<div class="title_container">
+		<i class="title_icon material-icons">bookmark_border</i>	
+		<h2 class="title">Issue Modify</h2>
+	</div>
+	<div class="round_border mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+		<form action="/issue/{{id}}/modify" method="post">
+		 	<div class="article_header">
+				<div class="mdl-textfield mdl-js-textfield">
+				    <input class="mdl-textfield__input" type="text" id="subject" name="subject" value="{{subject}}" required>
+  					<label class="mdl-textfield__label" for="subject">Subject</label>
+				</div>
+			</div>
+			<div class="article_container">
+				<div class="mdl-textfield mdl-js-textfield">
+					<textarea class="mdl-textfield__input" rows= "10" id="contents" name="contents" required>{{contents}}</textarea>
+					<label class="mdl-textfield__label" for="contents">Contents</label>
+				</div>
+				<div class="article_submit">
+			  		<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">Submit</button>
+				</div>
+			</div>
+		</form>
+	</div>
 </div>
 {{/modifyIssue}}
 {{/partial}}

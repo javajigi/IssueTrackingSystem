@@ -1,50 +1,53 @@
 {{#partial "container"}}
-<div class="main_wrap issues__posts mdl-grid">
-  <h2 class="title">Milestones</h2>
-  <div class="issues-card-wide mdl-card mdl-shadow--2dp">
-    <div class="article_title"></div>
-    <div class="mdl-card__supporting-text">
-      <ul class="issue-list mdl-list">
-      	{{#each milestones}}
-      	<li class="mdl-list__item mdl-list__item--two-line">
-          <span class="mdl-list__item-primary-content">
-            <a href="/milestone/{{id}}/detail"><strong style="font-size: x-large;">{{subject}}</strong></a>
-            <span class="mdl-list__item-sub-title">
-              <strong>Due by</strong> {{endDate}}
-            </span>
-          </span>
-          <span class="mdl-list__item-secondary-content">
-          	{{#if issueList}}
-          		<span class="progress-bar">
-              		<span id="progress_{{id}}" class="progress"> </span>
-            	</span>
-            	<span class="mdl-list__item-sub-title" style="font-size:13px; color:#888">
-          			{{#each issueList}}
-          			{{/each}}
-            	</span>
-          <script>
-        	var progress = document.getElementById("progress_{{id}}");
-            var count = 300 - 300*{{openedIssuePs}};
-            progress.style.width = count+'px';
-       	  </script>
-          	{{else}}
-          		<span class="progress-bar">
-              		<span id="progress_{{id}}" class="progress"> </span>
-            	</span>
-            	<span class="mdl-list__item-sub-title" style="font-size:13px; color:#888">
-            	</span>
-          	{{/if}}
-          </span>
-        </li>
-        {{/each}}
-      </ul>
-    </div>
-  </div>
-  <form class="btn_add" action="/milestone/new" method="get">
-	<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" type="submit">
-		<i class="material-icons">add</i>
-	</button>
-   </form>
+<div class="main_wrap">
+	<div class="title_container">
+		<i class="title_icon material-icons">bookmark_border</i>	
+		<h2 class="title">Milestones</h2>
+		<a class="btn_add mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect" href="/milestone/new">
+		  <i class="material-icons">add</i>
+		</a>
+	</div>
+	<div class="round_border mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+	  	<div class="article_header">
+	  		<div class="article_title"></div>
+	  	</div>
+		<div class="article_container">
+			<ul class="issue-list mdl-list">
+				{{#each milestones}}
+				<li class="mdl-list__item mdl-list__item--two-line">
+					<span class="mdl-list__item-primary-content">
+						<a href="/milestone/{{id}}/detail"><strong style="font-size: x-large;">{{subject}}</strong></a>
+						<span class="mdl-list__item-sub-title">
+							<strong>Due by</strong> {{endDate}}
+						</span>
+					</span>
+					<span class="mdl-list__item-secondary-content">
+						{{#if issueList}}
+						<span class="progress-bar">
+							<span id="progress_{{id}}" class="progress"> </span>
+						</span>
+					  	<span class="mdl-list__item-sub-title" style="font-size:13px; color:#888">
+							{{#each issueList}}
+							{{/each}}
+					  	</span>
+						<script>
+							var progress = document.getElementById("progress_{{id}}");
+					   		var count = 300 - 300*{{openedIssuePs}};
+					 		progress.style.width = count+'px';
+						 </script>
+						{{else}}
+						<span class="progress-bar">
+				    		<span id="progress_{{id}}" class="progress"> </span>
+					  	</span>
+					  	<span class="mdl-list__item-sub-title" style="font-size:13px; color:#888">
+				    	</span>
+					  	{{/if}}
+					</span>
+				</li>
+				{{/each}}
+			</ul>     
+		</div>
+	</div>
 </div>
 {{/partial}}
 

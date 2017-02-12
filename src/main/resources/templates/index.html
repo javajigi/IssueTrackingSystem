@@ -1,41 +1,42 @@
 {{#partial "container"}}
-<div class="main_wrap mdl-grid">
-		<h2 class="title">Issues</h2>
-		<ul class="card_list clearfix">
-			{{#each issueList}}
-			<li class="card_item mdl-shadow--2dp">
-				<a class="card_title_link" href="/issue/{{id}}/detail">
-					<p class="card_title ellipsize">#{{id}} {{subject}}</p>
-					<i class="card_arrow material-icons">arrow_forward</i>
-				</a>
-				<div class="card_contents">
-					<p class="multi_ellipsize contents_text">{{contents}}</p>
-					<span class="card_writer">
-						<div class="card_thumb_wrap">
-							<img class="card_thumb mdl-list__item-avatar" height="48" width="48" src="/profile/{{writer.profile}}" alt="writer.userId">
-						</div>
-						<strong class="writer_by">by</strong>
-						<a href="/user/{{writer.id}}/detail" aria-label="View all issues opened by javajigi" class="tooltipped tooltipped-s muted-link">
-							<strong class="writer_name">{{writer.userId}}</strong>
-						</a>
-					</span>
-				</div>
-				<div class="card_bottom">
-					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-{{id}}">
-					  <input type="checkbox" id="switch-{{id}}" value="{{id}}" class="mdl-switch__input" {{stateCheck}}>
-					  <span class="mdl-switch__label"></span>
-					</label>
-					<!-- Number badge on icon -->
-					<span class="material-icons mdl-badge mdl-badge--overlap comment_count" data-badge="1">comment</span>
-				</div>
-			</li>
-			{{/each}}
-		</ul>
-		<form class="btn_add" action="/issue/new" method="get">
-			<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" type="submit">
-				<i class="material-icons">add</i>
-			</button>
-		</form>
+<div class="main_wrap">
+	<div class="title_container">
+		<i class="title_icon material-icons">bookmark_border</i>	
+		<h2 class="title">Issue List</h2>
+		<a class="btn_add mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect" href="/issue/new">
+		  <i class="material-icons">add</i>
+		</a>
+	</div>
+	<ul class="clearfix">
+		{{#each issueList}}
+		<li class="card_item mdl-shadow--2dp">
+			<a class="card_title_link" href="/issue/{{id}}/detail">
+				<p class="card_title ellipsize">#{{id}} {{subject}}</p>
+				<i class="card_arrow material-icons">arrow_forward</i>
+			</a>
+			<div class="card_contents">
+				<p class="multi_ellipsize contents_text">{{contents}}</p>
+				<span class="card_writer">
+					<div class="card_thumb_wrap">
+						<img class="card_thumb mdl-list__item-avatar" height="48" width="48" src="/profile/{{writer.profile}}" alt="writer.userId">
+					</div>
+					<strong class="writer_by">by</strong>
+					<a href="/user/{{writer.id}}/detail" aria-label="View all issues opened by javajigi" class="tooltipped tooltipped-s muted-link">
+						<strong class="writer_name">{{writer.userId}}</strong>
+					</a>
+				</span>
+			</div>
+			<div class="card_bottom">
+				<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-{{id}}">
+				  <input type="checkbox" id="switch-{{id}}" value="{{id}}" class="mdl-switch__input" {{stateCheck}}>
+				  <span class="mdl-switch__label"></span>
+				</label>
+				<!-- Number badge on icon -->
+				<span class="material-icons mdl-badge mdl-badge--overlap comment_count" data-badge="1">comment</span>
+			</div>
+		</li>
+		{{/each}}
+	</ul>
 </div>
 {{/partial}}
 {{> template}}
