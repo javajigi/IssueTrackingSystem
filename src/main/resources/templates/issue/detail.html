@@ -5,43 +5,42 @@
   </a>
 </div>
 {{#issueInfo}}
-<div class="main_wrap mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
-	<h2 class="article_title">{{subject}}</h2>
-	<div class="article_menu">
-		<a href="/issue/{{id}}/modify" class="modify-issue-btn mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-		  <i class="material-icons">edit</i>
-		</a>
-		<a href="/issue/{{id}}/delete" id="issues-menu-lower-right" class="delete-issue-btn mdl-button mdl-js-button mdl-button--icon">
-		  <i class="material-icons">delete</i>
-		</a>
-		<script type="text/javascript">
-			function checkLogin(e) {
-				var loginUser = '{{sessionedUser.id}}';
-				var myId = '{{writer.id}}';
-				if(loginUser != myId) {
-					e.preventDefault();
-					alert('Issue에 대한 권한이 없습니다.');
+<div class="main_wrap round_border mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+	<div class="article_header">
+		<h2 class="article_title">#{{id}} {{subject}}</h2>
+		<div class="article_menu">
+			<a href="/issue/{{id}}/modify" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+			  <i class="material-icons">edit</i>
+			</a>
+			<a href="/issue/{{id}}/delete" id="issues-menu-lower-right" class="mdl-button mdl-js-button mdl-button--icon">
+			  <i class="material-icons">delete</i>
+			</a>
+			<script type="text/javascript">
+				function checkLogin(e) {
+					var loginUser = '{{sessionedUser.id}}';
+					var myId = '{{writer.id}}';
+					if(loginUser != myId) {
+						e.preventDefault();
+						alert('Issue에 대한 권한이 없습니다.');
+					}
 				}
-			}
-		</script>
+			</script>
+    	</div>
     </div>
-	<div class="article_container">
+	<div class="article_container clearfix">
 		<div class="article">
 		    <pre class="contents">{{contents}}</pre>
 		</div>
 		<div class="navigation">
-		    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
-		      <img class="minilogo" height="48" width="48" src="/profile/{{writer.profile}}" alt="{{writer.userId}}"/>
-		      <div style="margin-right:20px;">
-		        <div class="author-text">
-		          <strong>
-		            <a href="/user/{{writer.id}}/detail" class="author">
-		            	<strong class="writer_name">{{writer.userId}}</strong>
-	            	</a>
-		          </strong>
-		        </div>
-		        <span>Create By {{writeDate}} </span>
-		      </div>
+		    <div class="nav_category">
+		    	<div class="nav_title">Info</div>
+				<img class="user_thumb" height="48" width="48" src="/profile/{{writer.profile}}" alt="{{writer.userId}}"/>
+				<div class="nav_info">
+				    <a class="user_id" href="/user/{{writer.id}}/detail">
+				    	{{writer.userId}}
+				   	</a>
+				   	<span class="write_date">Create By {{writeDate}} </span>
+				</div>
 	      	</div>
 	      	<div class="nav_category">
 	      		<div class="nav_title">State</div>
@@ -87,7 +86,7 @@
 				    for="btn_add_milestone">
 					{{#allMilestone}}
 				 		<li class="set_milestone mdl-menu__item"
-				 			data-id="{{id}}" data-issue="{{../id}}">{{subject}}</li>
+				 			data-id={{id}} data-issue={{../id}}>{{subject}}</li>
 				  	{{/allMilestone}}
 				</ul>
 				{{#milestone}}
@@ -106,32 +105,31 @@
 	      		<div class="nav_title">Label</div>
 					<button id="btn_add_label"
 				    	    class="btn_menu mdl-button mdl-js-button mdl-button--icon">
-				  	<i class="material-icons">label</i>
+				  	<i class="material-icons">local_offer</i>
 				</button>
-				<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-				    for="btn_add_label">
+				<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect">
 					{{#each allLabel}}
 				 		<li class="add_label mdl-menu__item" data-id="{{id}}" data-issue="{{../id}}">{{name}}</li>
 				  	{{/each}}
 				</ul>
 				<ul id="label_list">
-	      		{{#each labelList}}
-				<li id="label_{{id}}" class="label mdl-chip mdl-chip--deletable" style="background-color:{{color}}"
-					data-id="{{id}}">
-				    <span class="mdl-chip__text">{{name}}</span>
-				    <button type="button" class="delete_label mdl-chip__action" data-id="{{id}}" data-issue="{{../id}}">
-				    	<i class="material-icons">cancel</i>
-			    	</button>
-				</li>
-				{{/each}}
+		      		{{#each labelList}}
+					<li id="label_{{id}}" class="label_tag mdl-chip mdl-chip--deletable" style="background-color:{{color}}"
+						data-id="{{id}}">
+					    <span class="mdl-chip__text">{{name}}</span>
+					    <button type="button" class="delete_label mdl-chip__action" data-id="{{id}}" data-issue="{{../id}}">
+					    	<i class="material-icons">cancel</i>
+				    	</button>
+					</li>
+					{{/each}}
 				</ul>
 	      	</div>
 		</div>
 	</div>
-	<ul id="comment_list" class="comment-form mdl-color-text--primary-contrast mdl-card__supporting-text comments">
+	<ul id="comment_list" class="article_comment">
 	{{#each commentList}}
 	 	<li id="comment_{{id}}" class="comment_container">
-			<img class="comment_thumb minilogo" height="48" width="48" src="/profile/{{writer.profile}}" alt="javajigi">
+			<img class="comment_thumb" height="48" width="48" src="/profile/{{writer.profile}}" alt="javajigi">
 			<div class="comment_info">
 	    		<a class="comment_user" href="/user/{{writer.id}}/detail">{{writer.userId}}</a>
 	  			<span class="comment_date">{{formattedWriteDate}}</span>
@@ -145,28 +143,26 @@
 		</li>
     {{/each}}
 	</ul>
-	<form action="/issue/1/uploadFile" enctype="multipart/form-data" method="POST">
+	<!-- <form action="/issue/1/uploadFile" enctype="multipart/form-data" method="POST">
 		<div style="margin:10px;">
 		  <input type="file" name="file" id="file" />
 		  <button class="mdl-button" type="submit">upload file</button>
 		</div>
+	</form> -->
+	<form class="comment_new" action="/comment/{{id}}/new" method="POST">
+		<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+		  <textarea class="mdl-textfield__input" id="contents" name="contents" rows=3 required></textarea>
+		  <label for="contents" class="mdl-textfield__label">Leave a comment</label>
+		</div>
+		<a class="btn_comment_complete add-comment-btn mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+			<i class="material-icons" role="presentation">check</i><span class="visuallyhidden">add comment</span>
+		</a>
 	</form>
-	<div class="mdl-color-text--primary-contrast mdl-card__supporting-text new-comment">
-		<form class="comment-create" action="/comment/{{id}}/new" method="POST">
-		  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-		    <textarea row=5 class="mdl-textfield__input" id="contents" name="contents"></textarea>
-		    <label for="contents" class="mdl-textfield__label">Leave a comment</label>
-		  </div>
-		  <a class="btn_comment_complete add-comment-btn mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-		    <i class="material-icons" role="presentation">check</i><span class="visuallyhidden">add comment</span>
-		  </a>
-		</form>
-	</div>
 </div>	
 {{/issueInfo}}
 {{/partial}}
 {{#partial "script"}}
-	<script type="text/template" id="commentTemplate">
+	<script type="text/template" id="comment_template">
   <li id="comment_{0}" class="comment_container">
   	<img class="comment_thumb minilogo" height="48" width="48" src="/profile/{6}" alt="javajigi">
   	<div class="comment_info">
@@ -214,7 +210,7 @@
 		<a id="milestone" class="milestone_link mdl-chip" href="/milestone/{0}/detail">
 	    	<span class="mdl-chip__text">{1}</span>
 		</a>
-		<button type="button" class="btn_milestone_delete mdl-chip__action
+		<button type="button" class="btn_milestone_delete mdl-chip__action"
 				data-id="{0}" data-issue="{2}">
 			<i class="material-icons">cancel</i>
 		</button>

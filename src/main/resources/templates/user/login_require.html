@@ -4,24 +4,20 @@
     <i class="material-icons" role="presentation">arrow_back</i>
   </a>
 </div>
-<div class="issues__posts main_wrap mdl-grid">
-  <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
-    <div class="mdl-card__title mdl-color-text--grey-50" style="height:20px;">
-      <h4>로그인 실패</h4>
+<div class="main_wrap user_wrap round_border mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+	<div class="article_header">
+		<h2 class="article_title">Warning!</h2>
     </div>
-    
-    <div class="mdl-card__supporting-text">
-      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="margin:0 auto">  
-        <label class="mdl-textfield__label" style="font-weight:bold;">해당 요청을 진행 할 권한이 없습니다</label>
-      </div>
-      
-      <form action="/user/login" method="get">
-      <div class="mdl-card__supporting-text">
-      	<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" style="margin:10px auto; width:200px;">로그인하러가기</button>
-      </div>
-      </form>
+    <div class="article_container">
+      <p class="alert_message">
+		해당 요청을 실행할 권한이 없습니다.
+      </p>
     </div>
-  </div>
+    <form action="/user/login" method="get">
+		<div class="article_submit">
+			<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">로그인하러가기</button>
+		</div>
+    </form>
 </div>
 {{/partial}}
 

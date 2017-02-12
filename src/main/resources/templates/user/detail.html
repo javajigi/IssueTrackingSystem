@@ -4,28 +4,28 @@
     <i class="material-icons" role="presentation">arrow_back</i>
   </a>
 </div>
-<div class="issues__posts main_wrap mdl-grid">
-  <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
-  {{#user}}
-    <div class="mdl-card__title mdl-color-text--grey-50" style="height:100px;">
-      <h4>{{userId}} 님의 프로필</h4>
+<div class="main_wrap user_wrap round_border mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+	{{#user}}
+	<div class="article_header">
+		<h2 class="article_title">{{userId}} 님의 프로필</h2>
     </div>
-     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="margin:0 auto">
-       <label class="mdl-textfield__label" for="userId" style="font-weight:bold;">User ID - {{userId}}</label>
-     </div>
-     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="margin:0 auto">
-       <label class="mdl-textfield__label" for="name" style="font-weight:bold;">Name - {{name}}</label>
-     </div>    
-    <div class="mdl-card__supporting-text">
-      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="margin:0 auto">
-        <label class="mdl-textfield__label" for="pic" style="font-weight:bold;">Profile Image</label>
-        <br><br>
-        <image id="pic" name="pic" src="/profile/{{profile}}" height="200" width="200"/>
-      </div>
-    </div>
-    
-  {{/user}}
-  </div>
+    <div class="article_container">
+		<div class="section">
+			<span class="label">User ID</span>
+			<span class="contents">{{userId}}</span>
+		</div>
+		<div class="section">
+			<span class="label">Name</span>
+			<span class="contents">{{name}}</span>
+		</div>
+		<div class="section">
+			<span class="label">Profile Image</span>
+			<span class="contents">
+				<img id="pic" name="pic" src="/profile/{{profile}}" height="200" width="200"/>
+			</span>
+		</div>
+	</div>
+    {{/user}}
 </div>
 {{/partial}}
 

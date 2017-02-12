@@ -4,45 +4,36 @@
     <i class="material-icons" role="presentation">arrow_back</i>
   </a>
 </div>
-<div class="issues__posts main_wrap mdl-grid">
-  <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
-<form action="/user/new" enctype="multipart/form-data" method="post">
-    <div class="mdl-card__title mdl-color-text--grey-50" style="height:100px;">
-      <h4>Join Member</h4>
-    </div>
-    <div class="mdl-card__supporting-text">
-      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="margin:0 auto">
-        <input class="mdl-textfield__input" type="text" id="userId" name="userId" required placeholder="16자 내외">
-        <label class="mdl-textfield__label" for="userId">User ID</label>
-      </div>
-      <span><font color="red" id="userId_alert"></font></span>
-    </div>
-    <div class="mdl-card__supporting-text">
-      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="margin:0 auto">
-        <input class="mdl-textfield__input" type="text" id="name" name="name" required placeholder="20자 내외">
-        <label class="mdl-textfield__label" for="name">Name</label>
-      </div>
-      <span><font color="red" id="name_alert"></font></span>
-    </div>
-    <div class="mdl-card__supporting-text">
-      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="margin:0 auto">
-        <input class="mdl-textfield__input" type="password" id="password" name="password" required placeholder="20자 내외">
-        <label class="mdl-textfield__label" for="password">Password</label>
-      </div>
-      <span><font color="red" id="password_alert"></font></span>
-    </div>
-    <div class="mdl-card__supporting-text">
-      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="margin:0 auto">
-        <input class="mdl-textfield__input" type="file" id="file" name="file">
-        <label class="mdl-textfield__label" for="file">Profile Image</label>
-      </div>
-    </div>
-    <div class="mdl-card__supporting-text">
-      <button class="user-new-btn mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" style="margin:10px auto; width:200px;">Submit</button>
-    </div>
-
-  </form>
-  </div>
+<div class="main_wrap user_wrap round_border mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+	<form action="/user/new" enctype="multipart/form-data" method="post">
+		<div class="article_header">
+			<h2 class="article_title">sign_up</h2>
+	    </div>
+	    <div class="article_container">
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+			  <input class="mdl-textfield__input" type="text" id="userId" name="userId" required placeholder="16자 내외">
+			  <label class="mdl-textfield__label" for="userId">User ID</label>
+			</div>
+			<span><font color="red" id="userId_alert"></font></span>
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+			  <input class="mdl-textfield__input" type="text" id="name" name="name" required placeholder="20자 내외">
+			  <label class="mdl-textfield__label" for="name">Name</label>
+			</div>
+			<span><font color="red" id="name_alert"></font></span>
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+			  <input class="mdl-textfield__input" type="password" id="password" name="password" required placeholder="20자 내외">
+			  <label class="mdl-textfield__label" for="password">Password</label>
+			</div>
+			<span><font color="red" id="password_alert"></font></span>
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+			  <input class="mdl-textfield__input" type="file" id="file" name="file">
+			  <label class="blind_contents mdl-textfield__label" for="file">Profile Image</label>
+			</div>
+	    </div>
+	    <div class="article_submit">
+	      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">sign up</button>
+	    </div>
+	</form>
 </div>
 {{/partial}}
 
