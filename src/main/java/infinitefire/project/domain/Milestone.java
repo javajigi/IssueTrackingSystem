@@ -8,9 +8,12 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
@@ -41,6 +44,10 @@ public class Milestone {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "endDate")
 	private Date endDate;
+	
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_milestone_organization"))
+	private Organization organization;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "milestone")
@@ -127,6 +134,15 @@ public class Milestone {
 			e.printStackTrace();
 		}
 	}
+	
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
+
 	public List<Issue> getIssueList() {
 		return issueList;
 	}
