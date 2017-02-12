@@ -1,9 +1,4 @@
 {{#partial "container"}}
-<div class="issues-back">
-  <a href="/" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon back-btn" title="go back" role="button">
-    <i class="material-icons" role="presentation">arrow_back</i>
-  </a>
-</div>
 {{#issueInfo}}
 <div class="main_wrap round_border mdl-shadow--4dp mdl-cell mdl-cell--12-col">
 	<div class="article_header">
@@ -33,7 +28,6 @@
 		</div>
 		<div class="navigation">
 		    <div class="nav_category">
-		    	<div class="nav_title">Info</div>
 				<img class="user_thumb" height="48" width="48" src="/profile/{{writer.profile}}" alt="{{writer.userId}}"/>
 				<div class="nav_info">
 				    <a class="user_id" href="/user/{{writer.id}}/detail">
@@ -103,14 +97,15 @@
 	      	</div>
 	      	<div class="nav_category">
 	      		<div class="nav_title">Label</div>
-					<button id="btn_add_label"
-				    	    class="btn_menu mdl-button mdl-js-button mdl-button--icon">
-				  	<i class="material-icons">local_offer</i>
+				<button id="btn_add_label"
+			    	    class="btn_menu mdl-button mdl-js-button mdl-button--icon">
+			  		<i class="material-icons">local_offer</i>
 				</button>
-				<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect">
-					{{#each allLabel}}
+				<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+					for="btn_add_label">
+					{{#allLabel}}
 				 		<li class="add_label mdl-menu__item" data-id="{{id}}" data-issue="{{../id}}">{{name}}</li>
-				  	{{/each}}
+				  	{{/allLabel}}
 				</ul>
 				<ul id="label_list">
 		      		{{#each labelList}}
@@ -197,7 +192,7 @@
   </li>
 	</script>
 	<script type="text/template" id="label_item">
-	<li id="label_{0}" class="label mdl-chip mdl-chip--deletable" style="background-color:{1}"
+	<li id="label_{0}" class="label_tag mdl-chip mdl-chip--deletable" style="background-color:{1}"
 		data-id="{0}">
     	<span class="mdl-chip__text">{2}</span>
     	<button type="button" class="delete_label mdl-chip__action" data-id="{0}" data-issue="{3}">

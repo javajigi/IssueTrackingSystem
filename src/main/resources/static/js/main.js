@@ -8,7 +8,7 @@ $(function() {
 	$('.add_assignee').bind("click", addAssignee);
 	$('#assignee_list').delegate('.delete_assignee', 'click', deleteAssignee);
 	$('.set_milestone').bind("click", setMilestone);
-  $('#milestone_category').delegate('.btn_milestone_delete', 'click', deleteMilestone);	
+	$('#milestone_category').delegate('.btn_milestone_delete', 'click', deleteMilestone);	
 	$('.add_label').bind("click", addLabel);
 	$('#label_list').delegate('.delete_label', 'click', deleteLabel);
 	
