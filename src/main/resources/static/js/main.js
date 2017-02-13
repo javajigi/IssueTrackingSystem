@@ -18,7 +18,12 @@ $(function() {
 	$('#password').keyup(checkValue);
 	$('.modify-issue-btn').click(checkLogin);
 	$('.delete-issue-btn').click(checkLogin);
+	$('.back-btn').click(preBack);
 });
+
+function preBack() {
+	history.back();
+}
 
 function checkValue(e) {
 	var check = $(this).val();
@@ -52,24 +57,6 @@ function checkValue(e) {
 		});
 	} else
 		$('#'+thisName+'_alert').html('');
-}
-
-function checkLength(e) {
-	var checkId = $('#userId').val();
-	if(checkId.length > 16) {
-		$('#userId_alert').html('ID가 너무 깁니다.');
-		e.preventDefault();
-	}
-	var checkName = $('#name').val();
-	if(checkName.length > 20) {
-		$('#name_alert').html('NAME이 너무 깁니다.');
-		e.preventDefault();
-	}
-	var checkPwd = $('#password').val();
-	if(checkPwd.length > 20) {
-		$('#password_alert').html('PASSWORD가 너무 깁니다.');
-		e.preventDefault();
-	}
 }
 
 function addComment(e) {

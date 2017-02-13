@@ -15,16 +15,6 @@
 			<a href="/milestone/{{id}}/delete" id="issues-menu-lower-right" class="mdl-button mdl-js-button mdl-button--icon">
 			  <i class="material-icons">delete</i>
 			</a>
-			<script type="text/javascript">
-				function checkLogin(e) {
-					var loginUser = '{{sessionedUser.id}}';
-					var myId = '{{writer.id}}';
-					if(loginUser != myId) {
-						e.preventDefault();
-						alert('Issue에 대한 권한이 없습니다.');
-					}
-				}
-			</script>
 	    </div>
     </div>
 	<div class="article_container clearfix">

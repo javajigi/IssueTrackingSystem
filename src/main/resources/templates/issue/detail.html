@@ -1,13 +1,18 @@
 {{#partial "container"}}
+<div class="issues-back">
+  <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon back-btn" title="go back" role="button">
+    <i class="material-icons" role="presentation">arrow_back</i>
+  </a>
+</div>
 {{#issueInfo}}
 <div class="main_wrap round_border mdl-shadow--4dp mdl-cell mdl-cell--12-col">
 	<div class="article_header">
 		<h2 class="article_title">#{{id}} {{subject}}</h2>
 		<div class="article_menu">
-			<a href="/issue/{{id}}/modify" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+			<a href="/issue/{{id}}/modify" class="modify-issue-btn mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
 			  <i class="material-icons">edit</i>
 			</a>
-			<a href="/issue/{{id}}/delete" id="issues-menu-lower-right" class="mdl-button mdl-js-button mdl-button--icon">
+			<a href="/issue/{{id}}/delete" id="issues-menu-lower-right" class="delete-issue-btn mdl-button mdl-js-button mdl-button--icon">
 			  <i class="material-icons">delete</i>
 			</a>
 			<script type="text/javascript">

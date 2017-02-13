@@ -89,12 +89,21 @@
 	  </div>
   </div>
 	<script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
-	<script src="/js/jquery.modal.js" type="text/javascript" charset="utf-8"></script>
 	<script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.3/dialog-polyfill.min.js"></script>
 	<script src="https://cdn.tinymce.com/4/tinymce.min.js"></script>
 	<script src="/js/main.js"></script>
+	<script type="text/javascript">
+				function checkLogin(e) {
+					var loginUser = '{{sessionedUser.id}}';
+					var myId = '{{writer.id}}';
+					if(loginUser != myId) {
+						e.preventDefault();
+						alert('Issue에 대한 권한이 없습니다.');
+					}
+				}
+			</script>
 	{{#block "script"}}{{/block}}
 </body>
 </html>
