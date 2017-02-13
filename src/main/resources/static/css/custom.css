@@ -321,6 +321,12 @@ table {
 	color: #000;
 	font-size: 18px;
 }
+
+.comment_attachment {
+	color: #BDBDBD;
+	font-size: 16px;
+}
+
 .comment_contents {
 	overflow: hidden;
 	padding: 8px 0 4px;

@@ -132,12 +132,17 @@
 			<img class="comment_thumb" height="48" width="48" src="/profile/{{writer.profile}}" alt="javajigi">
 			<div class="comment_info">
 	    		<a class="comment_user" href="/user/{{writer.id}}/detail">{{writer.userId}}</a>
+		    		
 	  			<span class="comment_date">{{formattedWriteDate}}</span>
 		        	{{#if isMyComment}}
 		        		<a id="btn_comment_modify" class="btn_comment_modify" data-id="{{id}}">수정</a>
 		        		<a id="btn_comment_delete" class="btn_comment_delete" data-id="{{id}}">삭제</a>
 		     		{{/if}}
+				
 		     	<pre id="comment_contents_{{id}}" class="comment_contents">{{contents}}</pre>
+		     	{{#if isAttachmentExist}}
+		    		<a class="comment_attachment" href="/attachment/{{attachment}}">첨부파일 다운</a>
+		    	{{/if}}
  			</div>
 			<hr>
 		</li>
@@ -149,11 +154,17 @@
 		  <button class="mdl-button" type="submit">upload file</button>
 		</div>
 	</form> -->
-	<form class="comment_new" action="/comment/{{id}}/new" method="POST">
+	<form class="comment_new" id="upload" action="/comment/{{id}}/new" method="POST" enctype="multipart/form-data">
 		<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 		  <textarea class="mdl-textfield__input" id="contents" name="contents" rows=3 required></textarea>
 		  <label for="contents" class="mdl-textfield__label">Leave a comment</label>
 		</div>
+		<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+			  <input class="mdl-textfield__input" type="file" id="file" name="file" accept=".txt,.html,.js,.zip">
+			  <label class="blind_contents mdl-textfield__label" for="file">Attachment</label>
+			  <label style="font-size:12px;">TXT, HTML, JS, ZIP 형식의 파일만 업로드 할 수 있습니다.</label>
+		</div>
+		
 		<a class="btn_comment_complete add-comment-btn mdl-js-button mdl-js-ripple-effect mdl-button--icon">
 			<i class="material-icons" role="presentation">check</i><span class="visuallyhidden">add comment</span>
 		</a>
@@ -173,6 +184,9 @@
   		    <a id="btn_comment_delete" class="btn_comment_delete" data-id="{0}">삭제</a>
   		{{/if}}
   		<pre id="comment_contents_{0}" class="comment_contents">{1}</pre>
+		{{#if isAttachmentExist}}
+			<a class="comment_attachment" href="/attachment/{{attachment}}">첨부파일 다운</a>
+		{{/if}}
    	</div>
   	<hr>
   </li>
