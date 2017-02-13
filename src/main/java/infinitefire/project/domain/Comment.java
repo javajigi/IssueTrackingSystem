@@ -25,6 +25,8 @@ public class Comment {
 	@Lob
 	private String contents;
 	
+	private String attachment;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "writeDate", nullable = false, updatable = false)
 	private Date writeDate;
@@ -39,6 +41,8 @@ public class Comment {
 	
 	@Transient
 	private boolean isMyComment = false;
+	
+	private boolean isAttachmentExist = false;
 	
 	public Comment(){
 		this.writeDate = new Date();
@@ -107,6 +111,14 @@ public class Comment {
 		return this.writer.equals(loginUser);
 	}
 	
+	public void setIsAttachmentExist(boolean isAttachmentExsist) {
+		this.isAttachmentExist = isAttachmentExsist;
+	}
+	
+	public boolean getIsAttachmentExist() {
+		return isAttachmentExist;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -136,6 +148,18 @@ public class Comment {
 	public String toString() {
 		return "Comment [id=" + id + ", contents=" + contents + ", writeDate=" + writeDate +
 				", writer=" + writer + ", isMyComment="+ isMyComment + "]";
+	}
+
+	public String getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(String attachment) {
+		this.attachment = attachment;
+	}
+	
+	public boolean isAttachmentEmpty() {
+		return attachment.isEmpty();
 	}
 }
 

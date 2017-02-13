@@ -29,10 +29,18 @@ public class FileUploadController {
 	
 	@GetMapping("/profile/{filename:.+}")
 	@ResponseBody
-	public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+	public ResponseEntity<Resource> serveProfileFile(@PathVariable String filename) {
 		Resource file = storageService.loadAsResource(filename, FileType.PROFILE);
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
+	
+	@GetMapping("/attachment/{filename:.+}")
+	@ResponseBody
+	public ResponseEntity<Resource> serveAttachmentFile(@PathVariable String filename) {
+		Resource file = storageService.loadAsResource(filename, FileType.ATTACHMENT);
+		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+	}
+	
 	
 	@ExceptionHandler(StorageFileNotFoundException.class)
 	public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
