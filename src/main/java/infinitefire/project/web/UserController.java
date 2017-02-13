@@ -4,8 +4,6 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +44,6 @@ public class UserController {
 	private String profilePath;
 	
 	public UserController(StorageService storageService) {
-		LogManager.getRootLogger().setLevel(Level.DEBUG);
 		this.storageService = storageService;
 	}
 	

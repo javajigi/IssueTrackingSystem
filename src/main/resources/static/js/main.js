@@ -63,25 +63,32 @@ function addComment(e) {
 	e.preventDefault();
 	console.log('create Comment to Issue Page');
 	
+	var formData = new FormData($('form')[0]);
 	var contents = $('.mdl-textfield__input').val();
-	if(contents != ''){
+	
+	if(contents != '') {
 		var url = $('.comment_new').attr("action");
 		var queryString = $('.comment_new').serialize();
-		console.log("url : "+url+"\nqueryString : "+queryString);
+		var sendData = formData;
+//		console.log("url : "+url+"\nqueryString : "+queryString);
 	
 		$.ajax({
 			type: 'post',
 			url: url,
-			data: queryString,
+			data: formData,
+			contentType: false,
+			processData: false,
 			dataType:"json",
 			success: function(result) {
 				console.log(result);
 				var template = $("#comment_template").html();
-				var comment = template.format(result.id, result.contents, result.formattedWriteDate, result.writer.id, result.writer.userId, result.isMyComment, result.writer.profile);
+				var comment = template.format(result.id, result.contents, result.formattedWriteDate, result.writer.id, result.writer.userId, result.isMyComment, result.writer.profile, result.isAttachmentExist, result.attachment);
 				$(".article_comment").append(comment);
 				$(".comment_new #contents").val('');
+				$("#file").val('');
 			},
 			error: function(error) {
+				console.log(error);
 				alert('로그인후 댓글을 달 수 있습니다.');
 			}
 		});
