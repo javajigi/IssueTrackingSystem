@@ -1,6 +1,6 @@
 {{#partial "container"}}
 <div class="issues-back">
-  <a href="/" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon back-btn" title="go back" role="button">
+  <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon back-btn" title="go back" role="button">
     <i class="material-icons" role="presentation">arrow_back</i>
   </a>
 </div>
@@ -9,10 +9,10 @@
 	<div class="article_header">
 		<h2 class="article_title">#{{id}} {{subject}}</h2>
 		<div class="article_menu">
-			<a href="/issue/{{id}}/modify" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+			<a href="/issue/{{id}}/modify" class="modify-issue-btn mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
 			  <i class="material-icons">edit</i>
 			</a>
-			<a href="/issue/{{id}}/delete" id="issues-menu-lower-right" class="mdl-button mdl-js-button mdl-button--icon">
+			<a href="/issue/{{id}}/delete" id="issues-menu-lower-right" class="delete-issue-btn mdl-button mdl-js-button mdl-button--icon">
 			  <i class="material-icons">delete</i>
 			</a>
 			<script type="text/javascript">
@@ -33,8 +33,7 @@
 		</div>
 		<div class="navigation">
 		    <div class="nav_category">
-		    	<div class="nav_title">Info</div>
-				<img class="user_thumb" height="48" width="48" src="/profile/{{writer.profile}}" alt="{{writer.userId}}"/>
+				<img class="user_thumb round_image" height="48" width="48" src="/profile/{{writer.profile}}" alt="{{writer.userId}}"/>
 				<div class="nav_info">
 				    <a class="user_id" href="/user/{{writer.id}}/detail">
 				    	{{writer.userId}}
@@ -103,14 +102,15 @@
 	      	</div>
 	      	<div class="nav_category">
 	      		<div class="nav_title">Label</div>
-					<button id="btn_add_label"
-				    	    class="btn_menu mdl-button mdl-js-button mdl-button--icon">
-				  	<i class="material-icons">local_offer</i>
+				<button id="btn_add_label"
+			    	    class="btn_menu mdl-button mdl-js-button mdl-button--icon">
+			  		<i class="material-icons">local_offer</i>
 				</button>
-				<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect">
-					{{#each allLabel}}
+				<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+					for="btn_add_label">
+					{{#allLabel}}
 				 		<li class="add_label mdl-menu__item" data-id="{{id}}" data-issue="{{../id}}">{{name}}</li>
-				  	{{/each}}
+				  	{{/allLabel}}
 				</ul>
 				<ul id="label_list">
 		      		{{#each labelList}}
@@ -129,7 +129,7 @@
 	<ul id="comment_list" class="article_comment">
 	{{#each commentList}}
 	 	<li id="comment_{{id}}" class="comment_container">
-			<img class="comment_thumb" height="48" width="48" src="/profile/{{writer.profile}}" alt="javajigi">
+			<img class="comment_thumb round_image" height="48" width="48" src="/profile/{{writer.profile}}" alt="javajigi">
 			<div class="comment_info">
 	    		<a class="comment_user" href="/user/{{writer.id}}/detail">{{writer.userId}}</a>
 		    		
@@ -175,7 +175,7 @@
 {{#partial "script"}}
 	<script type="text/template" id="comment_template">
   <li id="comment_{0}" class="comment_container">
-  	<img class="comment_thumb minilogo" height="48" width="48" src="/profile/{6}" alt="javajigi">
+  	<img class="comment_thumb round_image" height="48" width="48" src="/profile/{6}" alt="javajigi">
   	<div class="comment_info">
   		<a class="comment_user" href="/user/{3}/detail">{4}</a>
   	  	<span class="comment_date">{2}</span>
@@ -211,7 +211,7 @@
   </li>
 	</script>
 	<script type="text/template" id="label_item">
-	<li id="label_{0}" class="label mdl-chip mdl-chip--deletable" style="background-color:{1}"
+	<li id="label_{0}" class="label_tag mdl-chip mdl-chip--deletable" style="background-color:{1}"
 		data-id="{0}">
     	<span class="mdl-chip__text">{2}</span>
     	<button type="button" class="delete_label mdl-chip__action" data-id="{0}" data-issue="{3}">

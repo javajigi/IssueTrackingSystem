@@ -23,51 +23,87 @@
 {{/block}}
 <body>
 	<div class="mdl-layout__container">
-		<div class="issues issues--wrap mdl-layout mdl-js-layout is-upgraded">
+    <div class="issues issues--wrap mdl-layout mdl-js-layout">
 			{{#block "navigation"}}
-			<header class="mdl-layout__header mdl-layout__header--waterfall">
-				<div class="mdl-layout__header-row">
-					<!-- Title -->
-					<a id="logo" class="mdl-layout-title" href="/">Issue Tracking System</a>
-					<div class="mdl-layout-spacer"></div>
-					<!-- Tabs -->
-					<nav class="mdl-navigation">
-						
-						<a class="mdl-navigation__link" href="/">Issues</a>
-						<a class="mdl-navigation__link" href="/milestone/list">Milestones</a>
-						{{#if sessionedUser}}
-						<a class="mdl-navigation__link" href="/user/logout">logout</a>
-						<a class="mdl-navigation__link" href="/user/{{sessionedUser.id}}/modify">modify</a>
-						{{else}}
-						<a class="mdl-navigation__link" href="/user/login">login</a>
-						<a class="mdl-navigation__link" href="/user/new">join</a>
-						{{/if}}
-					</nav>
-				</div>
-			</header>
-			{{/block}}
-	     	
-			<main class="mdl-layout__content">
-				{{#block "container"}}{{/block}}
-			</main>
+			<!-- Uses a header that contracts as the page scrolls down. -->
+      <style>
+      .demo-layout-waterfall .mdl-layout__header-row .mdl-navigation__link:last-of-type  {
+        padding-right: 0;
+      }
+      </style>
+
+        <div class="demo-layout-waterfall mdl-layout mdl-js-layout">
+          <header class="mdl-layout__header mdl-layout__header--waterfall">
+            <div class="mdl-layout__header-row">
+              <a id="logo" class="mdl-layout-title" href="/">Issue Tracking System</a>
+              {{#if sessionedUser}}
+              <div class="user_info_header clearfix">
+                <div class="user_txt">
+                  <span class="user_id"><a href="/user/{{sessionedUser.id}}/modify">{{sessionedUser.userId}}</a></span>
+                <span class="user_name"><a class="user_name" href="/user/{{sessionedUser.id}}/modify">{{sessionedUser.name}} 님</a></span>
+                </div>   			
+              <a href="/user/{{sessionedUser.id}}/modify">
+                <img class="user_thumb round_image" height="32" width="32" src="/profile/{{sessionedUser.profile}}" alt="{{sessionedUser.userId}}"/>
+              </a>
+              </div>
+              {{/if}}
+            </div>
+            <div class="mdl-layout__header-row">
+              <!-- Navigation -->
+              <nav class="tab_container">
+                <a class="tab_menu" href="/">Issues</a>
+                <a class="tab_menu" href="/milestone/list">Milestones</a>
+                <div class="user_tab">
+                  {{#if sessionedUser}}
+                  <a class="tab_menu" href="/user/{{sessionedUser.id}}/modify">My page</a>
+                  <a class="tab_menu" href="/user/logout">Sign out</a>
+                  {{else}}
+                  <a class="tab_menu" href="/user/login">Sign in</a>
+                  <a class="tab_menu" href="/user/new">Sign up</a>
+                  {{/if}}
+                </div>
+              </nav>
+            </div>
+          </header>
+          <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">Organization</span>
+            <nav class="mdl-navigation">
+              <a class="mdl-navigation__link" href="">Organization 1</a>
+              <a class="mdl-navigation__link" href="">Organization 2</a>
+              <a class="mdl-navigation__link" href="">Organization 3</a>
+              <a class="mdl-navigation__link" href="">Organization 4</a>
+            </nav>
+          </div>
+          {{/block}}
+          <main class="mdl-layout__content">
+            {{#block "container"}}{{/block}}
+          </main>
 	
-			{{#block "footer"}}
-			<footer class="mdl-mini-footer">
-				<div class="mdl-mini-footer--left-section">
-					<span class="footer_sign">© SMILEGATE Corp. </span>
-				</div>
-			</footer>
-			{{/block}} 
-			<div class="mdl-layout__obfuscator"></div>
-		</div>
-	</div>
+          {{#block "footer"}}
+          <footer class="footer">
+            <span class="footer_sign">© SMILEGATE Corp. </span>
+          </footer>
+          {{/block}} 
+			    <div class="mdl-layout__obfuscator"></div>
+		    </div>
+	  </div>
+  </div>
 	<script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
-	<script src="/js/jquery.modal.js" type="text/javascript" charset="utf-8"></script>
 	<script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.3/dialog-polyfill.min.js"></script>
 	<script src="https://cdn.tinymce.com/4/tinymce.min.js"></script>
 	<script src="/js/main.js"></script>
+	<script type="text/javascript">
+				function checkLogin(e) {
+					var loginUser = '{{sessionedUser.id}}';
+					var myId = '{{writer.id}}';
+					if(loginUser != myId) {
+						e.preventDefault();
+						alert('Issue에 대한 권한이 없습니다.');
+					}
+				}
+			</script>
 	{{#block "script"}}{{/block}}
 </body>
 </html>

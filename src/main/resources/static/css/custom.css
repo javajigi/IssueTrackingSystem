@@ -1,9 +1,6 @@
-/* reset css */
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
 
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
+/* reset css */
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -31,7 +28,7 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
-	  font-family: 'Roboto', 'Helvetica', 'Noto Sans KR', sans-serif;
+	font-family: 'Roboto', 'Helvetica', 'Noto Sans KR', sans-serif;
 	line-height: 1;
 }
 ol, ul {
@@ -84,6 +81,45 @@ table {
 }
 
 /*  */
+.user_info_header {
+	position: absolute;
+	top: 8px;
+	right: 16px;
+}
+.user_info_header .user_txt {
+	float:left;
+	text-align: right;
+}
+.user_info_header .user_thumb {
+	margin-left: 8px;
+}
+
+.user_info_header .user_id{
+	display: block;
+	font-size: 16px;
+	color: #FF847C;
+}
+
+.user_info_header .user_name{
+	display: block;
+}
+
+.tab_container {
+	display: inline-block;
+	width: 100%;
+}
+.tab_container .tab_menu {
+	padding: 8px;
+	margin: 0 8px;
+}
+.tab_container .tab_menu:hover {
+	color: #bbb;	
+}
+
+.tab_container .user_tab {
+	float:right;
+}
+
 .mdl-layout__content .round_border {
 	border-radius: 16px;
 }
@@ -101,13 +137,13 @@ table {
 
 .main_wrap .title_icon{
 	position: absolute;
-	top: 16px;
+	top: 8px;
 	left: 16px;
 	color: #888;
 }
 
 .main_wrap .title {
-	padding: 16px 16px 16px 40px;
+	padding: 8px 16px 8px 40px;
 	width: 100%;
 	font-size: 24px;
 	color: #888;
@@ -140,7 +176,7 @@ table {
 
 .main_wrap .btn_add {
 	position: absolute;
-	top: 10px;
+	top: 0;
 	right: 16px;
 	background-color: #E84A5F;
 	color: #fff;
@@ -214,13 +250,15 @@ table {
 .article_container .article {
 	float: left;
 	width: 100%;
-	padding: 16px 16px 0 0;	
+	padding: 16px 16px 16px 0;
 }
 
 .article_container .navigation {
 	float: left;
 	width: 100%;
-	padding-left: 16px;   		
+	margin: 16px 0;
+	padding-left: 16px;
+	border-top: 1px solid rgba(0,0,0,.1);
 }
 
 .article_container .alert_message {
@@ -231,7 +269,7 @@ table {
 
 .navigation .nav_category {
 	position: relative;
-	padding: 16px 0;
+	padding: 8px 0;
 }
 
 .nav_category .user_thumb {
@@ -263,8 +301,8 @@ table {
 .nav_category .btn_menu {
 	position: absolute;
 	color: rgba(0,0,0,.54);
-	top: 12px;
-	right: 16px;
+	top: 0;
+	right: 0;
 }
 
 .nav_category .mdl-switch {
@@ -359,9 +397,6 @@ table {
 .card_thumb_wrap {
 	text-align: right;
 }
-.card_thumb_wrap .card_thumb {
-	width: 40px;
-}
 .card_writer .writer_by {
 	font-size: 14px;
 }
@@ -425,6 +460,15 @@ table {
 	color : #888;
 }
 
+.round_image {
+  //background-image: url('images/avatar.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 50%;
+  border-radius: 50%;
+  background-color: #F5F5F5;
+}
+
 .btn_comment_modify {
 	display: inline-block;
 	-webkit-border-radius: 8;
@@ -474,25 +518,44 @@ table {
     background-color: rgba(158,158,158,.5);
 }
 
-.footer_sign {
+.footer {
+	height: 48px;
+	background-color: #424242;
 	text-align: right;
 }
 
+.footer_sign {
+	padding: 0 16px;
+	line-height: 48px;
+	color: #fff;
+}
+
 /* overlap */
+
+.mdl-layout__header {
+    min-height: 48px;
+}
+.mdl-layout__header.is-compact {
+    max-height: 48px;
+}
+.mdl-layout__header-row {
+	height: 48px;
+    padding: 0 8px 0 56px;
+}
+.mdl-layout__drawer-button {
+	margin: 0;
+}
 .mdl-textfield {
 	width: 100%; 
 }
-
 .mdl-textfield.is-invalid .mdl-textfield__input{
 	border-color: #E84A5F;
-	
 }
-.mdl-textfield.is-focused .mdl-textfield__input {
-	border-color: #E84A5F !important;
-}
-  .mdl-textfield.is-invalid .mdl-textfield__label:after {
+.mdl-textfield.is-invalid .mdl-textfield__label:after {
     background-color: #CC2A41; 
 }
+
+
 
 @media screen and (min-width: 720px) {
 	.main_wrap {
@@ -515,6 +578,7 @@ table {
 	.article_container .navigation {
 		width: 30%;
 		border-left: 1px solid rgba(0,0,0,.1);
+		border-top: none;
 	}
 }
 @media screen and (min-width: 1400px) {

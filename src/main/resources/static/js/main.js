@@ -8,7 +8,7 @@ $(function() {
 	$('.add_assignee').bind("click", addAssignee);
 	$('#assignee_list').delegate('.delete_assignee', 'click', deleteAssignee);
 	$('.set_milestone').bind("click", setMilestone);
-  $('#milestone_category').delegate('.btn_milestone_delete', 'click', deleteMilestone);	
+	$('#milestone_category').delegate('.btn_milestone_delete', 'click', deleteMilestone);	
 	$('.add_label').bind("click", addLabel);
 	$('#label_list').delegate('.delete_label', 'click', deleteLabel);
 	
@@ -18,7 +18,12 @@ $(function() {
 	$('#password').keyup(checkValue);
 	$('.modify-issue-btn').click(checkLogin);
 	$('.delete-issue-btn').click(checkLogin);
+	$('.back-btn').click(preBack);
 });
+
+function preBack() {
+	history.back();
+}
 
 function checkValue(e) {
 	var check = $(this).val();
@@ -54,24 +59,6 @@ function checkValue(e) {
 		$('#'+thisName+'_alert').html('');
 }
 
-function checkLength(e) {
-	var checkId = $('#userId').val();
-	if(checkId.length > 16) {
-		$('#userId_alert').html('ID가 너무 깁니다.');
-		e.preventDefault();
-	}
-	var checkName = $('#name').val();
-	if(checkName.length > 20) {
-		$('#name_alert').html('NAME이 너무 깁니다.');
-		e.preventDefault();
-	}
-	var checkPwd = $('#password').val();
-	if(checkPwd.length > 20) {
-		$('#password_alert').html('PASSWORD가 너무 깁니다.');
-		e.preventDefault();
-	}
-}
-
 function addComment(e) {
 	e.preventDefault();
 	console.log('create Comment to Issue Page');
@@ -95,7 +82,7 @@ function addComment(e) {
 			success: function(result) {
 				console.log(result);
 				var template = $("#comment_template").html();
-				var comment = template.format(result.id, result.contents, result.formattedWriteDate, result.writer.id, result.writer.userId, result.isMyComment, result.writer.profile, result.isAttachmentExist, result.attachment);;
+				var comment = template.format(result.id, result.contents, result.formattedWriteDate, result.writer.id, result.writer.userId, result.isMyComment, result.writer.profile, result.isAttachmentExist, result.attachment);
 				$(".article_comment").append(comment);
 				$(".comment_new #contents").val('');
 				$("#file").val('');

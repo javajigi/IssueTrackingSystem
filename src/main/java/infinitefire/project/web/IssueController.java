@@ -1,6 +1,7 @@
 package infinitefire.project.web;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +26,8 @@ import infinitefire.project.domain.Milestone;
 import infinitefire.project.domain.MilestoneRepository;
 import infinitefire.project.domain.User;
 import infinitefire.project.domain.UserRepository;
+import infinitefire.project.security.GetContextPath;
 import infinitefire.project.security.LoginUser;
-import infinitefire.project.utils.HttpSessionUtils;
 
 @Controller
 public class IssueController {
@@ -43,9 +44,18 @@ public class IssueController {
 
 	private static final Logger log = LoggerFactory.getLogger(IssueController.class);
 
+	@GetMapping("/back")
+	public String backToPage(HttpServletRequest req) {
+		String getContextPath = req.getHeader("REFERER");
+		//getContextPath.replace("http://localhost:8080/", "");
+		log.debug("Replace >> "+getContextPath.replace("http://localhost:8080/", ""));
+		return "redirect:/"+getContextPath.replace("http://localhost:8080/", "");
+	}
+	
 	@GetMapping("/")
-	public String index(Model model) {
+	public String index(@GetContextPath String getContextPath, Model model, HttpServletRequest request) {
 		model.addAttribute("issueList", issueRepository.findAll());
+		log.debug("GetContextPath : "+request.getHeader("REFERER"));
 		return "index";
 	}
 
@@ -105,8 +115,8 @@ public class IssueController {
 	}
 
 	@GetMapping("/issue/{id}/detail")
-	public String showIssueDetail(@LoginUser User loginUser, @PathVariable Long id, Model model) {
-		log.debug("Access >> /issue/{" + id + "}/detail");
+	public String showIssueDetail(@LoginUser User loginUser, @PathVariable Long id, HttpServletRequest req, Model model) {
+		log.debug("Access >> /issue/{" + id + "}/detail : --"+req.getHeader("REFERER"));
 		Issue issue = issueRepository.findOne(id);
 		model.addAttribute("issueInfo", issue);
 

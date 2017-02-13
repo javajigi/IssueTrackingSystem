@@ -1,9 +1,5 @@
 @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
 
-body .issues {
-  font-family: 'Roboto', 'Helvetica', 'Noto Sans KR', sans-serif;
-}
-
 .issues .issues__posts {
   //max-width: 900px;
   padding: 0;
@@ -15,98 +11,6 @@ body .issues {
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
-}
-
-
-.issues .mdl-card {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-align-items: stretch;
-  -ms-flex-align: stretch;
-  align-items: stretch;
-  min-height: 0px;
-}
-
-.issues .mdl-card__title {
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  background-color: rgb(255,171,64);
-}
-
-.issues .mdl-card__title .material-icons {
-  margin-right: 8px;
-}
-
-
-
-.issues .mdl-card__supporting-text strong {
-  font-weight: 400;
-}
-
-.issues .mdl-card__supporting-text:not(:last-child) {
-  box-sizing: border-box;
-  min-height: 76px;
-}
-
-.issues .meta {
-  box-sizing: border-box;
-  padding: 16px;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-justify-content: flex-start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
-  height: auto;
-}
-
-.issues .meta > *:first-child {
-  margin-right: 16px;
-}
-
-.issues .meta > * {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
-
-.issues--wrap .meta > * {
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  -ms-grid-row-align: center;
-  align-items: center;
-}
-
-.issues--wrap .meta + .mdl-card__supporting-text {
-  border: 0;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
-.issues--wrap .meta + .mdl-card__supporting-text p {
-  width: 90%;
-  font-size: 16px;
-  line-height: 28px;
-  margin: 0;
 }
 
 .issues--wrap .comments {
@@ -227,16 +131,6 @@ body .issues {
   background-size: 50%;
   border-radius: 22px;
   background-color: #F5F5F5;
-}
-
-.issues .mdl-mini-footer {
-  height: 64px;
-  padding: 0 40px;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  -ms-grid-row-align: center;
-  align-items: center;
-  box-sizing: border-box;
 }
 
 .meta .author,
