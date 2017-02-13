@@ -28,7 +28,7 @@
 		</div>
 		<div class="navigation">
 		    <div class="nav_category">
-				<img class="user_thumb" height="48" width="48" src="/profile/{{writer.profile}}" alt="{{writer.userId}}"/>
+				<img class="user_thumb round_image" height="48" width="48" src="/profile/{{writer.profile}}" alt="{{writer.userId}}"/>
 				<div class="nav_info">
 				    <a class="user_id" href="/user/{{writer.id}}/detail">
 				    	{{writer.userId}}
@@ -124,7 +124,7 @@
 	<ul id="comment_list" class="article_comment">
 	{{#each commentList}}
 	 	<li id="comment_{{id}}" class="comment_container">
-			<img class="comment_thumb" height="48" width="48" src="/profile/{{writer.profile}}" alt="javajigi">
+			<img class="comment_thumb round_image" height="48" width="48" src="/profile/{{writer.profile}}" alt="javajigi">
 			<div class="comment_info">
 	    		<a class="comment_user" href="/user/{{writer.id}}/detail">{{writer.userId}}</a>
 	  			<span class="comment_date">{{formattedWriteDate}}</span>
@@ -159,7 +159,7 @@
 {{#partial "script"}}
 	<script type="text/template" id="comment_template">
   <li id="comment_{0}" class="comment_container">
-  	<img class="comment_thumb minilogo" height="48" width="48" src="/profile/{6}" alt="javajigi">
+  	<img class="comment_thumb round_image" height="48" width="48" src="/profile/{6}" alt="javajigi">
   	<div class="comment_info">
   		<a class="comment_user" href="/user/{3}/detail">{4}</a>
   	  	<span class="comment_date">{2}</span>

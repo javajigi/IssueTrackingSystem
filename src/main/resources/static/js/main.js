@@ -90,7 +90,7 @@ function addComment(e) {
 			success: function(result) {
 				console.log(result);
 				var template = $("#comment_template").html();
-				var comment = template.format(result.id, result.contents, result.formattedWriteDate, result.writer.id, result.writer.userId, result.isMyComment);
+				var comment = template.format(result.id, result.contents, result.formattedWriteDate, result.writer.id, result.writer.userId, result.isMyComment, result.writer.profile);
 				$(".article_comment").append(comment);
 				$(".comment_new #contents").val('');
 			},

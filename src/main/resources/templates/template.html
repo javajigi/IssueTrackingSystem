@@ -43,7 +43,7 @@
                 <span class="user_name"><a class="user_name" href="/user/{{sessionedUser.id}}/modify">{{sessionedUser.name}} 님</a></span>
                 </div>   			
               <a href="/user/{{sessionedUser.id}}/modify">
-                <img class="user_thumb" height="32" width="32" src="/profile/{{writer.profile}}" alt="{{writer.userId}}"/>
+                <img class="user_thumb round_image" height="32" width="32" src="/profile/{{sessionedUser.profile}}" alt="{{sessionedUser.userId}}"/>
               </a>
               </div>
               {{/if}}

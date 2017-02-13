@@ -391,9 +391,6 @@ table {
 .card_thumb_wrap {
 	text-align: right;
 }
-.card_thumb_wrap .card_thumb {
-	width: 40px;
-}
 .card_writer .writer_by {
 	font-size: 14px;
 }
@@ -455,6 +452,15 @@ table {
 .milestone_description {
 	width: 100%;
 	color : #888;
+}
+
+.round_image {
+  //background-image: url('images/avatar.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 50%;
+  border-radius: 50%;
+  background-color: #F5F5F5;
 }
 
 .btn_comment_modify {
@@ -541,6 +547,9 @@ table {
 }
 .mdl-textfield.is-invalid .mdl-textfield__label:after {
     background-color: #CC2A41; 
+}
+
+
 
 @media screen and (min-width: 720px) {
 	.main_wrap {
