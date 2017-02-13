@@ -2,6 +2,8 @@ package infinitefire.project.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,8 +56,8 @@ public class MilestoneController {
 	}
 	
 	@GetMapping("/{id}/detail")
-	public String detail(@LoginUser User loginUser, @PathVariable Long id, Model model){
-		
+	public String detail(@LoginUser User loginUser, @PathVariable Long id, Model model, HttpServletRequest req){
+		log.debug("getContextPath : "+req.getHeader("REFERER"));
 		Milestone milestone = milestoneRepository.findOne(id);
 		model.addAttribute("milestone", milestone);
 		

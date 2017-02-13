@@ -7,6 +7,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import infinitefire.project.security.GetContextPathHandlerMethodArgumentResolver;
 import infinitefire.project.security.LoginUserHandlerMethodArgumentResolver;
 
 /*
@@ -19,6 +20,7 @@ public class ImsWebMvcConfig extends WebMvcConfigurerAdapter {
 	@Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(new LoginUserHandlerMethodArgumentResolver());
+        argumentResolvers.add(new GetContextPathHandlerMethodArgumentResolver());
     }
 	
 	@Override
