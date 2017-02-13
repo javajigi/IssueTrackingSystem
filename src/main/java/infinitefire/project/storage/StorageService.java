@@ -55,7 +55,6 @@ public class StorageService {
         	e.printStackTrace();
         }
         
-        log.info("basicDir : " + basicDir);
     }
 
     public void store(MultipartFile file, String newFileName, FileType type) {
@@ -86,13 +85,11 @@ public class StorageService {
     }
 
     public Resource loadAsResource(String filename, FileType type) {
-    	log.debug("filename : " + filename);
     	Resource resource = null;
     	
     	if (type.isProfile()) {
 	        try {
 	        	Path file = Paths.get(basicDir + profileDir + filename);
-	            log.debug("file: " + file);
 	            resource = new UrlResource(file.toUri());
 	            if(resource.exists() || resource.isReadable()) {
 	                return resource;
