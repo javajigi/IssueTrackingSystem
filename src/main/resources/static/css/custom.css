@@ -130,6 +130,10 @@ table {
   margin: 48px auto;
 }
 
+.main_wrap .issue_state_tab {
+	
+}
+
 .main_wrap .title_container {
 	position: relative;
 	padding-bottom: 16px;

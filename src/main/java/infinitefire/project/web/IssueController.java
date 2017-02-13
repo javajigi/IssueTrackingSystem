@@ -1,5 +1,6 @@
 package infinitefire.project.web;
 
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,6 +21,7 @@ import infinitefire.project.domain.Comment;
 import infinitefire.project.domain.CommentRepository;
 import infinitefire.project.domain.Issue;
 import infinitefire.project.domain.IssueRepository;
+import infinitefire.project.domain.IssueState;
 import infinitefire.project.domain.Label;
 import infinitefire.project.domain.LabelRepository;
 import infinitefire.project.domain.Milestone;
@@ -54,7 +56,13 @@ public class IssueController {
 	
 	@GetMapping("/")
 	public String index(@GetContextPath String getContextPath, Model model, HttpServletRequest request) {
-		model.addAttribute("issueList", issueRepository.findAll());
+		
+		List<Issue> issueList = issueRepository.findAll();
+		List<Issue> openedIssueList = issueRepository.findByState(IssueState.OPEN);
+		List<Issue> closedIssueList = issueRepository.findByState(IssueState.CLOSE);
+    model.addAttribute("issueList", issueList);
+		model.addAttribute("opendList", openedIssueList);
+		model.addAttribute("closedList", closedIssueList);
 		log.debug("GetContextPath : "+request.getHeader("REFERER"));
 		return "index";
 	}
