@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,7 +31,7 @@ import infinitefire.project.utils.HttpSessionUtils;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-	private static final Logger log = LoggerFactory.getLogger(UserController.class);	
+	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
 	private UserRepository userRepository;
@@ -95,6 +96,15 @@ public class UserController {
 			return "/user/login_error";
 		}
 		
+		//테스트용 배포시 삭제 예정 구문.
+		if(userId.equals("test") || userId.equals("test2") || userId.equals("test3")) {
+			log.debug("로그인 성공. inputId=" + userId + ", inputPw=" + password);
+			session.setAttribute(HttpSessionUtils.USER_SESSION_KEY, loginUser);
+
+			log.info("Session : " + session.getAttribute(HttpSessionUtils.USER_SESSION_KEY));
+			return "redirect:/";
+		}
+		
 		if (!loginUser.isMatchPassword(password)) {
 			log.debug("로그인 실패. 비밀번호를 확인해주세요.");
 			return "/user/login_error";
@@ -135,11 +145,11 @@ public class UserController {
 	}
 	
 	@GetMapping("/{id}/modify")
-	public String modifyPage(@LoginUser User loginUser, @PathVariable long id, Model model, HttpSession session) {
+	public String modifyPage(@LoginUser User loginUser, @PathVariable Long id, Model model) {
 		log.debug("/{id}/modify [{}] - modifyPage()", HttpMethod.GET);
 		if (!loginUser.isMatchId(id)) {
 			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
-			return "/user/login";
+			return "/user/login?error=true";
 		}
 		
 		User user = userRepository.findOne(id);
@@ -148,21 +158,19 @@ public class UserController {
 	}
 	
 	@PutMapping("/{id}/modify")
-	public String modify(@PathVariable Long id, User modifiedUser, @RequestParam("file") MultipartFile file, String newPassword, HttpSession session) {
-		log.debug("/user/{id}/modify [{}] - modify()", HttpMethod.PUT);
+	public String modify(@LoginUser User loginUser, @PathVariable Long id, User modifiedUser, @RequestParam("file") MultipartFile file, String newPassword) {
+		log.debug("/user/{id}/modify [{}] - modify() : "+modifiedUser, HttpMethod.PUT);
 		
-		User loginUser = HttpSessionUtils.getUserFromSession(session);
 		if (!loginUser.isMatchId(id)) {
 			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
-			return "/user/login";
+			return "/user/login?error=true";
 		}
-		if (!loginUser.isMatchPassword(modifiedUser.getPassword())) {	
+		if (!loginUser.isMatchPassword(modifiedUser)) {	
 			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
-			return "/user/login";
+			return "/user/login?error=true";
 		}
 		
-		if (!modifiedUser.isMatchPassword(newPassword))
-			modifiedUser.setPassword(newPassword);
+		modifiedUser.setPassword(newPassword);
 		
 		User user = userRepository.findOne(id);
 		String newFileName = user.getProfile();
@@ -174,14 +182,14 @@ public class UserController {
 			storageService.store(file, newFileName, FileType.PROFILE);
 		}
 		modifiedUser.setProfile(newFileName);
-		user.modify(modifiedUser);
-		userRepository.save(user);
+		//user.modify(modifiedUser);
+		userRepository.save(modifiedUser);
 		
 		return "redirect:/";
 	}
 	
 	@GetMapping("/{id}/delete")
-	public String delete(@LoginUser User loginUser, @PathVariable long id, Model model, HttpSession session) {
+	public String delete(@LoginUser User loginUser, @PathVariable long id, Model model) {
 		log.debug("/user/{id}/delete [{}] - delete()", HttpMethod.GET);
 		if (!loginUser.isMatchId(id)) {
 			log.debug("해당 유저를 탈퇴시킬 권한이 없습니다.");

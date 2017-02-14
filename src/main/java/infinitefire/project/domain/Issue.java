@@ -58,6 +58,10 @@ public class Issue {
 	private List<User> assigneeList;
 
 	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_issue_organization"))
+	private Organization organization;
+	
+	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_issue_milestone"))
 	private Milestone milestone;
 
@@ -158,6 +162,14 @@ public class Issue {
 
 	public void setCommentList(List<Comment> commentList) {
 		this.commentList = commentList;
+	}
+
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 
 	public Milestone getMilestone() {

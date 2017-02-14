@@ -7,11 +7,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -28,6 +30,10 @@ public class Label {
 	@Column(name = "color", nullable = false)
 	private LabelColor color;
 	
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_label_organization"))
+	private Organization organization;
+	
 	@JsonIgnore
 	@ManyToMany(mappedBy = "labelList")
 	private List<Issue> issueList;
@@ -36,8 +42,7 @@ public class Label {
 		
 	}
 	
-	public Label(long id, String name, LabelColor color, List<Issue> issueList) {
-		this.id = id;
+	public Label(String name, LabelColor color, List<Issue> issueList) {
 		this.name = name;
 		this.color = color;
 		this.issueList = issueList;
@@ -53,6 +58,14 @@ public class Label {
 
 	public String getColor() {
 		return color.getColorHex();
+	}
+
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 
 	public List<Issue> getIssueList() {

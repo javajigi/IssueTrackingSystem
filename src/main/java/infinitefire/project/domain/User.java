@@ -4,6 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,7 +25,7 @@ public class User {
 	private String name;
 	
 	@JsonIgnore
-	@Column(name = "password", length = 16, nullable = false)
+	@Column(name = "password", nullable = false)
 	private String password;
 
 	@Column(name = "profile")
@@ -32,16 +35,20 @@ public class User {
 	@Column(name = "state", nullable = false)
 	private UserState state;
 	
+	@Transient
+	private BCryptPasswordEncoder passwordEncoder;
+	
 	public User() {
 //		this.profileUrl = "none.jpg";
 		this.state = UserState.JOIN;
+		passwordEncoder = new BCryptPasswordEncoder();
 	}
 
 	public User(String userId, String name, String password, String profile, UserState userState) {
 		super();
 		this.userId = userId;
 		this.name = name;
-		this.password = password;
+		this.password = passwordEncoder.encode(password);
 		this.profile = profile;
 		this.state = UserState.JOIN;
 	}
@@ -54,8 +61,16 @@ public class User {
 		return inputId.equals(id);
 	}
 	
+	public boolean isMatchPassword(User user) {
+		return passwordEncoder.matches(user.getPassword(), this.password);
+	}
+	
 	public boolean isMatchPassword(String password) {
-		return this.password.equals(password);
+		return passwordEncoder.matches(password, this.password);
+	}
+	
+	public boolean isMatchPassword(String password, String userPassword) {
+		return passwordEncoder.matches(password, userPassword);
 	}
 	
 	public void modify(User modifiedUser) {
@@ -101,7 +116,7 @@ public class User {
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = passwordEncoder.encode(password);
 	}
 
 	public String getProfile() {
