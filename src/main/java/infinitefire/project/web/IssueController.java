@@ -1,5 +1,6 @@
 package infinitefire.project.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -80,11 +81,41 @@ public class IssueController {
 		return "issue/new";
 	}
 	@PostMapping("/issue/new")
-	public String createIssue(@LoginUser User loginUser, Issue newIssue) {
-		log.debug("Access >> /issue/new-Post : " + newIssue);	
+	public String createIssue(@LoginUser User loginUser, Issue issue,
+							  String assigneeList, String milestone, String labelList) {
+		try {
+			long id = Long.parseLong(milestone);
+			issue.setMilestone(milestoneRepository.findOne(id));
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} 
 		
-		newIssue.setWriter(loginUser);
-		issueRepository.save(newIssue);
+		try {
+			String[] assigneeIds = assigneeList.split(",");
+			List<User> assignees = new ArrayList<User>();
+			for(String strId : assigneeIds) {
+				long id = Long.parseLong(strId);
+				assignees.add(userRepository.findOne(id));
+				issue.setAssigneeList(assignees);
+			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		} 
+		
+		try {
+			String[] labelIds = assigneeList.split(",");
+			List<Label> labels = new ArrayList<Label>();
+			for(String strId : labelIds) {
+				long id = Long.parseLong(strId);
+				labels.add(labelRepository.findOne(id));
+				issue.setLabelList(labels);
+			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		} 
+		
+		issue.setWriter(loginUser);
+		issueRepository.save(issue);
 		return "redirect:/";
 	}
 
@@ -130,7 +161,7 @@ public class IssueController {
 
 	@GetMapping("/issue/{id}/detail")
 	public String showIssueDetail(@LoginUser User loginUser, @PathVariable Long id, HttpServletRequest req, Model model) {
-		log.debug("Access >> /issue/{" + id + "}/detail : --"+req.getHeader("REFERER"));
+		log.debug("Access >> /issue/{" + id + "}/detail : --"+req.getHeader("REFERER"));		
 		Issue issue = issueRepository.findOne(id);
 		model.addAttribute("issueInfo", issue);
 
@@ -145,7 +176,7 @@ public class IssueController {
 			if (comment.isMyComment(loginUser.getId()))
 				comment.setIsMyComment(true);
 		}
-
+		
 		log.debug("View Issue Property : " + issue);
 		return "issue/detail";
 	}
@@ -203,7 +234,6 @@ public class IssueController {
 		/* 권한 관리
 		 * 	*
 		 * 	*/
-		issue.setMilestone(milestone);
 		issueRepository.save(issue);
 		return milestone;
 	}

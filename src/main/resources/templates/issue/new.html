@@ -38,7 +38,7 @@
 	   					    </span>
 	   						{{#allUser}}
    						 	<input id="assignee_checkbox_{{id}}" class="nav_menu_input user_checkbox" 
-                     		   type="checkbox" data-id="{{id}}" data-userid="{{userId}}" data-profile="{{profile}}" name="checkbox">
+                     		   type="checkbox" data-id="{{id}}" data-userid="{{userId}}" data-profile="{{profile}}" value="{{id}}" name="assigneeList">
 	   						<label class="nav_menu_label ellipsize" for="assignee_checkbox_{{id}}">{{userId}}</label>
   							 <!-- 	<li class="add_assignee mdl-menu__item"
 		                     data-id="{{id}}" data-issue="{{../id}}">{{userId}}</li> -->
@@ -60,7 +60,7 @@
 	   					    </span>
 							{{#allMilestone}}
 							<input id="milestone_checkbox_{{id}}" class="nav_menu_input milestone_checkbox" 
-                     		   type="checkbox" data-id="{{id}}" data-subject="{{subject}}" name="checkbox">
+                     		   type="checkbox" data-id="{{id}}" data-subject="{{subject}}" value="{{id}}" name="milestone">
 	   						<label class="nav_menu_label ellipsize" for="milestone_checkbox_{{id}}">{{subject}}</label>
 <!-- 				 			<li class="set_milestone mdl-menu__item"
 				 				data-id={{id}} data-issue={{../id}}>{{subject}}</li> -->
@@ -82,7 +82,7 @@
 	   					    </span>
 							{{#allLabel}}
 								<input id="label_checkbox_{{id}}" class="nav_menu_input label_checkbox" 
-	                     		   type="checkbox" name="checkbox"  data-id="{{id}}" data-color="{{color}}" data-name="{{name}}">
+	                     		   type="checkbox" name="labelList"  data-id="{{id}}" data-color="{{color}}" data-name="{{name}}" value="{{id}}">
 		   						<label class="nav_menu_label ellipsize" for="label_checkbox_{{id}}">{{name}}</label>
 						 		<!-- <li class="add_label mdl-menu__item" data-id="{{id}}" data-issue="{{../id}}">{{name}}</li> -->
 						  	{{/allLabel}}
