@@ -108,6 +108,7 @@ table {
 	display: inline-block;
 	width: 100%;
 }
+
 .tab_container .tab_menu {
 	padding: 8px;
 	margin: 0 8px;
@@ -131,7 +132,10 @@ table {
 }
 
 .main_wrap .state_tab {
-	overflow: hidden;
+	position: absolute;
+	top: 0;
+	left: 160px;
+	min-width:160px;
 }
 .state_tab .current_state {
 	float: left;
@@ -164,7 +168,7 @@ table {
 }
 
 .main_wrap .title {
-	float:left;
+	display:inline-block;
 	padding: 8px 16px 8px 40px;
 	font-size: 24px;
 	color: #888;
@@ -246,6 +250,7 @@ table {
 }
 
 .main_wrap .article_container {
+	position:relative;
 	padding: 0 16px;
 }
 
@@ -261,8 +266,9 @@ table {
 .article_container .label {
 	display: block;
 }
-.article_container .contents {
+.article_container .contents {	
 	display: block;
+	max-height: 450px;
 	padding: 8px;
 	color: #333;
 	font-size: 20px;
@@ -271,12 +277,14 @@ table {
 .article_container .article {
 	float: left;
 	width: 100%;
-	padding: 16px 16px 16px 0;
+	margin: 16px 0;
+	padding-right: 16px;
 }
 
 .article_container .navigation {
 	float: left;
 	width: 100%;
+	height: 100%;
 	margin: 16px 0;
 	padding-left: 16px;
 	border-top: 1px solid rgba(0,0,0,.1);
@@ -290,6 +298,7 @@ table {
 
 .navigation .nav_category {
 	position: relative;
+	min-height: 90px;
 	padding: 8px 0;
 }
 
@@ -355,6 +364,38 @@ table {
 	color: #fff;
 }
 
+.nav_category .nav_menu_hr {
+	margin: 6px 4px;
+}
+
+.nav_category .new_issue_nav {
+	position:relative;
+	padding-top: 24px;
+}
+.new_issue_nav .close_nav_menu {
+	content: '';
+	position: absolute;
+	top: 4px;
+	right: 4px;
+	color: #888;
+}
+.new_issue_nav .close_nav_menu:hover {
+	color: #ccc;
+}
+/* .new_issue_nav .nav_menu_input {
+	float:left;
+	width: 20%;
+	margin: 0;
+	height: 32px;
+} */
+.new_issue_nav .nav_menu_label {
+	float:left;
+	width: 100%;
+	height: 32px;
+	line-height: 32px;
+
+}
+
 .main_wrap .article_comment {
 	background-color: #EEE;
 	padding: 16px;
@@ -412,8 +453,6 @@ table {
 	position: relative;
 	padding: 4px 64px 0 16px;
 }
-
-
 
 .card_thumb_wrap {
 	text-align: right;
@@ -551,7 +590,6 @@ table {
 	color: #fff;
 }
 
-
 /* toggle button */
 .lbl {
   position: relative;
@@ -596,8 +634,81 @@ table {
 
 .hidden { display: none; }
 
+/* checkbox */
+/* Base for label styling */
+.nav_menu_input:not(:checked),
+.nav_menu_input:checked {
+  position: absolute;
+  left: -9999px;
+}
+.nav_menu_input:not(:checked) + label,
+.nav_menu_input:checked + label {
+  position: relative;
+  padding: 0 8px 0 40px;
+  cursor: pointer;
+}
+
+/* checkbox aspect */
+.nav_menu_input:not(:checked) + label:before,
+.nav_menu_input:checked + label:before {
+  content: '';
+  position: absolute;
+  left: 8px; top: 4px;
+  width: 1.25em; height: 1.25em;
+  border: 2px solid #ccc;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+}
+/* checked mark aspect */
+.nav_menu_input:not(:checked) + label:after,
+.nav_menu_input:checked + label:after {
+  content: '✔';
+  position: absolute;
+  top: 8px; left: 12px;
+  font-size: 1.3em;
+  line-height: 0.8;
+  color: #09ad7e;
+  transition: all .2s;
+}
+/* checked mark aspect changes */
+.nav_menu_input:not(:checked) + label:after {
+  opacity: 0;
+  transform: scale(0);
+}
+.nav_menu_input:checked + label:after {
+  opacity: 1;
+  transform: scale(1);
+}
+/* disabled checkbox */
+.nav_menu_input:disabled:not(:checked) + label:before,
+.nav_menu_input:disabled:checked + label:before {
+  box-shadow: none;
+  border-color: #bbb;
+  background-color: #ddd;
+}
+.nav_menu_input:disabled:checked + label:after {
+  color: #999;
+}
+.nav_menu_input:disabled + label {
+  color: #aaa;
+}
+/* accessibility */
+.nav_menu_input:checked:focus + label:before,
+.nav_menu_input:not(:checked):focus + label:before {
+  border: 2px solid #09ad7e;
+}
+
+/* hover style just for information */
+label:hover:before {
+  border: 2px solid #4778d9!important;
+}
 
 /* overlap */
+textarea.mdl-textfield__input {
+	height: 300px;
+	max-height: 600px;
+}
 
 .mdl-layout__header {
     min-height: 48px;
@@ -620,6 +731,13 @@ table {
 }
 .mdl-textfield.is-invalid .mdl-textfield__label:after {
     background-color: #CC2A41; 
+}
+
+.mdl-menu__outline {
+	border-radius: 8px;
+}
+.nav_category .mdl-menu__container {
+	min-width: 180px;
 }
 
 .mdl-button--file input{
