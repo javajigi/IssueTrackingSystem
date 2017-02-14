@@ -55,6 +55,15 @@ public class Organization {
 	private List<Milestone> milestoneList;
 	
 	@JsonIgnore
+	@OneToMany(mappedBy = "organization")
+	private List<Issue> issueList;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "organizaion")
+	private List<Label> labelList;
+	
+	
+	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
 	private List<User> asigneeList;
 
@@ -125,6 +134,22 @@ public class Organization {
 		this.asigneeList = asigneeList;
 	}
 	
+	public List<Issue> getIssueList() {
+		return issueList;
+	}
+
+	public void setIssueList(List<Issue> issueList) {
+		this.issueList = issueList;
+	}
+
+	public List<Label> getLabelList() {
+		return labelList;
+	}
+
+	public void setLabelList(List<Label> labelList) {
+		this.labelList = labelList;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
