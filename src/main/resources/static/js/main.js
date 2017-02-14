@@ -329,3 +329,12 @@ String.prototype.format = function() {
 	        ;
 	  });
 };
+
+
+function addNewAssignee(e) {
+	var template = $("#comment_template").html();
+	var comment = template.format(result.id, result.contents, result.formattedWriteDate, result.writer.id, result.writer.userId, result.isMyComment, result.writer.profile, result.isAttachmentExist, result.attachment);
+	$(".article_comment").append(comment);
+	$(".comment_new #contents").val('');
+	$("#file").val('');
+}

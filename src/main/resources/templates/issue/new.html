@@ -17,18 +17,117 @@
 					<label class="mdl-textfield__label" for="subject">Subject</label>
 				</div>
 	    	</div>
-		    <div class="article_container">
-				<div class="mdl-textfield mdl-js-textfield">
-					<textarea class="mdl-textfield__input" rows= "10" id="contents" name="contents" required></textarea>
-					<label class="mdl-textfield__label" for="contents">Contents</label>
+		    <div class="article_container clearfix">
+		    	<div class="article">
+					<div class="mdl-textfield mdl-js-textfield">
+						<textarea class="mdl-textfield__input" rows= "10" id="contents" name="contents" required></textarea>
+						<label class="mdl-textfield__label" for="contents">Contents</label>
+					</div>
 				</div>
-				<div class="article_submit">
-					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">Submit</button>
+				<div class="navigation">
+			      	<div class="nav_category">
+				      	<div class="nav_title">Assignee</div>
+				       	<button id="btn_add_assignee"
+						        class="btn_menu mdl-button mdl-js-button mdl-button--icon" type="button">
+					        <i class="material-icons">record_voice_over</i>
+					    </button>
+	   					<div class="new_issue_nav mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect clearfix"
+	   					    for="btn_add_assignee">
+	   					    <span class="close_nav_menu">
+	   					    	<a href="#"><i class="material-icons">close</i></a>
+	   					    </span>
+	   						{{#allUser}}
+   						 	<input id="assignee_checkbox_{{id}}" class="nav_menu_input user_checkbox" 
+                     		   type="checkbox" data-id="{{id}}" data-userid="{{userId}}" data-profile="{{profile}}" name="checkbox">
+	   						<label class="nav_menu_label ellipsize" for="assignee_checkbox_{{id}}">{{userId}}</label>
+  							 <!-- 	<li class="add_assignee mdl-menu__item"
+		                     data-id="{{id}}" data-issue="{{../id}}">{{userId}}</li> -->
+	   					  	{{/allUser}}
+	   					</div>
+			             <ul id="assignee_list">			     			
+			             </ul>
+      				</div>
+			      	<div id="milestone_category" class="nav_category">
+			      		<div class="nav_title">Milestone</div>
+				      	<button id="btn_add_milestone"
+						        class="btn_menu mdl-button mdl-js-button mdl-button--icon" type="button">
+							<i class="material-icons">settings</i>
+						</button>
+						<div class="new_issue_nav mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect clearfix"
+	   					    for="btn_add_milestone">
+	   					    <span class="close_nav_menu">
+	   					    	<a href="#"><i class="material-icons">close</i></a>
+	   					    </span>
+							{{#allMilestone}}
+							<input id="milestone_checkbox_{{id}}" class="nav_menu_input milestone_checkbox" 
+                     		   type="checkbox" data-id="{{id}}" data-subject="{{subject}}" name="checkbox">
+	   						<label class="nav_menu_label ellipsize" for="milestone_checkbox_{{id}}">{{subject}}</label>
+<!-- 				 			<li class="set_milestone mdl-menu__item"
+				 				data-id={{id}} data-issue={{../id}}>{{subject}}</li> -->
+				  			{{/allMilestone}}
+						</div>
+						<span class="milestone_wrap">
+						</span>
+	      			</div>
+			      	<div class="nav_category">
+			      		<div class="nav_title">Label</div>
+						<button id="btn_add_label"
+					    	    class="btn_menu mdl-button mdl-js-button mdl-button--icon" type="button">
+					  		<i class="material-icons">local_offer</i>
+						</button>
+						<div class="new_issue_nav mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect clearfix"
+	   					    for="btn_add_label">
+	   					    <span class="close_nav_menu">
+	   					    	<a href="#"><i class="material-icons">close</i></a>
+	   					    </span>
+							{{#allLabel}}
+								<input id="label_checkbox_{{id}}" class="nav_menu_input label_checkbox" 
+	                     		   type="checkbox" name="checkbox"  data-id="{{id}}" data-color="{{color}}" data-name="{{name}}">
+		   						<label class="nav_menu_label ellipsize" for="label_checkbox_{{id}}">{{name}}</label>
+						 		<!-- <li class="add_label mdl-menu__item" data-id="{{id}}" data-issue="{{../id}}">{{name}}</li> -->
+						  	{{/allLabel}}
+						</div>
+						<ul id="label_list">
+						</ul>
+			      	</div>
 				</div>
+				
+			</div>
+			<div class="article_submit">
+				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">Submit</button>
 			</div>
 		</form>
 	</div>
 </div>
+{{/partial}}
+{{#partial "script"}}
+	<script src="/js/issue_new.js"></script>
+	<script type="text/template" id="asignee_item">
+  <li id="assignee_{0}" class="assignee mdl-chip mdl-chip--contact mdl-chip--deletable" data-id="{0}">
+    <img class="mdl-chip__contact" src="/profile/{2}"></img>
+    <span class="mdl-chip__text">{1}</span>
+    <a class="delete_assignee mdl-chip__action" data-id="{0}">
+      <i class="material-icons">cancel</i>
+    </a>
+  </li>
+	</script>
+	<script type="text/template" id="label_item">
+	<li id="label_{0}" class="label_tag mdl-chip mdl-chip--deletable" style="background-color:{1}">
+    	<span class="mdl-chip__text">{2}</span>
+    	<button type="button" class="delete_label mdl-chip__action" data-id="{0}">
+    		<i class="material-icons">cancel</i>
+   		</button>
+	</li>
+	</script>
+	<script type="text/template" id="milestone_item">
+		<a id="milestone" class="milestone_link mdl-chip" href="/milestone/{0}/detail">
+	    	<span class="mdl-chip__text">{1}</span>
+		</a>
+		<button type="button" class="btn_milestone_delete mdl-chip__action"
+				data-id="{0}">
+			<i class="material-icons">cancel</i>
+		</button>
+	</script>
 {{/partial}}
 
 {{> template}}

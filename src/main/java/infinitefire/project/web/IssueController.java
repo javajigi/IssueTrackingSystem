@@ -72,15 +72,17 @@ public class IssueController {
 	}
 
 	@GetMapping("/issue/new")
-	public String createIssueForm(@LoginUser User loginUser) {
+	public String createIssueForm(@LoginUser User loginUser,  Model model) {
 		log.debug("Access >> /issue/new-Get");
-
+		model.addAttribute("allLabel", labelRepository.findAll());
+		model.addAttribute("allUser", userRepository.findAll());
+		model.addAttribute("allMilestone", milestoneRepository.findAll());
 		return "issue/new";
 	}
 	@PostMapping("/issue/new")
 	public String createIssue(@LoginUser User loginUser, Issue newIssue) {
-		log.debug("Access >> /issue/new-Post : " + newIssue);
-
+		log.debug("Access >> /issue/new-Post : " + newIssue);	
+		
 		newIssue.setWriter(loginUser);
 		issueRepository.save(newIssue);
 		return "redirect:/";
