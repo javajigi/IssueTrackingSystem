@@ -59,7 +59,7 @@ public class Organization {
 	private List<Issue> issueList;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "organizaion")
+	@OneToMany(mappedBy = "organization")
 	private List<Label> labelList;
 	
 	
