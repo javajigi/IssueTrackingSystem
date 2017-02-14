@@ -81,8 +81,10 @@ function addComment(e) {
 			dataType:"json",
 			success: function(result) {
 				console.log(result);
-				var template = $("#comment_template").html();
-				var comment = template.format(result.id, result.contents, result.formattedWriteDate, result.writer.id, result.writer.userId, result.isMyComment, result.writer.profile, result.isAttachmentExist, result.attachment);
+				//precompile된 템플릿을 가져온다
+				var temp = Handlebars.templates['precompile/comment_template'];
+				//result로 받은 JSON데이터를 템플릿에 적용, 템플릿을 원하는 부분에 append시켜준다.
+				var comment = temp(result);
 				$(".article_comment").append(comment);
 				$(".comment_new #contents").val('');
 				$("#file").val('');

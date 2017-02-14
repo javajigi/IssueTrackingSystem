@@ -1,0 +1,16 @@
+<li id="comment_{{id}}" class="comment_container">
+  	<img class="comment_thumb round_image" height="48" width="48" src="/profile/{{writer.profile}}" alt="javajigi">
+  	<div class="comment_info">
+  		<a class="comment_user" href="/user/{{writer.id}}/detail">{{writer.userId}}</a>
+  	  	<span class="comment_date">{{formattedWriteDate}}</span>
+  		{{#if isMyComment}}
+  		 	<a id="btn_comment_modify" class="btn_comment_modify" data-id="{{id}}">수정</a>
+  		    <a id="btn_comment_delete" class="btn_comment_delete" data-id="{{id}}">삭제</a>
+  		{{/if}}
+  		<pre id="comment_contents_{{id}}" class="comment_contents">{{contents}}</pre>
+		{{#if isAttachmentExist}}
+			<a class="comment_attachment" href="/attachment/{{attachment}}">첨부파일 다운</a>
+		{{/if}}
+   	</div>
+  	<hr>
+</li>

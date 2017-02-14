@@ -173,26 +173,6 @@
 {{/issueInfo}}
 {{/partial}}
 {{#partial "script"}}
-	<script type="text/template" id="comment_template">
-  <li id="comment_{0}" class="comment_container">
-  	<img class="comment_thumb round_image" height="48" width="48" src="/profile/{6}" alt="javajigi">
-  	<div class="comment_info">
-  		<a class="comment_user" href="/user/{3}/detail">{4}</a>
-  	  	<span class="comment_date">{2}</span>
-  		{{#if 5}}
-  		 	<a id="btn_comment_modify" class="btn_comment_modify" data-id="{0}">수정</a>
-  		    <a id="btn_comment_delete" class="btn_comment_delete" data-id="{0}">삭제</a>
-  		{{/if}}
-  		<pre id="comment_contents_{0}" class="comment_contents">{1}</pre>
-		{{#if 7}}
-			<a class="comment_attachment" href="/attachment/{{attachment}}">첨부파일 다운</a>
-		{{else}}
-			파일없음
-		{{/if}}
-   	</div>
-  	<hr>
-  </li>
-	</script>
 	<script type="text/template" id="comment_input_template">
   	<div id="comment_input" class="comment_input_wrap" data-id="{0}">
   		<textarea class="comment_input">{1}</textarea>
@@ -237,9 +217,8 @@
       <p>{{contents}}</p>
 	</div>
 	</script>
-	<script>
-	    	//var source = $("#test-template").html();
-	    	//var template = Handlebars.compile(source);
+	<script type="text/javascript">
+	    	
 	</script>
 {{/partial}}
 
