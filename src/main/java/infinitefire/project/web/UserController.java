@@ -140,7 +140,7 @@ public class UserController {
 		log.debug("/{id}/modify [{}] - modifyPage()", HttpMethod.GET);
 		if (!loginUser.isMatchId(id)) {
 			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
-			return "/user/login";
+			return "/user/login?error=true";
 		}
 		
 		User user = userRepository.findOne(id);

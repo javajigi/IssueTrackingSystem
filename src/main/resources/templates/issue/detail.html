@@ -184,8 +184,10 @@
   		    <a id="btn_comment_delete" class="btn_comment_delete" data-id="{0}">삭제</a>
   		{{/if}}
   		<pre id="comment_contents_{0}" class="comment_contents">{1}</pre>
-		{{#if isAttachmentExist}}
+		{{#if 7}}
 			<a class="comment_attachment" href="/attachment/{{attachment}}">첨부파일 다운</a>
+		{{else}}
+			파일없음
 		{{/if}}
    	</div>
   	<hr>
