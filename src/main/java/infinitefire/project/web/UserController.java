@@ -96,6 +96,15 @@ public class UserController {
 			return "/user/login_error";
 		}
 		
+		//테스트용 배포시 삭제 예정 구문.
+		if(userId.equals("test") || userId.equals("test2") || userId.equals("test3")) {
+			log.debug("로그인 성공. inputId=" + userId + ", inputPw=" + password);
+			session.setAttribute(HttpSessionUtils.USER_SESSION_KEY, loginUser);
+
+			log.info("Session : " + session.getAttribute(HttpSessionUtils.USER_SESSION_KEY));
+			return "redirect:/";
+		}
+		
 		if (!loginUser.isMatchPassword(password)) {
 			log.debug("로그인 실패. 비밀번호를 확인해주세요.");
 			return "/user/login_error";
