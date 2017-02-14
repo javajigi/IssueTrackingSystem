@@ -77,7 +77,7 @@ public class IssueController {
 		} 
 		
 		try {
-			String[] labelIds = assigneeList.split(",");
+			String[] labelIds = labelList.split(",");
 			List<Label> labels = new ArrayList<Label>();
 			for(String strId : labelIds) {
 				long id = Long.parseLong(strId);
