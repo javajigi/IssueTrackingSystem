@@ -57,14 +57,18 @@ public class IssueController {
 	}
 	
 	@GetMapping("/")
-	public String index(@GetContextPath String getContextPath, Model model, HttpServletRequest request) {
-		
-		List<Issue> issueList = issueRepository.findAll();
-		List<Issue> openedIssueList = issueRepository.findByState(IssueState.OPEN);
-		List<Issue> closedIssueList = issueRepository.findByState(IssueState.CLOSE);
+	public String index(@GetContextPath String getContextPath, 
+						@RequestParam(value="state",  defaultValue = "OPEN") IssueState state, 
+						Model model, HttpServletRequest request) {
+		List<Issue> issueList;
+		if(state.equals(IssueState.OPEN)){
+			issueList = issueRepository.findByState(IssueState.OPEN);
+			model.addAttribute("isOpen", true);
+		} else {
+			issueList = issueRepository.findByState(IssueState.CLOSE);
+			model.addAttribute("isClose", false);
+		}
 		model.addAttribute("issueList", issueList);
-		model.addAttribute("opendList", openedIssueList);
-		model.addAttribute("closedList", closedIssueList);
 		log.debug("GetContextPath : "+request.getHeader("REFERER"));
 		return "index";
 	}

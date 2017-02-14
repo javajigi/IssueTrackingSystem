@@ -1,6 +1,6 @@
 $(function() {
 	$('.add-comment-btn').click(addComment);
-	$('.mdl-switch__input').bind("change", modifyIssueState);
+	$('#issueList').delegate('.cbx', 'change', modifyIssueState);
 	$('#comment_list').delegate('#btn_comment_modify', 'click', openCommentForm);
 	$('#comment_list').delegate('#btn_comment_delete', 'click', deleteComment);
 	$('#comment_list').delegate('#btn_comment_complete', 'click', modifyComment);
@@ -99,16 +99,26 @@ function addComment(e) {
 
 function modifyIssueState(e) {
 	e.preventDefault();
-	var isChecked = $(this).is(":checked");
-	var url = '/issue/' + $(this).val() + '/modifyState';
+	$(this).next().css( 'pointer-events', 'none' );
+	var toggle = $(this);
+	var isChecked = toggle.is(":checked");
+	var url = '/issue/' + toggle.val() + '/modifyState';
 	$.ajax({
 		type: 'post',
 		url: url,
 		data: {'check' : isChecked},
 		dataType:"json",
 		success: function(result) {
-			$('.nav_category .state').html(result.state);
-
+//			$('.nav_category .state').html(result.state);
+			$("#card_item_" + result.id).delay(500).fadeOut("slow");	
+//			$("#state_open_tab").child().addClass
+			/*var template = $("#issue_item").html();
+			var issue_item = template.format(result.id, result.subject, result.contents, result.writer.id, result.writer.profile, result.writer.userId, result.stateCheck);
+			if(result.state === "OPEN"){
+				$("#open_issues ul").append(issue_item);
+			} else {
+				$("#close_issues ul").append(issue_item);				
+			}			*/
 		},
 		error: function(error) {
 			console.log('fail-RequestData');
