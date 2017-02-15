@@ -85,6 +85,7 @@ public class Comment {
 
 	public void setIssue(Issue issue) {
 		this.issue = issue;
+		issue.incCountComment();
 	}
 
 	public User getWriter() {
@@ -117,6 +118,10 @@ public class Comment {
 	
 	public boolean getIsAttachmentExist() {
 		return isAttachmentExist;
+	}
+	
+	public void decDelete(){
+		this.issue.decCountComment();
 	}
 	
 	@Override

@@ -70,6 +70,10 @@ public class Issue {
 	private List<Comment> commentList;
 
 	@JsonIgnore
+	@Column(name = "countComment", columnDefinition = "Decimal(10) default '0'")
+	private int countComment;
+	
+	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "ISSUE_LABEL", joinColumns = { @JoinColumn(name = "ISSUE_ID") }, inverseJoinColumns = { @JoinColumn(name = "LABEL_ID") })
 	private List<Label> labelList;
@@ -77,10 +81,13 @@ public class Issue {
 	public Issue() {
 		this.state = IssueState.OPEN;
 		this.writeDate = new Date();
+		if(commentList != null)
+			countComment = commentList.size();
 	}
 
 	public Issue(String subject, String contents, User writer, int label, IssueState state, 
-			List<User> assigneeList, List<Label> labelList, Milestone milestone, List<Comment> commentList) {
+			List<User> assigneeList, List<Label> labelList, Milestone milestone, List<Comment> commentList,
+			int countComment) {
 		super();
 		this.subject = subject;
 		this.contents = contents;
@@ -90,7 +97,7 @@ public class Issue {
 		this.milestone = milestone;
 		this.labelList = labelList;
 		this.commentList = commentList;
-		//this.writeDate = new Date();
+		this.countComment = countComment;
 	}
 
 	public Long getId() {
@@ -164,6 +171,14 @@ public class Issue {
 		this.commentList = commentList;
 	}
 
+	public int getCountComment() {
+		return countComment;
+	}
+
+	public void setCountComment() {
+		this.countComment = commentList.size();
+	}
+
 	public Organization getOrganization() {
 		return organization;
 	}
@@ -224,6 +239,14 @@ public class Issue {
 		
 		return labelList.remove(label);
 	}
+
+	public void incCountComment() {
+		this.countComment++;
+	}
+	
+	public void decCountComment() {
+		this.countComment--;
+	}
 	
 	@Override
 	public int hashCode() {
@@ -254,7 +277,7 @@ public class Issue {
 	public String toString() {
 		String str = "Issue [id=" + id + ", subject=" + subject + ", contents=" + contents + ", writeDate=" + writeDate
 				+ ", writer=" + writer + ", label=" + ", state=" + state+"\n";
-		str += "-------------------CommentList----------------------------\n";
+		str += "-------------------CommentList, count="+countComment+"----------------------------\n";
 		if (commentList != null) {
 			for (Comment comment : commentList) {
 				str += comment + "\n";

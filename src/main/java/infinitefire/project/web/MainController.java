@@ -45,7 +45,7 @@ public class MainController {
 			model.addAttribute("isClose", false);
 		}
 		model.addAttribute("issueList", issueList);
-		log.debug("GetContextPath : "+request.getHeader("REFERER"));
+		log.debug("issueList : "+issueList);
 		return "index";
 	}
 }
