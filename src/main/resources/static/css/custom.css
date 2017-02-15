@@ -210,9 +210,9 @@ table {
 }
 
 .main_wrap .btn_add {
-	position: absolute;
-	top: 0;
-	right: 16px;
+	position: fixed;
+	bottom: 72px;
+	right: 32px;
 	background-color: #E84A5F;
 	color: #fff;
 }
@@ -851,9 +851,16 @@ label:hover:before {
 	.main_wrap {
 		max-width: 640px;
 	}
+	.main_wrap .btn_add {
+		position: absolute;
+		top: 0;
+		bottom: auto;
+		right: 16px;
+	}
 	.user_wrap {
 		max-width: 480px;
 	}
+	
 }
 @media screen and (min-width: 1080px) {
 	.main_wrap {

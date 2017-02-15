@@ -19,10 +19,7 @@
 					<a class="current_state is-checked" href="/issue/list?state=CLOSE">CLOSE</a>
 				</li>
 			{{/if}}
-		</ul>
-		<a class="btn_add mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect" href="/issue/new">
-		  <i class="material-icons">add</i>
-		</a>
+		</ul>		
 	</div>
 	<ul id="issueList" class="masonry clearfix">
 		{{#issueList}}
@@ -52,6 +49,9 @@
 		</li>
 		{{/issueList}}
 	</ul>
+	<a class="btn_add mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect" href="/issue/new">
+  		<i class="material-icons">add</i>
+	</a>
 </div>
 {{/partial}}
 {{#partial "script"}}

@@ -55,26 +55,6 @@
 	<div class="title_container">
 		<i class="title_icon material-icons">bookmark_border</i>	
 		<h2 class="title">Organization</h2>소팅메뉴/내그룹리스트/전체그룹리스트
-		<ul class="state_tab clearfix">
-			<!-- {{#if isOpen}}
-				<li id="state_open_tab">
-					<a class="current_state is-checked" href="/?state=OPEN">OPEN</a>
-				</li>
-				<li id="state_close_tab">
-					<a class="current_state" href="/?state=CLOSE">CLOSE</a>
-				</li>
-			{{else}}
-				<li id="state_open_tab">
-					<a class="current_state" href="/?state=OPEN">OPEN</a>
-				</li>
-				<li id="state_close_tab">
-					<a class="current_state is-checked" href="/?state=CLOSE">CLOSE</a>
-				</li>
-			{{/if}} -->
-		</ul>
-		<a class="btn_add mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect" href="/group/new">
-		  <i class="material-icons">add</i>
-		</a>
 	</div><hr>
 	<div>
 		<h3 class="title">MyOrganization</h3>
@@ -114,6 +94,9 @@
 		</li>
 		{{/groupList}}
 	</ul>
+	<a class="btn_add mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect" href="/group/new">
+  		<i class="material-icons">add</i>
+	</a>
 </div>
 {{/partial}}
 {{> template}}
