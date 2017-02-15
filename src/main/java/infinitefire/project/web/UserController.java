@@ -158,18 +158,19 @@ public class UserController {
 	}
 	
 	@PutMapping("/{id}/modify")
-	public String modify(@LoginUser User loginUser, @PathVariable Long id, User modifiedUser, @RequestParam("file") MultipartFile file, String newPassword) {
-		log.debug("/user/{id}/modify [{}] - modify() : "+modifiedUser, HttpMethod.PUT);
-		
+	public String modify(@LoginUser User loginUser, String password, @PathVariable Long id, User modifiedUser, @RequestParam("file") MultipartFile file, String newPassword) {
+		log.debug("/user/{id}/modify [{}] - modify() : " + modifiedUser, HttpMethod.PUT);
 		if (!loginUser.isMatchId(id)) {
 			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
 			return "/user/login?error=true";
 		}
-		if (!loginUser.isMatchPassword(modifiedUser)) {	
-			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
+		log.debug("Login User : " + loginUser);
+		modifiedUser.setUserId(loginUser.getUserId());
+		log.debug("Modifed User : " + modifiedUser);
+		if (!loginUser.isMatchPassword(password)) {	
+			log.debug("해당 유저의 정보를 수정할 권한이 없습니다2222.");
 			return "/user/login?error=true";
 		}
-		
 		modifiedUser.setPassword(newPassword);
 		
 		User user = userRepository.findOne(id);

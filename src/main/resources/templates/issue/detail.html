@@ -159,12 +159,13 @@
 		  <textarea class="mdl-textfield__input" id="contents" name="contents" rows=3 required></textarea>
 		  <label for="contents" class="mdl-textfield__label">Leave a comment</label>
 		</div>
-		<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-			  <input class="mdl-textfield__input" type="file" id="file" name="file" accept=".txt,.html,.js,.zip">
-			  <label class="blind_contents mdl-textfield__label" for="file">Attachment</label>
-			  <label style="font-size:12px;">TXT, HTML, JS, ZIP 형식의 파일만 업로드 할 수 있습니다.</label>
+		<div class="mdl-textfield mdl-js-textfield mdl-textfield--file">
+		  <input class="mdl-textfield__input" placeholder="File" type="text" id="fileText" name="fileText" readonly/>
+		  <div class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
+		    <i class="material-icons">attach_file</i><input type="file" id="file" name="file" accept=".txt,.html,.js,.zip">
+		  </div>
+		  <label style="font-size:15px;">PNG, JPG 형식의 파일만 업로드 할 수 있습니다.</label>
 		</div>
-		
 		<a class="btn_comment_complete add-comment-btn mdl-js-button mdl-js-ripple-effect mdl-button--icon">
 			<i class="material-icons" role="presentation">check</i><span class="visuallyhidden">add comment</span>
 		</a>

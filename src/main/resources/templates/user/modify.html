@@ -24,14 +24,16 @@
 			  <input class="mdl-textfield__input" type="password" id="newPassword" name="newPassword" required>
 			  <label class="mdl-textfield__label" for="password">New Password</label>
 			</div>
-			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-			  <input class="mdl-textfield__input" type="file" id="file" name="file" accept=".png,.jpg">
-			  <label class="blind_contents mdl-textfield__label" for="file">Profile Image</label>
-			  <label style="font-size:12px;">PNG, JPG 형식의 파일만 업로드 할 수 있습니다.</label>
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--file">
+			  <input class="mdl-textfield__input" placeholder="File" type="text" id="fileText" name="fileText" readonly/>
+			  <div class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
+			    <i class="material-icons">attach_file</i><input type="file" id="file" name="file" accept=".png,.jpg">
+			  </div>
+			  <label style="font-size:15px;">PNG, JPG 형식의 파일만 업로드 할 수 있습니다.</label>
 			</div>
 	    </div>
 	    <div class="article_submit">
-			<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">modify</button>
+			<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="btnSubmit" type="submit">modify</button>
 	    </div>
     </form>
 	{{/user}}
