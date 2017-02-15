@@ -24,6 +24,7 @@ import javax.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import infinitefire.project.utils.DateTimeUtils;
+import infinitefire.project.utils.RegularExpressionUtils;
 
 @Entity
 public class Issue {
@@ -114,7 +115,7 @@ public class Issue {
 	}
 
 	public void setSubject(String subject) {
-		this.subject = subject;
+		this.subject = RegularExpressionUtils.convertString(subject);
 	}
 
 	public String getContents() {
@@ -285,7 +286,7 @@ public class Issue {
 		//                    + calendar.get(Calendar.AM_PM) + " " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + String.format("%02d", calendar.get(Calendar.MINUTE));
 		//        }
 	}
-
+	
 	public void incCountComment() {
 		this.countComment++;
 	}
