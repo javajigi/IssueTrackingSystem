@@ -13,8 +13,6 @@ INSERT INTO issue (id, contents, state, subject, write_date, writer_id, mileston
 INSERT INTO issue (id, contents, state, subject, write_date, writer_id, milestone_id) VALUES (3, 'third issue contents', 'CLOSE', 'third issue', CURRENT_TIMESTAMP(), 1, 5);
 INSERT INTO issue (id, contents, state, subject, write_date, writer_id, milestone_id) VALUES (4, 'fourth issue contents', 'OPEN', 'fourth issue', CURRENT_TIMESTAMP(), 3, 3);
 
-INSERT INTO comment (id, contents, write_date, issue_id, writer_id) VALUES (1, 'hi', CURRENT_TIMESTAMP(), 1, 2);
-
 INSERT INTO label (id, name, color) VALUES (1, 'TASK', 'TASK');
 INSERT INTO label (id, name, color) VALUES (2, 'ENHANCEMENT', 'ENHANCEMENT');
 INSERT INTO label (id, name, color) VALUES (3, 'PROPOSAL', 'PROPOSAL');
