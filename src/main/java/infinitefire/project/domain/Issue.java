@@ -71,6 +71,10 @@ public class Issue {
 	private List<Comment> commentList;
 
 	@JsonIgnore
+	@Column(name = "countComment", columnDefinition = "Decimal(10) default '0'")
+	private int countComment;
+	
+	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "ISSUE_LABEL", joinColumns = { @JoinColumn(name = "ISSUE_ID") }, inverseJoinColumns = { @JoinColumn(name = "LABEL_ID") })
 	private List<Label> labelList;
@@ -78,10 +82,13 @@ public class Issue {
 	public Issue() {
 		this.state = IssueState.OPEN;
 		this.writeDate = new Date();
+		if(commentList != null)
+			countComment = commentList.size();
 	}
 
 	public Issue(String subject, String contents, User writer, int label, IssueState state, 
-			List<User> assigneeList, List<Label> labelList, Milestone milestone, List<Comment> commentList) {
+			List<User> assigneeList, List<Label> labelList, Milestone milestone, List<Comment> commentList,
+			int countComment) {
 		super();
 		this.subject = subject;
 		this.contents = contents;
@@ -91,7 +98,7 @@ public class Issue {
 		this.milestone = milestone;
 		this.labelList = labelList;
 		this.commentList = commentList;
-		//this.writeDate = new Date();
+		this.countComment = countComment;
 	}
 
 	public Long getId() {
@@ -165,6 +172,14 @@ public class Issue {
 		this.commentList = commentList;
 	}
 
+	public int getCountComment() {
+		return countComment;
+	}
+
+	public void setCountComment() {
+		this.countComment = commentList.size();
+	}
+
 	public Organization getOrganization() {
 		return organization;
 	}
@@ -227,39 +242,39 @@ public class Issue {
 	}
 		
 	private static final long SECOND_MILLIS = 1000;
-    private static final long MINUTE_MILLIS = 60 * SECOND_MILLIS;
-    private static final long HOUR_MILLIS = 60 * MINUTE_MILLIS;
-    private static final long DAY_MILLIS = 24 * HOUR_MILLIS;
-    private static final long MONTH_MILLIS = 30 * DAY_MILLIS;
-    private static final long YEAR_MILLIS = 12 * MONTH_MILLIS;
-    public String getDueDate() {
-		
-		long writeMillis = writeDate.getTime();
-		long currentMillis =  new Date().getTime();
-		if (writeMillis > currentMillis || writeMillis <= 0) {
-            return null;
-        }
-		final long diff = currentMillis - writeMillis;
-        if (diff < MINUTE_MILLIS) {
-            return "just now";
-        }
-        else if (diff < HOUR_MILLIS) {
-        	long minutes = (int)(diff/MINUTE_MILLIS);        	
-            return minutes <= 1 ? "a minute ago" : minutes + " minutes ago";
-        }
-        else if (diff < DAY_MILLIS) {
-        	long hours = (int)(diff/HOUR_MILLIS);        	
-            return hours <= 1 ? "a hour ago" : hours + " hours ago";        	
-        } else if(diff < MONTH_MILLIS){
-        	long days = (int)(diff/DAY_MILLIS);
-            return days <= 1 ? "a day ago" : days + " days ago";
-        } else if(diff < YEAR_MILLIS){      
-        	long months = (int)(diff/MONTH_MILLIS);
-            return months <= 1 ? "a month ago" : months + " months ago";
-        } else {      
-        	long years = (int)(diff/YEAR_MILLIS);
-            return years <= 1 ? "a year ago" : years + " years ago";
-        }
+  private static final long MINUTE_MILLIS = 60 * SECOND_MILLIS;
+  private static final long HOUR_MILLIS = 60 * MINUTE_MILLIS;
+  private static final long DAY_MILLIS = 24 * HOUR_MILLIS;
+  private static final long MONTH_MILLIS = 30 * DAY_MILLIS;
+  private static final long YEAR_MILLIS = 12 * MONTH_MILLIS;
+  public String getDueDate() {
+
+    long writeMillis = writeDate.getTime();
+    long currentMillis =  new Date().getTime();
+    if (writeMillis > currentMillis || writeMillis <= 0) {
+          return null;
+    }
+    final long diff = currentMillis - writeMillis;
+    if (diff < MINUTE_MILLIS) {
+        return "just now";
+    }
+    else if (diff < HOUR_MILLIS) {
+      long minutes = (int)(diff/MINUTE_MILLIS);        	
+        return minutes <= 1 ? "a minute ago" : minutes + " minutes ago";
+    }
+    else if (diff < DAY_MILLIS) {
+      long hours = (int)(diff/HOUR_MILLIS);        	
+        return hours <= 1 ? "a hour ago" : hours + " hours ago";        	
+    } else if(diff < MONTH_MILLIS){
+      long days = (int)(diff/DAY_MILLIS);
+        return days <= 1 ? "a day ago" : days + " days ago";
+    } else if(diff < YEAR_MILLIS){      
+      long months = (int)(diff/MONTH_MILLIS);
+        return months <= 1 ? "a month ago" : months + " months ago";
+    } else {      
+      long years = (int)(diff/YEAR_MILLIS);
+        return years <= 1 ? "a year ago" : years + " years ago";
+    }
 //        return currentMillis + "/" + writeMillis;
 //        Calendar calendar = Calendar.getInstance();
 //        calendar.setTimeInMillis(writeMills);//
@@ -270,6 +285,14 @@ public class Issue {
 //        	return  calendar.get(Calendar.YEAR) + "년 " + calendar.get(Calendar.MONTH) + "월 " + calendar.get(Calendar.DAY_OF_MONTH) + "일 "
 //                    + calendar.get(Calendar.AM_PM) + " " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + String.format("%02d", calendar.get(Calendar.MINUTE));
 //        }
+  }
+
+	public void incCountComment() {
+		this.countComment++;
+	}
+	
+	public void decCountComment() {
+		this.countComment--;
 	}
 	
 	@Override
@@ -301,7 +324,7 @@ public class Issue {
 	public String toString() {
 		String str = "Issue [id=" + id + ", subject=" + subject + ", contents=" + contents + ", writeDate=" + writeDate
 				+ ", writer=" + writer + ", label=" + ", state=" + state+"\n";
-		str += "-------------------CommentList----------------------------\n";
+		str += "-------------------CommentList, count="+countComment+"----------------------------\n";
 		if (commentList != null) {
 			for (Comment comment : commentList) {
 				str += comment + "\n";

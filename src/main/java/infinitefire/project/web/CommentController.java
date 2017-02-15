@@ -90,7 +90,8 @@ public class CommentController {
 		
 		Comment getComment = commentRepository.findOne(commentId);
 		if(getComment.isMatchWriter(loginUser)) {
-			commentRepository.delete(commentId);
+			getComment.decDelete();
+			commentRepository.delete(getComment);
 			return true;
 		} else
 			return false;

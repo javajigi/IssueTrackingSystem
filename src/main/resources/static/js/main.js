@@ -19,10 +19,29 @@ $(function() {
 	$('.modify-issue-btn').click(checkLogin);
 	$('.delete-issue-btn').click(checkLogin);
 	$('.back-btn').click(preBack);
+	
+	$('#file').change(checkFileSize);
 });
 
 function preBack() {
 	history.back();
+}
+
+function checkFileSize(e) {
+	var btnSubmit = $("#btnSubmit");
+	var input = $("input[type=file]");
+	var inputText = $("#fileText");
+	var file = input[0].files[0];
+	var maxSize = 1048 * (1048 * 3);
+	
+	inputText.val(file.name);
+	if (file.size >= maxSize) {
+		alert("첨부 파일은 최대 3MB까지만 업로드 할 수 있습니다. (현재 : " + String(Math.ceil(file.size/(1048 * 1048))) + "MB)");
+//		console.log(e);
+//		console.log(file);
+		input.val("");
+		inputText.val("");
+	}
 }
 
 function checkValue(e) {
@@ -88,6 +107,7 @@ function addComment(e) {
 				$(".article_comment").append(comment);
 				$(".comment_new #contents").val('');
 				$("#file").val('');
+				$('#fileText').val('');
 			},
 			error: function(error) {
 				console.log(error);
