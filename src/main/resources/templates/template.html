@@ -32,10 +32,10 @@
               <a id="logo" class="mdl-layout-title" href="/">Issue Tracking System</a>
               {{#if sessionedUser}}
               <div class="user_info_header clearfix">
-        				<div class="user_txt">
+				        <div class="user_txt">
                		<span class="user_id"><a href="/user/{{sessionedUser.id}}/mypage">{{sessionedUser.userId}}</a></span>
                 	<span class="user_name"><a class="user_name" href="/user/{{sessionedUser.id}}/mypage">{{sessionedUser.name}} 님</a></span>
-			        	</div>   			
+				        </div>   			
               	<a href="/user/{{sessionedUser.id}}/mypage">
 					        <img class="user_thumb round_image" height="32" width="32" src="/profile/{{sessionedUser.profile}}" alt="{{sessionedUser.userId}}"/>
               	</a>

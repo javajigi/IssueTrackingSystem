@@ -1,6 +1,7 @@
 $(function() {
 	$('.add-comment-btn').click(addComment);
-	$('#issueList').delegate('.cbx', 'change', modifyIssueState);
+	$('#issueList').delegate('.cbx', 'change', modifyIssueStateInList);
+	$('.mdl-switch__input').change(modifyIssueStateInDetail);
 	$('#comment_list').delegate('#btn_comment_modify', 'click', openCommentForm);
 	$('#comment_list').delegate('#btn_comment_delete', 'click', deleteComment);
 	$('#comment_list').delegate('#btn_comment_complete', 'click', modifyComment);
@@ -116,7 +117,7 @@ function addComment(e) {
 	}
 }
 
-function modifyIssueState(e) {
+function modifyIssueStateInList(e) {
 	e.preventDefault();
 	$(this).next().css( 'pointer-events', 'none' );
 	var toggle = $(this);
@@ -128,12 +129,29 @@ function modifyIssueState(e) {
 		data: {'check' : isChecked},
 		dataType:"json",
 		success: function(result) {
-//			$('.nav_category .state').html(result.state);
-//			$("#card_item_" + result.id).delay(500).fadeOut("slow");
 			var $grid = $('.masonry').masonry({
 	            itemSelector: '.masonry-item',
 	        });
 			$grid.masonry( 'remove', $("#card_item_" + result.id)).masonry();
+		},
+		error: function(error) {
+			console.log('fail-RequestData');
+		}
+	});
+}
+
+
+function modifyIssueStateInDetail(e) {
+	e.preventDefault();
+	var isChecked = $(this).is(":checked");
+	var url = '/issue/' + $(this).val() + '/modifyState';
+	$.ajax({
+		type: 'post',
+		url: url,
+		data: {'check' : isChecked},
+		dataType:"json",
+		success: function(result) {
+			$('.nav_category .state').html(result.state);
 		},
 		error: function(error) {
 			console.log('fail-RequestData');
