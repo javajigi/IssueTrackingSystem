@@ -11,38 +11,28 @@
 	  	<div class="article_header">
 	  		<div class="article_title"></div>
 	  	</div>
-		<div class="article_container">
-			<ul class="issue-list mdl-list">
+		<div class="list_wrap">
+			<ul>
 				{{#each milestones}}
-				<li class="mdl-list__item mdl-list__item--two-line">
-					<span class="mdl-list__item-primary-content">
-						<a href="/milestone/{{id}}/detail"><strong style="font-size: x-large;">{{subject}}</strong></a>
-						<span class="mdl-list__item-sub-title">
-							<strong>Due by</strong> {{dueDate}}
-						</span>
-					</span>
-					<span class="mdl-list__item-secondary-content">
-						{{#if issueList}}
-						<span class="progress-bar">
-							<span id="progress_{{id}}" class="progress"> </span>
-						</span>
-					  	<span class="mdl-list__item-sub-title" style="font-size:13px; color:#888">
-							{{#each issueList}}
-							{{/each}}
-					  	</span>
-						<script>
-							var progress = document.getElementById("progress_{{id}}");
-					   		var count = 300 - 300*{{openedIssuePs}};
-					 		progress.style.width = count+'px';
-						 </script>
-						{{else}}
-						<span class="progress-bar">
-				    		<span id="progress_{{id}}" class="progress"> </span>
-					  	</span>
-					  	<span class="mdl-list__item-sub-title" style="font-size:13px; color:#888">
-				    	</span>
-					  	{{/if}}
-					</span>
+				<li class="milestone_list_item">
+					<a class="milestone_list_link" href="/milestone/{{id}}/detail">
+						<div class="primary_contents">
+							<strong class="subject">{{subject}}</strong>
+							<span class="date">
+								<i class="material-icons date_icons">schedule</i><strong> Due by</strong> {{dueDate}}
+							</span>
+						</div>
+						<div class="sub_contents">
+						  	<span class="progress_background">
+						  		<span id="progress_{{id}}" style="width:calc({{openIssueRatio}}%)" class="progress_bar"> </span>
+					  		</span>			
+						  	<span class="progress_info">
+						  		<strong class="info_highlight">{{openIssueRatio}}%</strong> complete
+						  		<strong class="info_highlight">{{openIssue}}</strong> open
+						  		<strong class="info_highlight">{{closeIssue}}</strong> closed
+						  	</span>
+						</div>
+					</a>
 				</li>
 				{{/each}}
 			</ul>     

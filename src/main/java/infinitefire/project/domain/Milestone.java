@@ -159,22 +159,39 @@ public class Milestone {
 	public void setOpenedIssuePs(double openedIssuePs) {
 		this.openedIssuePs = openedIssuePs;
 	}
-
-	public void countOpenIssue() {
-		double totalOpenState = 0.0;
-		
+	
+	public int getTotalIssue() {
+		int count;
+		try {
+			count = issueList.size();
+		} catch(NullPointerException e) {
+			count = 0;
+		}		
+		return count;
+	}	
+	public int getOpenIssue() {
+		int count = 0;
 		for(Issue issue : issueList) {
 			if(issue.getState() == IssueState.OPEN) {
-				totalOpenState += 1;
+				count += 1;
 			}
+		}		
+		return count;
+	}
+	public int getCloseIssue() {
+		if(getTotalIssue() == 0) {
+			return 0;
 		}
-		
-		if(issueList.size() == 0)
-			this.openedIssuePs = 0;
-		else
-			this.openedIssuePs = totalOpenState/issueList.size();
+		return getTotalIssue() - getOpenIssue();
 	}
 	
+	public int getOpenIssueRatio() {
+		if(getTotalIssue()==0) {
+			return 0;
+		}
+		return (int)(((double)getOpenIssue()/getTotalIssue()) * 100);
+	}
+
 	public String getDueDate() {
 		
 		SimpleDateFormat dataFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH);
