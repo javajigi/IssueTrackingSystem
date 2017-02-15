@@ -54,16 +54,20 @@ public class IssueController {
 		model.addAttribute("allMilestone", milestoneRepository.findAll());
 		return "issue/new";
 	}
+	
+	
 	@PostMapping("/issue/new")
 	public String createIssue(@LoginUser User loginUser, Issue issue,
 							  String assigneeList, String milestone, String labelList) {
 		try {
+		    // TODO 메소드의 인자로 String이 아니라 long type으로 받을 수 있음.
 			long id = Long.parseLong(milestone);
 			issue.setMilestone(milestoneRepository.findOne(id));
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		} 
 		
+		// TODO 메소드 복잡도가 높다. 리팩토링해본다.
 		try {
 			String[] assigneeIds = assigneeList.split(",");
 			List<User> assignees = new ArrayList<User>();

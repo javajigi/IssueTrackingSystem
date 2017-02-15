@@ -40,6 +40,7 @@ public class Comment {
 	private User writer;
 	
 	@Transient
+	// TODO 이와 같은 속성을 사용하지 말고 handlebars의 helper를 등록해서 처리해 본다.
 	private boolean isMyComment = false;
 	
 	private boolean isAttachmentExist = false;

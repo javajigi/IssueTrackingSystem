@@ -17,4 +17,8 @@ public enum IssueState {
 	public String getStateCheck() {
 		return stateCheck;
 	}
+	
+	public boolean isOpened() {
+	    return this == IssueState.OPEN;
+	}
 }

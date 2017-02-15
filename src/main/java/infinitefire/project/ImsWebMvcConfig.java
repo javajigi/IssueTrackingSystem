@@ -25,6 +25,7 @@ public class ImsWebMvcConfig extends WebMvcConfigurerAdapter {
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry){
+	    // TODO 사용하지 않는 코드는 제거하면 좋겠음.
 		//registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
 		//registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
 	}

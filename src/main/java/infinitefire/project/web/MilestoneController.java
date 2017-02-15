@@ -22,7 +22,6 @@ import infinitefire.project.security.LoginUser;
 @Controller
 @RequestMapping("/milestone/")
 public class MilestoneController {
-	// TODO 사용하지 않는 코드이면 제거한다.
 	private static final Logger log = LoggerFactory.getLogger(MilestoneController.class);
 		
 	@Autowired
@@ -47,6 +46,7 @@ public class MilestoneController {
 		List<Milestone> milestoneList = (List<Milestone>) milestoneRepository.findAll();
 		model.addAttribute("milestones", milestoneList);
 		
+		// TODO milestoneList.stream().forEach(m -> m.countOpenIssue()); 이와 같이 구현 가능한지 확인해 본다.
 		for(Milestone m : milestoneList){
 			m.countOpenIssue();
 			log.debug("Data  :  " + m);
@@ -55,6 +55,7 @@ public class MilestoneController {
 		return "milestone/list";
 	}
 	
+	// TODO HttpServletRequest가 굳이 필요없으면 제거한다.
 	@GetMapping("/{id}/detail")
 	public String detail(@LoginUser User loginUser, @PathVariable Long id, Model model, HttpServletRequest req){
 		log.debug("getContextPath : "+req.getHeader("REFERER"));

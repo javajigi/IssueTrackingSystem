@@ -97,6 +97,7 @@ public class UserController {
 		}
 		
 		//테스트용 배포시 삭제 예정 구문.
+		// TODO TODO로 관리한 후 추후 반드시 삭제 필요함.
 		if(userId.equals("test") || userId.equals("test2") || userId.equals("test3")) {
 			log.debug("로그인 성공. inputId=" + userId + ", inputPw=" + password);
 			session.setAttribute(HttpSessionUtils.USER_SESSION_KEY, loginUser);
@@ -157,6 +158,8 @@ public class UserController {
 		return "/user/modify";
 	}
 	
+	// TODO method 로직이 너무 복잡함. method 로직을 User로 분산시킨다.
+	// TODO password와 newPassword를 별도의 인자로 받지 말고 modifiedUser에 자동으로 set 되도록 리팩토링한다.
 	@PutMapping("/{id}/modify")
 	public String modify(@LoginUser User loginUser, String password, @PathVariable Long id, User modifiedUser, @RequestParam("file") MultipartFile file, String newPassword) {
 		log.debug("/user/{id}/modify [{}] - modify() : " + modifiedUser, HttpMethod.PUT);
@@ -165,6 +168,7 @@ public class UserController {
 			return "/user/login?error=true";
 		}
 		log.debug("Login User : " + loginUser);
+		
 		modifiedUser.setUserId(loginUser.getUserId());
 		log.debug("Modifed User : " + modifiedUser);
 		if (!loginUser.isMatchPassword(password)) {	
@@ -183,7 +187,7 @@ public class UserController {
 			storageService.store(file, newFileName, FileType.PROFILE);
 		}
 		modifiedUser.setProfile(newFileName);
-		//user.modify(modifiedUser);
+		// TODO modifiedUser를 저장하는 방식이 아닌 DB에서 조회한 user의 상태 값을 변경하는 것이 버그 발생 가능성이 적음.
 		userRepository.save(modifiedUser);
 		
 		return "redirect:/";
@@ -218,10 +222,13 @@ public class UserController {
 				
 		User outUser = userRepository.findOne(id);
 		
-		// 탈퇴 유저의 프로필 이미지 파일 제거 & 프로필 이미지 이름 DB에서 삭제		
+		// 탈퇴 유저의 프로필 이미지 파일 제거 & 프로필 이미지 이름 DB에서 삭제
+		// TODO basicPath와 profilePath를 stroageService에서 직접 가져오도록 수정한다.
+		// TODO storageService.deleteFile(outUser);로 리팩토링해본다.
 		String fileName = outUser.getProfile();
 		storageService.deleteFile(basicPath + profilePath + fileName);
 		
+		// TODO setNoneProfile()과 withdraw() 메소드에서 호출하도록 리팩토링한다.
 		outUser.setNoneProfile();
 		outUser.withdraw();
 		userRepository.save(outUser);

@@ -14,6 +14,7 @@ public class HttpSessionUtils {
 		return true;
 	}
 
+	// TODO 메소드를 사용하는 것이 없음. 필요 없으면 제거.
 	public static User getUserFromSession(HttpSession session) {
 		if (!isLoginUser(session)) {
 			return null;

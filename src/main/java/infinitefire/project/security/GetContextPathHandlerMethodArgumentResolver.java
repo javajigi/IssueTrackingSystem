@@ -8,6 +8,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+// TODO 불필요한 코드로 보여짐 제거한다.
 public class GetContextPathHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
 	@Override

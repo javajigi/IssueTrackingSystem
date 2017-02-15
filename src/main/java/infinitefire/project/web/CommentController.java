@@ -56,6 +56,8 @@ public class CommentController {
 			String newFileName = "Issue" + issueId + "_" + comment.getWriter().getUserId() + commentRepository.count() + FileExtensionUtils.getFileExtension(file.getOriginalFilename());
 			log.debug("newFileName : " + newFileName);
 			storageService.store(file, newFileName, FileType.ATTACHMENT);
+			
+			// TODO 다음 2개의 method를 setAttachment 하나로 통합해본다.
 			comment.setAttachment(newFileName);
 			comment.setIsAttachmentExist(true);
 		}

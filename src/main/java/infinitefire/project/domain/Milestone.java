@@ -57,6 +57,7 @@ public class Milestone {
 	@Transient
 	private double openedIssuePs;
 	
+	// TODO 사용하지 않는 전역 변수 제거한다.
 	private static final Logger log = LoggerFactory.getLogger(Milestone.class);
 	
 	public Milestone() {
@@ -105,6 +106,7 @@ public class Milestone {
 	}
 	
 	public void setFormatStartDate(String startDate) {
+	    // TODO utils 클래스를 만들어 로직을 위임한다.
 		String strDate = startDate;
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 		try {			
@@ -124,6 +126,7 @@ public class Milestone {
 	}
 	
 	public void setFormatEndDate(String endDate) {
+	    // TODO utils 클래스를 만들어 로직을 위임하고 중복을 제거한다.
 		String strDate = endDate;		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 				
@@ -160,8 +163,9 @@ public class Milestone {
 	}
 
 	public void countOpenIssue() {
-		double totalOpenState = 0.0;
-		
+		// TODO 다음과 같이 구현해도 정상 동작하는지 확인한다. java의 람다 학습해본다.
+	    // long totalOpenState = issueList.stream().filter(i -> i.isOpened()).count();
+	    long totalOpenState = 0;
 		for(Issue issue : issueList) {
 			if(issue.getState() == IssueState.OPEN) {
 				totalOpenState += 1;

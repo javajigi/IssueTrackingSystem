@@ -39,8 +39,10 @@ public class User {
 	private BCryptPasswordEncoder passwordEncoder;
 	
 	public User() {
+	    // TODO 사용하지 않으면 제거한다.
 //		this.profileUrl = "none.jpg";
 		this.state = UserState.JOIN;
+		// TODO 매번 인스턴스를 생성하지 말고 Spring에 빈으로 등록한 후 가져와 사용한다.
 		passwordEncoder = new BCryptPasswordEncoder();
 	}
 
@@ -128,6 +130,7 @@ public class User {
 	}
 	
 	public void setDefaultProfile() {
+	    // TODO 하드코딩하지 말고 상수 값으로 추출한다. 또는 enum으로 만드는 것도 고려해 본다.
 		this.profile = "default.png";
 	}
 	

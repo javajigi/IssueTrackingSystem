@@ -223,6 +223,10 @@ public class Issue {
 		return true;
 	}
 	
+	public boolean isOpened() {
+	    return state.isOpened();
+	}
+	
 	public boolean deleteAssignee(User user) {
 		
 		return assigneeList.remove(user);
