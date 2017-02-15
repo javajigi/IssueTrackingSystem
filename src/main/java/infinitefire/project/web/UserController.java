@@ -135,6 +135,15 @@ public class UserController {
 		return "redirect:/user/login";
 	}
 	
+	@GetMapping("/{id}/mypage")
+	public String mypage(@LoginUser User loginUser, @PathVariable Long id, Model model) {
+		User selectedUser = userRepository.findOne(id);
+		model.addAttribute("user", selectedUser);
+		log.debug("selectedUser : " + selectedUser.toString());
+		
+		return "/user/mypage";
+	}
+	
 	@GetMapping("/{id}/detail")
 	public String profile(@PathVariable Long id, Model model) {
 		User selectedUser = userRepository.findOne(id);
