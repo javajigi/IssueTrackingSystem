@@ -328,7 +328,7 @@ table {
 	font-size: 20px;
 }
 
-.nav_category .btn_menu {
+.nav_category .btn_menu {	
 	position: absolute;
 	color: rgba(0,0,0,.54);
 	top: 0;
@@ -504,16 +504,6 @@ table {
 .main_wrap .empty_issue {
 	padding: 20px;	
 }
-
-
-
-/* issue/detail */
-/* .label_container {
-	padding: 12px;
-}
-.label_container .label {
-	color: #fff;
-} */
 
 .milestone_description {
 	width: 100%;
@@ -736,8 +726,9 @@ textarea.mdl-textfield__input {
 .mdl-menu__outline {
 	border-radius: 8px;
 }
-.nav_category .mdl-menu__container {
-	min-width: 180px;
+.new_nav .nav_category .mdl-menu__container {
+	min-width: 160px;
+	font-size: 14px;
 }
 
 .mdl-button--file input{
@@ -759,6 +750,20 @@ textarea.mdl-textfield__input {
 .mdl-textfield--file .mdl-button--file {
     right: 0;
  }
+
+.datepicker-here {
+	font-size: 16px;
+	margin: 8px 0;
+	padding: 0 8px;
+	height: 36px;
+	width: 100%;
+}
+
+.datepicker-here:focus {
+	outline: 0 none !important;
+    border:1px solid #FF9A19;
+    box-shadow: 0 0 #FF9A19;
+}
 
 @media screen and (min-width: 720px) {
 	.main_wrap {
