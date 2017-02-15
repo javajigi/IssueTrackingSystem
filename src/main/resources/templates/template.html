@@ -40,8 +40,8 @@
               {{#if sessionedUser}}
               <div class="user_info_header clearfix">
                 <div class="user_txt">
-                  <span class="user_id"><a href="/user/{{sessionedUser.id}}/modify">{{sessionedUser.userId}}</a></span>
-                <span class="user_name"><a class="user_name" href="/user/{{sessionedUser.id}}/modify">{{sessionedUser.name}} 님</a></span>
+                  <span class="user_id"><a href="/user/{{sessionedUser.id}}/mypage">{{sessionedUser.userId}}</a></span>
+                <span class="user_name"><a class="user_name" href="/user/{{sessionedUser.id}}/mypage">{{sessionedUser.name}} 님</a></span>
                 </div>   			
               <a href="/user/{{sessionedUser.id}}/modify">
                 <img class="user_thumb round_image" height="32" width="32" src="/profile/{{sessionedUser.profile}}" alt="{{sessionedUser.userId}}"/>
@@ -56,7 +56,7 @@
                 <a class="tab_menu" href="/milestone/list">Milestones</a>
                 <div class="user_tab">
                   {{#if sessionedUser}}
-                  <a class="tab_menu" href="/user/{{sessionedUser.id}}/modify">My page</a>
+                  <a class="tab_menu" href="/user/{{sessionedUser.id}}/mypage">My page</a>
                   <a class="tab_menu" href="/user/logout">Sign out</a>
                   {{else}}
                   <a class="tab_menu" href="/user/login">Sign in</a>

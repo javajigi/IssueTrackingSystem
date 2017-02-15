@@ -18,7 +18,7 @@ $(function() {
 	$('#password').keyup(checkValue);
 	$('.back-btn').click(preBack);
 	
-	$('#file').change(checkFileSize);
+	$('.main_wrap').delegate('.comment_file', 'change', checkFileSize);
 });
 
 function preBack() {
@@ -26,19 +26,18 @@ function preBack() {
 }
 
 function checkFileSize(e) {
-	var btnSubmit = $("#btnSubmit");
-	var input = $("input[type=file]");
-	var inputText = $("#fileText");
-	var file = input[0].files[0];
+	var inputText = $(this).find('input[type=text]');
+	var inputFile = $(this).find('input[type=file]');
+	var file = inputFile[0].files[0];
 	var maxSize = 1048 * (1048 * 3);
-	
-	inputText.val(file.name);
-	if (file.size >= maxSize) {
-		alert("첨부 파일은 최대 3MB까지만 업로드 할 수 있습니다. (현재 : " + String(Math.ceil(file.size/(1048 * 1048))) + "MB)");
-//		console.log(e);
-//		console.log(file);
-		input.val("");
-		inputText.val("");
+
+	if (file != undefined) {
+		if (file.size >= maxSize) {
+			alert("첨부 파일은 최대 3MB까지만 업로드 할 수 있습니다. (현재 : " + String(Math.ceil(file.size/(1048 * 1048))) + "MB)");
+			inputFile.val("");
+			inputText.val("");
+		} else
+			inputText.val(file.name);
 	}
 }
 
