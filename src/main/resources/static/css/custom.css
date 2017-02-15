@@ -86,6 +86,11 @@ table {
 	top: 8px;
 	right: 16px;
 }
+
+.index_header {
+	right: 48px;
+}
+
 .user_info_header .user_txt {
 	float:left;
 	text-align: right;
@@ -94,14 +99,18 @@ table {
 	margin-left: 8px;
 }
 
-.user_info_header .user_id{
+.user_info_header .user_id {
 	display: block;
 	font-size: 16px;
 	color: #FF847C;
 }
-
-.user_info_header .user_name{
+.user_info_header .user_name {
 	display: block;
+}
+.user_dropdown {
+	position: absolute;
+	top: 8px;
+	right: 4px;
 }
 
 .tab_container {
@@ -648,6 +657,13 @@ table {
 	padding: 0 16px;
 	line-height: 48px;
 	color: #fff;
+}
+
+.issues--wrap .issues-back {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 9999;
 }
 
 /* toggle button */
