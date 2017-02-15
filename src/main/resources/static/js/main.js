@@ -16,8 +16,6 @@ $(function() {
 	$('#userId').keyup(checkValue);
 	$('#name').keyup(checkValue);
 	$('#password').keyup(checkValue);
-	$('.modify-issue-btn').click(checkLogin);
-	$('.delete-issue-btn').click(checkLogin);
 	$('.back-btn').click(preBack);
 	
 	$('#file').change(checkFileSize);
