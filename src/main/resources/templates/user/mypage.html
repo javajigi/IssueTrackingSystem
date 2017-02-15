@@ -1,0 +1,44 @@
+{{#partial "container"}}
+<div class="issues-back">
+  <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon back-btn" title="go back" role="button">
+    <i class="material-icons" role="presentation">arrow_back</i>
+  </a>
+</div>
+<div class="main_wrap user_wrap round_border mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+	{{#user}}
+	<div class="article_header">
+		<h2 class="article_title">{{userId}} 님의 MyPage</h2>
+    </div>
+    <div class="article_container">
+		<div class="section">
+			<span class="label">User ID</span>
+			<span class="contents">{{userId}}</span>
+		</div>
+		<div class="section">
+			<span class="label">Name</span>
+			<span class="contents">{{name}}</span>
+		</div>
+		<div class="section">
+			<span class="label">Profile Image</span>
+			<span class="contents">
+				<img id="pic" name="pic" src="/profile/{{profile}}" height="200" width="200"/>
+			</span>
+			<div>
+				<form action="/user/{{id}}/modify" method="get">
+					<div class="article_submit">
+						<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">정보 수정</button>
+					</div>
+			    </form>
+			    <form action="/user/{{id}}/delete" method="get">
+					<div class="article_submit">
+						<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">회원 탈퇴</button>
+					</div>
+			    </form>
+		    </div>
+		</div>
+	</div>
+    {{/user}}
+</div>
+{{/partial}}
+
+{{> template}}
