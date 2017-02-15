@@ -252,7 +252,16 @@ table {
 
 .main_wrap .article_container {
 	position:relative;
-	padding: 0 16px;
+	margin: 0 16px;
+}
+
+.main_wrap .article_container:after,
+.main_wrap .title_container:after {
+	content: '';
+	clear: both;
+	display: block;
+	overflow: hidden;
+	height: 0;
 }
 
 .main_wrap .article_submit {
@@ -270,7 +279,7 @@ table {
 .article_container .contents {	
 	display: block;
 	max-height: 450px;
-	padding: 8px;
+	padding: 20px 8px;
 	color: #333;
 	font-size: 20px;
 }
@@ -278,17 +287,13 @@ table {
 .article_container .article {
 	float: left;
 	width: 100%;
-	min-height:350px;
-	margin: 16px 0;
 	padding-right: 16px;
 }
 
 .article_container .navigation {
 	float: left;
 	width: 100%;
-	min-height: 350px;
-	margin: 16px 0;
-	padding-left: 16px;
+	padding: 16px 0 16px 16px;
 	border-top: 1px solid rgba(0,0,0,.1);
 }
 
@@ -760,11 +765,6 @@ label:hover:before {
 }
 
 /* overlap */
-.article textarea.mdl-textfield__input {
-	height: 300px;
-	max-height: 600px;
-}
-
 .mdl-layout__header {
     min-height: 48px;
 }
@@ -783,6 +783,7 @@ label:hover:before {
 }
 .mdl-textfield.is-invalid .mdl-textfield__input{
 	border-color: #E84A5F;
+	max-height: 600px;
 }
 .mdl-textfield.is-invalid .mdl-textfield__label:after {
     background-color: #CC2A41; 
@@ -847,11 +848,20 @@ label:hover:before {
 	}
 	.article_container .article {
 		width: 70%;
-		border-right: 1px solid rgba(0,0,0,.1);
 	}
+	
+	.partition:before {
+		content: '';
+		position: absolute;
+		width: 1px;
+		background-color: rgba(0,0,0,.1);
+		top: 16px;
+		bottom: 16px;
+		left: 70%;
+	}
+	
 	.article_container .navigation {
 		width: 30%;
-		//border-left: 1px solid rgba(0,0,0,.1);
 		border-top: none;
 	}
 	.milestone_list_link {
@@ -873,6 +883,9 @@ label:hover:before {
 	}
 	.user_wrap {
 		max-width: 480px;
+	}
+	.partition:before  {
+		left: 75%;
 	}
 	.article_container .article {
 		width: 75%;

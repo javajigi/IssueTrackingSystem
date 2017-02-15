@@ -168,28 +168,28 @@ public class Milestone {
 			count = 0;
 		}		
 		return count;
-	}	
-	public int getOpenIssue() {
+	}
+	public int getCloseIssue() {
 		int count = 0;
 		for(Issue issue : issueList) {
-			if(issue.getState() == IssueState.OPEN) {
+			if(issue.getState() == IssueState.CLOSE) {
 				count += 1;
 			}
 		}		
 		return count;
 	}
-	public int getCloseIssue() {
+	public int getOpenIssue() {
 		if(getTotalIssue() == 0) {
 			return 0;
 		}
-		return getTotalIssue() - getOpenIssue();
+		return getTotalIssue() - getCloseIssue();
 	}
 	
-	public int getOpenIssueRatio() {
+	public int getCompleteIssueRatio() {
 		if(getTotalIssue()==0) {
 			return 0;
 		}
-		return (int)(((double)getOpenIssue()/getTotalIssue()) * 100);
+		return (int)(((double)getCloseIssue()/getTotalIssue()) * 100);
 	}
 
 	public String getDueDate() {
