@@ -160,7 +160,21 @@
 			<i class="material-icons" role="presentation">check</i><span class="visuallyhidden">add comment</span>
 		</a>
 	</form>
-</div>	
+</div>
+	<script type="text/javascript">
+		$('.modify-issue-btn').click(checkLogin);
+		$('.delete-issue-btn').click(checkLogin);
+		function checkLogin(e) {
+			var loginUser = '{{sessionedUser.id}}';
+			var myId = '{{writer.id}}';
+			console.log(loginUser);
+			console.log(myId);
+			if(loginUser != myId) {
+				e.preventDefault();
+				alert('Issue에 대한 권한이 없습니다.');
+			}
+		}
+	</script>
 {{/issueInfo}}
 {{/partial}}
 {{#partial "script"}}
@@ -207,20 +221,6 @@
     <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
       <p>{{contents}}</p>
 	</div>
-	</script>
-	<script type="text/javascript">
-		$('.modify-issue-btn').click(checkLogin);
-		$('.delete-issue-btn').click(checkLogin);
-		function checkLogin(e) {
-			var loginUser = '{{sessionedUser.id}}';
-			var myId = '{{writer.id}}';
-			console.log(loginUser);
-			console.log(myId);
-			if(loginUser != myId) {
-				e.preventDefault();
-				alert('Issue에 대한 권한이 없습니다.');
-			}
-		}
 	</script>
 {{/partial}}
 
