@@ -73,8 +73,8 @@ public class IssueController {
 			for(String strId : assigneeIds) {
 				long id = Long.parseLong(strId);
 				assignees.add(userRepository.findOne(id));
-				issue.setAssigneeList(assignees);
 			}
+			issue.setAssigneeList(assignees);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		} 
@@ -85,8 +85,8 @@ public class IssueController {
 			for(String strId : labelIds) {
 				long id = Long.parseLong(strId);
 				labels.add(labelRepository.findOne(id));
-				issue.setLabelList(labels);
 			}
+			issue.setLabelList(labels);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		} 

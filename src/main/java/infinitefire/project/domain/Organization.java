@@ -35,7 +35,7 @@ public class Organization {
 	private Long id;
 	
 	@Column(name = "name", length = 30, nullable = false, updatable = false)
-	private String name;
+	private String groupName;
 	
 	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_organization_maker"))
@@ -68,11 +68,12 @@ public class Organization {
 	private List<User> asigneeList;
 
 	public Organization() {
+		createDate = new Date();
 	}
 
-	public Organization(String name, User organizationMaker, Date createDate, OrganizationState organizationState) {
+	public Organization(String groupName, User organizationMaker, Date createDate, OrganizationState organizationState) {
 		super();
-		this.name = name;
+		this.groupName = groupName;
 		this.organizationMaker = organizationMaker;
 		this.createDate = createDate;
 		this.organizationState = organizationState;
@@ -86,12 +87,12 @@ public class Organization {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getGroupName() {
+		return groupName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
 	}
 
 	public User getOrganizationMaker() {
@@ -178,7 +179,7 @@ public class Organization {
 	@Override
 	public String toString() {
 		String str = "\n-------------------Group----------------------------\n";
-		str +=  "Group [id=" + id + ", name=" + name + ", organization=" + organizationMaker + ", createDate="
+		str +=  "Group [id=" + id + ", groupName=" + groupName + ", organization=" + organizationMaker + ", createDate="
 				+ createDate + ", organizationState=" + organizationState + "]";
 		return str;
 	}

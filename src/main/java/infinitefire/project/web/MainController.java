@@ -3,6 +3,7 @@ package infinitefire.project.web;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,17 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import infinitefire.project.domain.Issue;
 import infinitefire.project.domain.IssueRepository;
-import infinitefire.project.domain.IssueState;
-import infinitefire.project.security.GetContextPath;
+import infinitefire.project.domain.Organization;
+import infinitefire.project.domain.OrganizationRepository;
+import infinitefire.project.domain.User;
+import infinitefire.project.utils.HttpSessionUtils;
 
 @Controller
 public class MainController {
 	private static final Logger log = LoggerFactory.getLogger(MainController.class);
 	
+	@Autowired
+	private OrganizationRepository organizationRepository;
 	@Autowired
 	private IssueRepository issueRepository;
 	
@@ -33,19 +36,16 @@ public class MainController {
 	}
 	
 	@GetMapping("/")
-	public String index(@GetContextPath String getContextPath, 
-						@RequestParam(value="state",  defaultValue = "OPEN") IssueState state, 
-						Model model, HttpServletRequest request) {
-		List<Issue> issueList;
-		if(state.equals(IssueState.OPEN)){
-			issueList = issueRepository.findByState(IssueState.OPEN);
-			model.addAttribute("isOpen", true);
+	public String index(HttpSession session, Model model) {
+		User loginUser = HttpSessionUtils.getUserFromSession(session);
+		List<Organization> groupList;
+		if(loginUser != null) {
+			groupList = organizationRepository.findByOrganizationMakerId(loginUser.getId());
 		} else {
-			issueList = issueRepository.findByState(IssueState.CLOSE);
-			model.addAttribute("isClose", false);
+			groupList = organizationRepository.findAll();
 		}
-		model.addAttribute("issueList", issueList);
-		log.debug("issueList : "+issueList);
+		
+		model.addAttribute("groupList", groupList);
 		return "index";
 	}
 }
