@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -32,6 +34,7 @@ import infinitefire.project.security.GetContextPath;
 import infinitefire.project.security.LoginUser;
 
 @Controller
+@RequestMapping("/issue")
 public class IssueController {
 	@Autowired
 	IssueRepository issueRepository;
@@ -46,7 +49,7 @@ public class IssueController {
 
 	private static final Logger log = LoggerFactory.getLogger(IssueController.class);
 
-	@GetMapping("/issue/new")
+	@GetMapping("/new")
 	public String createIssueForm(@LoginUser User loginUser,  Model model) {
 		log.debug("Access >> /issue/new-Get");
 		model.addAttribute("allLabel", labelRepository.findAll());
@@ -54,7 +57,7 @@ public class IssueController {
 		model.addAttribute("allMilestone", milestoneRepository.findAll());
 		return "issue/new";
 	}
-	@PostMapping("/issue/new")
+	@PostMapping("/new")
 	public String createIssue(@LoginUser User loginUser, Issue issue,
 							  String assigneeList, String milestone, String labelList) {
 		try {
@@ -92,8 +95,25 @@ public class IssueController {
 		issueRepository.save(issue);
 		return "redirect:/";
 	}
+	
+	@GetMapping("/list")
+	public String index(@GetContextPath String getContextPath, 
+						@RequestParam(value="state",  defaultValue = "OPEN") IssueState state, 
+						Model model, HttpServletRequest request) {
+		List<Issue> issueList;
+		if(state.equals(IssueState.OPEN)){
+			issueList = issueRepository.findByState(IssueState.OPEN);
+			model.addAttribute("isOpen", true);
+		} else {
+			issueList = issueRepository.findByState(IssueState.CLOSE);
+			model.addAttribute("isClose", false);
+		}
+		model.addAttribute("issueList", issueList);
+		log.debug("issueList : "+issueList);
+		return "/issue/list";
+	}
 
-	@GetMapping("issue/{id}/modify")
+	@GetMapping("/{id}/modify")
 	public String modifyIssueForm(@LoginUser User loginUser, @PathVariable Long id, Model model) {
 		log.debug("Access >> /issue/modify");
 
@@ -105,7 +125,7 @@ public class IssueController {
 		} else
 			return "redirect:/";
 	}
-	@PostMapping("issue/{id}/modify")
+	@PostMapping("/{id}/modify")
 	public String modifiedIssue(@LoginUser User loginUser, @PathVariable Long id,
 			String subject, String contents, Model model) {
 		log.debug("Access >> /issue/{" + id +"}/modify-put");
@@ -122,7 +142,7 @@ public class IssueController {
 			return "redirect:/";
 	}
 
-	@GetMapping("issue/{id}/delete")
+	@GetMapping("/{id}/delete")
 	public String deleteIssue(@LoginUser User loginUser, @PathVariable Long id) {
 		log.debug("Access >> /issue/{" + id + "}/delete");
 
@@ -133,7 +153,7 @@ public class IssueController {
 		return "redirect:/";
 	}
 
-	@GetMapping("/issue/{id}/detail")
+	@GetMapping("/{id}/detail")
 	public String showIssueDetail(@LoginUser User loginUser, @PathVariable Long id, HttpServletRequest req, Model model) {
 		log.debug("Access >> /issue/{" + id + "}/detail : --"+req.getHeader("REFERER"));		
 		Issue issue = issueRepository.findOne(id);
@@ -155,7 +175,7 @@ public class IssueController {
 		return "issue/detail";
 	}
 
-	@PostMapping("/issue/{issueId}/modifyState")
+	@PostMapping("/{issueId}/modifyState")
 	public @ResponseBody Issue modifyState(@PathVariable Long issueId,
 									       @RequestParam(value="check") boolean isChecked) {
 		Issue issue = issueRepository.findOne(issueId);
@@ -166,7 +186,7 @@ public class IssueController {
 		return issueRepository.save(issue);
 	}
 
-	@PutMapping("/issue/{issueId}/addAssignee/{userId}")
+	@PutMapping("/{issueId}/addAssignee/{userId}")
 	public @ResponseBody User addAssignee(@LoginUser User loginUser,
 										  @PathVariable Long issueId,
 										  @PathVariable Long userId) {
@@ -182,7 +202,7 @@ public class IssueController {
 		return null;
 	}
 	
-	@DeleteMapping("/issue/{issueId}/deleteAssignee/{userId}")
+	@DeleteMapping("/{issueId}/deleteAssignee/{userId}")
 	public @ResponseBody boolean deleteAssignee(@LoginUser User loginUser,
 								  @PathVariable Long issueId,
 								  @PathVariable Long userId) {
@@ -199,7 +219,7 @@ public class IssueController {
 		return isDelete;
 	}
 	
-	@PutMapping("/issue/{issueId}/setMilestone/{milestoneId}")
+	@PutMapping("/{issueId}/setMilestone/{milestoneId}")
 	public @ResponseBody Milestone setMilestone(@LoginUser User loginUser,
 										  @PathVariable Long issueId,
 										  @PathVariable Long milestoneId) {
@@ -212,7 +232,7 @@ public class IssueController {
 		return milestone;
 	}
 	
-	@DeleteMapping("/issue/{issueId}/deleteMilestone/{milestoneId}")
+	@DeleteMapping("/{issueId}/deleteMilestone/{milestoneId}")
 	public @ResponseBody Milestone deleteMilestone(@LoginUser User loginUser,
 										  @PathVariable Long issueId,
 										  @PathVariable Long milestoneId) {
@@ -229,7 +249,7 @@ public class IssueController {
 		return null;
 	}
 
-	@PutMapping("/issue/{issueId}/addLabel/{labelId}")
+	@PutMapping("/{issueId}/addLabel/{labelId}")
 	public @ResponseBody Label addLabel(@LoginUser User loginUser,
 										  @PathVariable Long issueId,
 										  @PathVariable Long labelId) {
@@ -245,7 +265,7 @@ public class IssueController {
 		return null;
 	}
 	
-	@DeleteMapping("/issue/{issueId}/deleteLabel/{labelId}")
+	@DeleteMapping("/{issueId}/deleteLabel/{labelId}")
 	public @ResponseBody boolean deleteLabel(@LoginUser User loginUser,
 								  @PathVariable Long issueId,
 								  @PathVariable Long labelId) {

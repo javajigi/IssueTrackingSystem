@@ -51,7 +51,7 @@
             <div class="mdl-layout__header-row">
               <!-- Navigation -->
               <nav class="tab_container">
-                <a class="tab_menu" href="/">Issues</a>
+                <a class="tab_menu" href="/issue/list">Issues</a>
                 <a class="tab_menu" href="/milestone/list">Milestones</a>
                 <div class="user_tab">
                   {{#if sessionedUser}}
@@ -96,16 +96,18 @@
 	<script src="https://cdn.tinymce.com/4/tinymce.min.js"></script>
 	<script type="text/javascript" id="comment_template">{{precompile "/precompile/comment_template"}}</script>
 	<script src="/js/main.js"></script>
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 				function checkLogin(e) {
 					var loginUser = '{{sessionedUser.id}}';
 					var myId = '{{writer.id}}';
+					console.log(loginUser);
+					console.log(myId);
 					if(loginUser != myId) {
 						e.preventDefault();
 						alert('Issue에 대한 권한이 없습니다.');
 					}
 				}
-			</script>
+			</script> -->
 	{{#block "script"}}{{/block}}
 </body>
 </html>

@@ -2,9 +2,9 @@
 <div class="main_wrap">
 	<div class="title_container">
 		<i class="title_icon material-icons">bookmark_border</i>	
-		<h2 class="title">Issue List</h2>
+		<h2 class="title">Organization</h2>소팅메뉴/내그룹리스트/전체그룹리스트
 		<ul class="state_tab clearfix">
-			{{#if isOpen}}
+			<!-- {{#if isOpen}}
 				<li id="state_open_tab">
 					<a class="current_state is-checked" href="/?state=OPEN">OPEN</a>
 				</li>
@@ -18,51 +18,22 @@
 				<li id="state_close_tab">
 					<a class="current_state is-checked" href="/?state=CLOSE">CLOSE</a>
 				</li>
-			{{/if}}
+			{{/if}} -->
 		</ul>
-		<a class="btn_add mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect" href="/issue/new">
+		<a class="btn_add mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect" href="/group/new">
 		  <i class="material-icons">add</i>
 		</a>
+	</div><hr>
+	<div>
+		<h3 class="title">MyOrganization</h3>
+		<ul id="organizationList" class="clearfix">
+		</ul>
+	</div><hr>
+	<div>
+		<h3 class="title">Organization</h3>
+		<ul id="organizationList" class="clearfix">
+		</ul>
 	</div>
-	<ul id="issueList" class="clearfix">
-		{{#issueList}}
-		<li id="card_item_{{id}}" class="card_item mdl-shadow--2dp">
-			<a class="card_title_link" href="/issue/{{id}}/detail">
-				<p class="card_title ellipsize">#{{id}} {{subject}}</p>
-				<i class="card_arrow material-icons">arrow_forward</i>
-			</a>
-			<div class="card_contents">
-				<p class="multi_ellipsize contents_text">{{contents}}</p>
-				<span class="card_writer">
-					<div class="card_thumb_wrap">
-						<img class="round_image" height="48" width="48" src="/profile/{{writer.profile}}" alt="writer.userId">
-					</div>
-					<strong class="writer_by">by</strong>
-					<a href="/user/{{writer.id}}/detail" aria-label="View all issues opened by javajigi" class="tooltipped tooltipped-s muted-link">
-						<strong class="writer_name">{{writer.userId}}</strong>
-					</a>
-				</span>
-			</div>
-			<div class="card_bottom">
-				<input type="checkbox" id="toggle_state_{{id}}" value="{{id}}" class="cbx hidden" {{stateCheck}}/>
- 						<label for="toggle_state_{{id}}" class="lbl"></label>
-				<!-- Number badge on icon -->
-				<span class="material-icons mdl-badge mdl-badge--overlap comment_count" data-badge="1">comment</span>
-			</div>
-		</li>
-		{{/issueList}}
-	</ul>
 </div>
-{{/partial}}
-{{#partial "script"}}
-<script>
-	$(function() {
-
-		[].slice.call( document.querySelectorAll( '.tabs' ) ).forEach( function( el ) {
-			new CBPFWTabs( el );
-		});
-
-	});
-</script>
 {{/partial}}
 {{> template}}
