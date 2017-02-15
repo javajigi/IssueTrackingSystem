@@ -93,7 +93,7 @@ public class IssueController {
 		
 		issue.setWriter(loginUser);
 		issueRepository.save(issue);
-		return "redirect:/";
+		return "redirect:/issue/list";
 	}
 	
 	@GetMapping("/list")

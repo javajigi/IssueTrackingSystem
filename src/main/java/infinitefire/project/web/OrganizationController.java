@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -74,12 +75,21 @@ public class OrganizationController {
 	}
 	
 	@GetMapping("/{groupId}/modify")
-	public String modifyOrganization(@LoginUser User loginUser) {
-		return "";
+	public String modifyOrganization(@LoginUser User loginUser, @PathVariable Long groupId, Model model) {
+		log.debug("Access-Get-modify >>");
+		
+		Organization modify = organizationRepository.findOne(groupId);
+		
+		if(modify.isMatchWriter(loginUser)) {
+			model.addAttribute("modifyGroup", modify);
+			return "group/modify";
+		} else
+			return "redirect:/";
 	}
 	
 	@PostMapping("/{groupId}/modify")
-	public String modifiedOrganization(@LoginUser User loginUser) {
+	public String modifiedOrganization(@LoginUser User loginUser, @PathVariable Long groupId
+			) {
 		return "";
 	}
 	

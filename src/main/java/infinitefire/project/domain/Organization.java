@@ -150,6 +150,10 @@ public class Organization {
 	public void setLabelList(List<Label> labelList) {
 		this.labelList = labelList;
 	}
+	
+	public boolean isMatchWriter(User matchUser) {
+		return this.organizationMaker.equals(matchUser);
+	}
 
 	@Override
 	public int hashCode() {
