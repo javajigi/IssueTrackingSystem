@@ -130,15 +130,11 @@ function modifyIssueState(e) {
 		dataType:"json",
 		success: function(result) {
 //			$('.nav_category .state').html(result.state);
-			$("#card_item_" + result.id).delay(500).fadeOut("slow");	
-//			$("#state_open_tab").child().addClass
-			/*var template = $("#issue_item").html();
-			var issue_item = template.format(result.id, result.subject, result.contents, result.writer.id, result.writer.profile, result.writer.userId, result.stateCheck);
-			if(result.state === "OPEN"){
-				$("#open_issues ul").append(issue_item);
-			} else {
-				$("#close_issues ul").append(issue_item);				
-			}			*/
+//			$("#card_item_" + result.id).delay(500).fadeOut("slow");
+			var $grid = $('.masonry').masonry({
+	            itemSelector: '.masonry-item',
+	        });
+			$grid.masonry( 'remove', $("#card_item_" + result.id)).masonry();
 		},
 		error: function(error) {
 			console.log('fail-RequestData');
