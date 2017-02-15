@@ -145,7 +145,7 @@
 		  <button class="mdl-button" type="submit">upload file</button>
 		</div>
 	</form> -->
-	<form class="comment_new" id="upload" action="/comment/{{id}}/new" method="POST" enctype="multipart/form-data">
+	<form class="comment_new comment_file" id="upload" action="/comment/{{id}}/new" method="POST" enctype="multipart/form-data">
 		<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 		  <textarea class="mdl-textfield__input" id="contents" name="contents" rows=3 required></textarea>
 		  <label for="contents" class="mdl-textfield__label">Leave a comment</label>
@@ -180,13 +180,20 @@
 {{/partial}}
 {{#partial "script"}}
 	<script type="text/template" id="comment_input_template">
-  	<div id="comment_input" class="comment_input_wrap" data-id="{0}">
+  	<div id="comment_input" class="comment_input_wrap comment_file" data-id="{0}">
   		<textarea class="comment_input">{1}</textarea>
   		<a id="btn_comment_complete" class="btn_comment_complete mdl-js-button mdl-js-ripple-effect mdl-button--icon"
 		   data-id="{0}" data-upgraded=",MaterialButton,MaterialRipple">
 	   		<i class="material-icons" role="presentation">check</i><span class="visuallyhidden">add comment</span>
 	    	<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
   		</a>
+		<div class="mdl-textfield mdl-js-textfield mdl-textfield--file">
+		  <input class="mdl-textfield__input" placeholder="File" type="text" id="fileText-hidden" name="fileText" readonly/>
+		  <div class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
+		    <i class="material-icons">attach_file</i><input type="file" id="file-hidden" name="file" accept=".txt,.html,.js,.zip">
+		  </div>
+		  <label style="font-size:15px;">PNG, JPG 형식의 파일만 업로드 할 수 있습니다.</label>
+		</div>
 	</div>
 	</script>
 	<script type="text/template" id="asignee_item">

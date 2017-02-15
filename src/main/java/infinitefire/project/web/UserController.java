@@ -177,7 +177,7 @@ public class UserController {
 		modifiedUser.setUserId(loginUser.getUserId());
 		log.debug("Modifed User : " + modifiedUser);
 		if (!loginUser.isMatchPassword(password)) {	
-			log.debug("해당 유저의 정보를 수정할 권한이 없습니다2222.");
+			log.debug("해당 유저의 정보를 수정할 권한이 없습니다.");
 			return "/user/login?error=true";
 		}
 		modifiedUser.setPassword(newPassword);
