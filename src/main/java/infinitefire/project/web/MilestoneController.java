@@ -47,11 +47,6 @@ public class MilestoneController {
 		List<Milestone> milestoneList = (List<Milestone>) milestoneRepository.findAll();
 		model.addAttribute("milestones", milestoneList);
 		
-		for(Milestone m : milestoneList){
-			m.countOpenIssue();
-			log.debug("Data  :  " + m);
-		}
-		
 		return "milestone/list";
 	}
 	

@@ -78,32 +78,6 @@
   align-items: center;
 }
 
-.issues--wrap .comments .comment > .comment__header > .comment__avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 24px;
-  margin-right: 16px;
-}
-
-.issues--wrap .comments .comment > .comment__header > .comment__avatar2 {
-  width: 24px;
-  height: 24px;
-  border-radius: 12px;
-  margin-right: 8px;
-}
-
-.issues--wrap .comments .comment > .comment__header > .comment__author {
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
 .issues--wrap .comments .comment > .comment__text {
   margin-top: 16px;
   line-height: 1.5em;
@@ -120,17 +94,6 @@
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-}
-
-.issues .minilogo {
-  width: 44px;
-  height: 44px;
-  background-image: url('images/avatar.png');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 50%;
-  border-radius: 22px;
-  background-color: #F5F5F5;
 }
 
 .meta .author,
@@ -237,8 +200,4 @@ a {
   height: 20px;
   border-radius: 5px;
   background:rgb(255,171,64);
-}
-
-.mdl-list__item:hover {
-	background-color: #FAFAD2;
 }
