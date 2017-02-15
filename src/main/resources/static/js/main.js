@@ -107,6 +107,7 @@ function addComment(e) {
 				$(".article_comment").append(comment);
 				$(".comment_new #contents").val('');
 				$("#file").val('');
+				$('#fileText').val('');
 			},
 			error: function(error) {
 				console.log(error);
