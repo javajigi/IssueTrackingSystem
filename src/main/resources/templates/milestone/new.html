@@ -17,28 +17,54 @@
 					<label class="mdl-textfield__label" for="subject">Subject</label>
 				</div>
 		    </div>
-		    <div class="article_container">
-				<div class="mdl-textfield mdl-js-textfield">
-					<textarea class="mdl-textfield__input" rows= "10" id="contents" name="contents" required></textarea>
-					<label class="mdl-textfield__label" for="contents">Description</label>
+		    <div class="article_container clearfix">
+		    	<div class="article">
+					<div class="mdl-textfield mdl-js-textfield">
+						<textarea class="mdl-textfield__input" rows= "10" id="contents" name="contents" required></textarea>
+						<label class="mdl-textfield__label" for="contents">Description</label>
+					</div>
 				</div>
-				<div class="mdl-color-text--primary-contrast">
+				<div class="navigation">
 			      <!-- <div class="input-date" style="padding:15px;">
 			        <label for="startDate" style="color:#888">start date</label>
 			        <input type="datetime-local" name="formatStartDate" id="startDate" required>
 			      </div> -->
 			      <div class="input-date" style="padding:15px;">
 			        <label for="endDate" style="color:#888">end date</label>
-			        <input type="datetime-local" name="formatEndDate" id="endDate" required>
+			        <input id="endDate" class='datepicker-here' data-language='en' type="text" name="formatEndDate" required>
 			      </div>
 			    </div>
-				<div class="article_submit">
-					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">Submit</button>
-				</div>
+		    </div>
+			<div class="article_submit">
+				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">Submit</button>
 			</div>
 	    </form>  
 	</div>
 </div>
 {{/partial}}
-
+{{#partial "script"}}
+    <script src="/js/datepicker.min.js"></script>
+	<script>
+	$(function(){		
+		$('#endDate').datepicker({
+		    language: 'en',
+		    minDate: new Date() // Now can select only dates, which goes after today
+		});
+		$('#my-element').data('datepicker');
+	});
+	
+	;(function ($) { $.fn.datepicker.language['en'] = {
+		    days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+		    daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+		    daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+		    months: ['January','February','March','April','May','June', 'July','August','September','October','November','December'],
+		    monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+		    today: 'Today',
+		    clear: 'Clear',
+		    dateFormat: 'mm/dd/yyyy',
+		    timeFormat: 'hh:ii aa',
+		    firstDay: 0
+		}; })(jQuery);
+  </script>
+{{/partial}}
 {{> template}}

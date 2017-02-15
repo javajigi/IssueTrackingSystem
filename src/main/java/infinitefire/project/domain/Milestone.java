@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -125,8 +126,8 @@ public class Milestone {
 	
 	public void setFormatEndDate(String endDate) {
 		String strDate = endDate;		
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-				
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+//		this.subject = endDate;		
 		try {			
 			this.endDate = dateFormat.parse(strDate);
 		} catch (ParseException e) {
@@ -172,6 +173,13 @@ public class Milestone {
 			this.openedIssuePs = 0;
 		else
 			this.openedIssuePs = totalOpenState/issueList.size();
+	}
+	
+	public String getDueDate() {
+		
+		SimpleDateFormat dataFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH);
+		String newDate = dataFormat.format(endDate);
+		return newDate;
 	}
 	
 
