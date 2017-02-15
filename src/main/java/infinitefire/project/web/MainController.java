@@ -38,8 +38,13 @@ public class MainController {
 	@GetMapping("/")
 	public String index(HttpSession session, Model model) {
 		User loginUser = HttpSessionUtils.getUserFromSession(session);
-		List<Organization> groupList = organizationRepository.findByOrganizationMakerId(loginUser.getId());
-				
+		List<Organization> groupList;
+		if(loginUser != null) {
+			groupList = organizationRepository.findByOrganizationMakerId(loginUser.getId());
+		} else {
+			groupList = organizationRepository.findAll();
+		}
+		
 		model.addAttribute("groupList", groupList);
 		return "index";
 	}

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import infinitefire.project.domain.CommentRepository;
 import infinitefire.project.domain.IssueRepository;
@@ -88,14 +89,14 @@ public class OrganizationController {
 	}
 	
 	@PostMapping("/{groupId}/modify")
-	public String modifiedOrganization(@LoginUser User loginUser, @PathVariable Long groupId
-			) {
+	public String modifiedOrganization(@LoginUser User loginUser, @PathVariable Long groupId) {
 		return "";
 	}
 	
 	@GetMapping("/{groupId}/delete")
 	public String deleteOrganization(@LoginUser User loginUser) {
-		return "";
+		
+		return "redirect:/";
 	}
 	
 	@GetMapping("/{groupId}/detail")
