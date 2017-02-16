@@ -122,12 +122,13 @@ public class OrganizationController {
 	@GetMapping("/{groupId}/issue/list")
 	public String index(@PathVariable Long groupId, @RequestParam(value="state",  defaultValue = "OPEN") IssueState state, 
 						Model model, HttpServletRequest request) {
+		Organization organization = organizationRepository.findOne(groupId);
 		List<Issue> issueList;
 		if(state.equals(IssueState.OPEN)){
-			issueList = issueRepository.findByOrganizationAndState(groupId, IssueState.OPEN);
+			issueList = issueRepository.findByOrganizationAndState(organization, IssueState.OPEN);
 			model.addAttribute("isOpen", true);
 		} else {
-			issueList = issueRepository.findByOrganizationAndState(groupId, IssueState.CLOSE);
+			issueList = issueRepository.findByOrganizationAndState(organization, IssueState.CLOSE);
 			model.addAttribute("isClose", false);
 		}
 		model.addAttribute("issueList", issueList);
