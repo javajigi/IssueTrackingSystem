@@ -234,7 +234,11 @@ table {
 }
 
 .main_wrap .contents_text {
-	line-height: 18px;
+	padding-right: 8px;
+	line-height: 20px;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+	max-height: 60px;
 }
 
 .main_wrap .card_writer {
@@ -259,6 +263,7 @@ table {
 	width: 100%;
 	line-height: 60px;
 	min-height: 60px;
+	padding-right: 68px;
 }
 
 .main_wrap .article_container {
@@ -293,6 +298,10 @@ table {
 	padding: 20px 8px;
 	color: #333;
 	font-size: 20px;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 
 .article_container .article {
@@ -548,6 +557,7 @@ table {
 }
 .primary_contents .subject {
 	font-size: 24px;
+	padding-right: 8px;
 }
 .primary_contents .date {
 	position:relative;
