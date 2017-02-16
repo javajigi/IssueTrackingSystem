@@ -3,6 +3,8 @@ package infinitefire.project.web;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import infinitefire.project.domain.CommentRepository;
 import infinitefire.project.domain.Issue;
@@ -21,7 +24,6 @@ import infinitefire.project.domain.LabelRepository;
 import infinitefire.project.domain.MilestoneRepository;
 import infinitefire.project.domain.Organization;
 import infinitefire.project.domain.OrganizationRepository;
-import infinitefire.project.domain.OrganizationState;
 import infinitefire.project.domain.User;
 import infinitefire.project.domain.UserRepository;
 import infinitefire.project.security.LoginUser;
@@ -66,7 +68,6 @@ public class OrganizationController {
 			e.printStackTrace();
 		}
 		organization.setOrganizationMaker(loginUser);
-		organization.setOrganizationState(OrganizationState.INITIALIZE);
 		organizationRepository.save(organization);
 		return "redirect:/";
 	}
@@ -106,6 +107,22 @@ public class OrganizationController {
 		List<Issue> groupIssueList = issueRepository.findByOrganizationIdAndState(groupId, IssueState.OPEN);
 		model.addAttribute("issueList", groupIssueList);
 		
+		return "/issue/list";
+	}
+	
+	@GetMapping("/{groupId}/issue/list")
+	public String index(@PathVariable Long groupId, @RequestParam(value="state",  defaultValue = "OPEN") IssueState state, 
+						Model model, HttpServletRequest request) {
+		List<Issue> issueList;
+		if(state.equals(IssueState.OPEN)){
+			issueList = issueRepository.findByOrganizationAndState(groupId, IssueState.OPEN);
+			model.addAttribute("isOpen", true);
+		} else {
+			issueList = issueRepository.findByOrganizationAndState(groupId, IssueState.CLOSE);
+			model.addAttribute("isClose", false);
+		}
+		model.addAttribute("issueList", issueList);
+		log.debug("issueList : "+issueList);
 		return "/issue/list";
 	}
 }

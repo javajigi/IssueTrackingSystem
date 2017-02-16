@@ -45,9 +45,9 @@ public class Organization {
 	@Column(name = "createDate", nullable = false, updatable = false)
 	private Date createDate;
 	
-	@Enumerated(EnumType.STRING)
-	@Column(name = "state", nullable = false)
-	private OrganizationState organizationState;
+//	@Enumerated(EnumType.STRING)
+//	@Column(name = "state", nullable = false)
+//	private OrganizationState organizationState;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "organization")
@@ -70,12 +70,11 @@ public class Organization {
 		createDate = new Date();
 	}
 
-	public Organization(String groupName, User organizationMaker, Date createDate, OrganizationState organizationState) {
+	public Organization(String groupName, User organizationMaker, Date createDate) {
 		super();
 		this.groupName = groupName;
 		this.organizationMaker = organizationMaker;
 		this.createDate = createDate;
-		this.organizationState = organizationState;
 	}
 
 	public Long getId() {
@@ -108,14 +107,6 @@ public class Organization {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
-	}
-
-	public OrganizationState getOrganizationState() {
-		return organizationState;
-	}
-
-	public void setOrganizationState(OrganizationState organizationState) {
-		this.organizationState = organizationState;
 	}
 
 	public List<Milestone> getMilestoneList() {
@@ -183,7 +174,7 @@ public class Organization {
 	public String toString() {
 		String str = "\n-------------------Group----------------------------\n";
 		str +=  "Group [id=" + id + ", groupName=" + groupName + ", organization=" + organizationMaker + ", createDate="
-				+ createDate + ", organizationState=" + organizationState + "]";
+				+ createDate + "]";
 		return str;
 	}
 }

@@ -14,9 +14,24 @@
 		<ul id="organizationList" class="clearfix">
 		</ul>
 	</div>
-	<ul id="issueList" class="clearfix">
+	<ul id="issueList" class="org_list clearfix">
 		{{#groupList}}
-		<li id="card_item_{{id}}" class="card_item mdl-shadow--2dp">
+		<li class="org_card mdl-shadow--2dp">
+			<a class="org_main_link" href="/group/{{id}}/issue/list">
+				<div class="org_card_top">
+				  <h2>
+				    #{{id}} {{groupName}}
+				  </h2>
+				</div>
+				<div class="org_card_bottom">
+				  
+				</div>
+			</a>
+			<a class="org_detail_link" href="/group/{{id}}/detail">
+   			    <i class="material-icons">settings</i>
+			</a>
+		</li>
+<!-- 		<li id="card_item_{{id}}" class="card_item mdl-shadow--2dp">
 			<a class="card_title_link" href="/group/{{id}}/detail">
 				<p class="card_title ellipsize">#{{id}} {{groupName}}</p>
 				<i class="card_arrow material-icons">arrow_forward</i>
@@ -36,10 +51,10 @@
 			<div class="card_bottom">
 				<input type="checkbox" id="toggle_state_{{id}}" value="{{id}}" class="cbx hidden" {{stateCheck}}/>
  						<label for="toggle_state_{{id}}" class="lbl"></label>
-				<!-- Number badge on icon -->
+				Number badge on icon
 				<span class="material-icons mdl-badge mdlgggggggggggg-badge--overlap comment_count" data-badge="1">comment</span>
 			</div>
-		</li>
+		</li> -->
 		{{/groupList}}
 	</ul>
 	<a class="btn_add mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect" href="/group/new">
