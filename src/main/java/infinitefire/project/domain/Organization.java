@@ -137,6 +137,14 @@ public class Organization {
 	public boolean isMatchWriter(User matchUser) {
 		return this.organizationMaker.equals(matchUser);
 	}
+	
+	public boolean isAssignee(User target) {
+		for (User user : asigneeList) {
+			if (user.equals(target))
+				return true;
+		}
+		return false;
+	}
 
 	@Override
 	public int hashCode() {
