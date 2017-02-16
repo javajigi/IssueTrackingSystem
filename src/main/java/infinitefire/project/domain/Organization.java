@@ -6,8 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,17 +17,12 @@ import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import infinitefire.project.utils.DateTimeUtils;
 
 @Entity
-public class Organization {
-	private static final Logger log = LoggerFactory.getLogger(Organization.class);
-	
+public class Organization {	
 	@Id
 	@GeneratedValue
 	private Long id;
