@@ -13,7 +13,7 @@ public interface IssueRepository extends JpaRepository<Issue, Long>{
 	
 	//날짜순-최신
 	//List<Issue> findByIdOrderByWriteDateAsc(Long id);
-	List<Issue> findAllByOrderByWriteDateAsc();
+	List<Issue> findAllByOrganizationIdByOrderByWriteDateAsc(Long groupId);
 	//날짜순-오래된
 	List<Issue> findAllByOrderByWriteDateDesc();
 	//댓글순-많은

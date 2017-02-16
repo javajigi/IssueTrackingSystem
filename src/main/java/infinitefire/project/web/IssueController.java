@@ -291,7 +291,7 @@ public class IssueController {
 		List<Issue> getIssueList = null;
 		switch (sortId) {
 		case "ascDate":
-			getIssueList = issueRepository.findAllByOrderByWriteDateAsc();
+			//getIssueList = issueRepository.findAllByOrganizationIdByOrderByWriteDateAsc(groupId);
 			break;
 		case "descDate":
 			getIssueList = issueRepository.findAllByOrderByWriteDateDesc();
