@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IssueRepository extends JpaRepository<Issue, Long>{
 	
-	List<Issue> findByOrganizationAndState(Long id, IssueState state);
+	List<Issue> findByOrganizationAndState(Organization organization, IssueState state);
 	
 	List<Issue> findByState(IssueState state);
 	List<Issue> findByOrganizationIdAndState(Long groupId, IssueState state);
