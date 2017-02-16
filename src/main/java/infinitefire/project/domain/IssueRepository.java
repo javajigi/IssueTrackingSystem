@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IssueRepository extends JpaRepository<Issue, Long>{
 	
+	List<Issue> findByOrganizationAndState(Long id, IssueState state);
+	
 	List<Issue> findByState(IssueState state);
 	//날짜순-최신
 	List<Issue> findByIdOrderByWriteDateAsc(Long id);

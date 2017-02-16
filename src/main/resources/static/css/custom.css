@@ -695,6 +695,34 @@ table {
 	padding: 0 8px;
 }
 
+.org_list {
+	
+}
+.org_card {
+	position :relative;
+	width: 256px;
+	height: 160px;
+	color: #eee;
+	background: #FF847C;
+}
+.org_card .org_card_top {
+	height: 120px;
+	padding: 16px;
+	border-bottom: 1px solid #ccc;
+}
+
+.org_card .org_card_bottom {
+	height: 40px;
+	padding: 8px;
+}
+
+.org_card .org_detail_link {
+	position: absolute;
+	bottom: 5px;
+	right: 8px;
+}
+
+
 /* toggle button */
 .lbl {
   position: relative;
