@@ -12,7 +12,13 @@
 					<label class="mdl-textfield__label" for="groupName">groupName</label>
 				</div>
 	    	</div>
-		    <div class="article_container clearfix">
+		    <div class="article_container partition">
+		    	<div class="article">
+					<div class="mdl-textfield mdl-js-textfield">
+						<textarea class="mdl-textfield__input" rows= "15" id="description" name="description" required></textarea>
+						<label class="mdl-textfield__label" for="description">Description</label>
+					</div>
+				</div>
 				<div class="navigation new_nav">
 			      	<div class="nav_category">
 				      	<div class="nav_title">Assignee</div>
@@ -26,14 +32,14 @@
 	   					    	<a href="#"><i class="material-icons">close</i></a>
 	   					    </span>
 	   						{{#allUser}}
-   						 	<input id="assignee_checkbox_{{id}}" class="nav_menu_input user_checkbox" 
-                     		   type="checkbox" data-id="{{id}}" data-userid="{{userId}}" data-profile="{{profile}}" value="{{id}}" name="assigneeList">
-	   						<label class="nav_menu_label ellipsize" for="assignee_checkbox_{{id}}">{{userId}}</label>
+   						 	<input id="user_checkbox_{{id}}" class="nav_menu_input user_checkbox" 
+                     		   type="checkbox" data-id="{{id}}" data-userid="{{userId}}" data-profile="{{profile}}" value="{{id}}" name="memberList">
+	   						<label class="nav_menu_label ellipsize" for="user_checkbox_{{id}}">{{userId}}</label>
   							 <!-- 	<li class="add_assignee mdl-menu__item"
 		                     data-id="{{id}}" data-issue="{{../id}}">{{userId}}</li> -->
 	   					  	{{/allUser}}
 	   					</div>
-			             <ul id="assignee_list">			     			
+			             <ul id="member_list">			     			
 			             </ul>
       				</div>
 				</div>
@@ -47,32 +53,15 @@
 </div>
 {{/partial}}
 {{#partial "script"}}
-	<script src="/js/issue_new.js"></script>
-	<script type="text/template" id="asignee_item">
-  <li id="assignee_{0}" class="assignee mdl-chip mdl-chip--contact mdl-chip--deletable" data-id="{0}">
+	<script src="/js/organization.js"></script>
+	<script type="text/template" id="member_item">
+  <li id="member_{0}" class="assignee mdl-chip mdl-chip--contact mdl-chip--deletable" data-id="{0}">
     <img class="mdl-chip__contact" src="/profile/{2}"></img>
     <span class="mdl-chip__text">{1}</span>
-    <a class="delete_assignee mdl-chip__action" data-id="{0}">
+    <a class="delete_member mdl-chip__action" data-id="{0}">
       <i class="material-icons">cancel</i>
     </a>
   </li>
-	</script>
-	<script type="text/template" id="label_item">
-	<li id="label_{0}" class="label_tag mdl-chip mdl-chip--deletable" style="background-color:{1}">
-    	<span class="mdl-chip__text">{2}</span>
-    	<button type="button" class="delete_label mdl-chip__action" data-id="{0}">
-    		<i class="material-icons">cancel</i>
-   		</button>
-	</li>
-	</script>
-	<script type="text/template" id="milestone_item">
-		<a id="milestone" class="milestone_link mdl-chip" href="/milestone/{0}/detail">
-	    	<span class="mdl-chip__text">{1}</span>
-		</a>
-		<button type="button" class="btn_milestone_delete mdl-chip__action"
-				data-id="{0}">
-			<i class="material-icons">cancel</i>
-		</button>
 	</script>
 {{/partial}}
 

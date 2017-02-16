@@ -54,16 +54,16 @@ public class OrganizationController {
 	}
 	
 	@PostMapping("/new")
-	public String createGroup(@LoginUser User loginUser, Organization organization, String assigneeList) {
+	public String createGroup(@LoginUser User loginUser, Organization organization, String memberList) {
 		log.debug("Post-Group-New >>");
 		try {
-			String[] assigneeIds = assigneeList.split(",");
-			List<User> assignees = new ArrayList<User>();
-			for(String strId : assigneeIds) {
+			String[] memberIds = memberList.split(",");
+			List<User> members = new ArrayList<User>();
+			for(String strId : memberIds) {
 				long id = Long.parseLong(strId);
-				assignees.add(userRepository.findOne(id));
+				members.add(userRepository.findOne(id));
 			}
-			organization.setAssigneeList(assignees);
+			organization.setMemberList(members);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
@@ -110,7 +110,7 @@ public class OrganizationController {
 		boolean isOwner = group.isMatchWriter(loginUser);
 		model.addAttribute("owner", isOwner);
 		
-		List<User> assigneeList = group.getAssigneeList();
+		List<User> assigneeList = group.getMemberList();
 		model.addAttribute("assigneeList", assigneeList);
 		
 		return "/organization/detail";

@@ -11,6 +11,7 @@ import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -34,6 +35,9 @@ public class Organization {
 	@Column(name = "name", length = 30, nullable = false, updatable = false)
 	private String groupName;
 	
+	@Lob
+	private String description;
+	
 	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_organization_maker"))
 	private User organizationMaker;
@@ -41,10 +45,6 @@ public class Organization {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createDate", nullable = false, updatable = false)
 	private Date createDate;
-	
-//	@Enumerated(EnumType.STRING)
-//	@Column(name = "state", nullable = false)
-//	private OrganizationState organizationState;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "organization")
@@ -61,7 +61,7 @@ public class Organization {
 	
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
-	private List<User> assigneeList;
+	private List<User> memberList;
 
 	@JsonIgnore
 	@Transient
@@ -72,9 +72,10 @@ public class Organization {
 		createDate = new Date();
 	}
 
-	public Organization(String groupName, User organizationMaker, Date createDate) {
+	public Organization(String groupName, String description,  User organizationMaker, Date createDate) {
 		super();
 		this.groupName = groupName;
+		this.description = description;
 		this.organizationMaker = organizationMaker;
 		this.createDate = createDate;
 	}
@@ -126,6 +127,14 @@ public class Organization {
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
 	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 	public User getOrganizationMaker() {
 		return organizationMaker;
@@ -151,14 +160,14 @@ public class Organization {
 		this.milestoneList = milestoneList;
 	}
 
-	public List<User> getAssigneeList() {
-		return assigneeList;
-	}
-
-	public void setAssigneeList(List<User> asigneeList) {
-		this.assigneeList = asigneeList;
+	public List<User> getMemberList() {
+		return memberList;
 	}
 	
+	public void setMemberList(List<User> memberList) {
+		this.memberList = memberList;
+	}
+
 	public List<Issue> getIssueList() {
 		return issueList;
 	}
@@ -182,7 +191,7 @@ public class Organization {
 	public boolean isAssignee(User target) {
 		if (organizationMaker.equals(target))
 			return true;
-		for (User user : assigneeList) {
+		for (User user : memberList) {
 			if (user.equals(target))
 				return true;
 		}
@@ -192,7 +201,7 @@ public class Organization {
 	public boolean isAssigneeOnly(User target) {
 		if (organizationMaker.equals(target))
 			return false;
-		for (User user : assigneeList) {
+		for (User user : memberList) {
 			if (user.equals(target))
 				return true;
 		}

@@ -8,8 +8,7 @@ insert into user (id, user_id, name, password, state, profile) values (1, 'test'
 insert into user (id, user_id, name, password, state, profile) values (2, 'test2', 'jaewoong', '1234', 0, 'fb663aab-823e-48b4-9919-d08f6a493113.png');
 insert into user (id, user_id, name, password, state, profile) values (3, 'test3', 'subin', '1234', 0, 'c487c936-ce94-4c51-88b2-4287cc20b4a1.png');
 
-insert into organization (id, create_date, name, organization_maker_id) values (1, CURRENT_TIMESTAMP(), "first organization" , 1);
-insert into organization (id, create_date, name, organization_maker_id, assignee_list) values (2, CURRENT_TIMESTAMP(), "InfiniteFire" , 1, '1,2,3');
+insert into organization (id, description, create_date, name, organization_maker_id) values (1, "asfdsadfsadfasfasdfsa asf  sdfas sdf ", CURRENT_TIMESTAMP(), "first organization" , 1);
 
 INSERT INTO issue (id, contents, state, subject, write_date, writer_id, organization_id, milestone_id) VALUES (1, 'first issue contents', 'CLOSE', 'first issue', CURRENT_TIMESTAMP(), 1, 1, 2);
 INSERT INTO issue (id, contents, state, subject, write_date, writer_id, organization_id, milestone_id) VALUES (2, 'second issue contents', 'OPEN', 'second issue', CURRENT_TIMESTAMP(), 2, 1, 2);
