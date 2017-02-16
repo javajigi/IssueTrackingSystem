@@ -1,9 +1,9 @@
 package infinitefire.project.web;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,12 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import infinitefire.project.domain.CommentRepository;
-import infinitefire.project.domain.Issue;
 import infinitefire.project.domain.IssueRepository;
-import infinitefire.project.domain.IssueState;
 import infinitefire.project.domain.LabelRepository;
 import infinitefire.project.domain.MilestoneRepository;
 import infinitefire.project.domain.Organization;
@@ -56,18 +53,19 @@ public class OrganizationController {
 	@PostMapping("/new")
 	public String createGroup(@LoginUser User loginUser, Organization organization, String memberList) {
 		log.debug("Post-Group-New >>");
+		organization.setOrganizationMaker(loginUser);
+		Set<User> members = new HashSet<User>();
+		members.add(userRepository.findOne(loginUser.getId()));
 		try {
 			String[] memberIds = memberList.split(",");
-			List<User> members = new ArrayList<User>();
 			for(String strId : memberIds) {
 				long id = Long.parseLong(strId);
 				members.add(userRepository.findOne(id));
 			}
-			organization.setMemberList(members);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
-		organization.setOrganizationMaker(loginUser);
+		organization.setMemberList(members);
 		organizationRepository.save(organization);
 		return "redirect:/";
 	}
@@ -110,7 +108,7 @@ public class OrganizationController {
 		boolean isOwner = group.isMatchWriter(loginUser);
 		model.addAttribute("owner", isOwner);
 		
-		List<User> assigneeList = group.getMemberList();
+		Set<User> assigneeList = group.getMemberList();
 		model.addAttribute("assigneeList", assigneeList);
 		
 		return "/organization/detail";

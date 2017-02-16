@@ -1,9 +1,12 @@
 package infinitefire.project.domain;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -44,7 +47,8 @@ public class User {
 		passwordEncoder = new BCryptPasswordEncoder();
 	}
 
-	public User(String userId, String name, String password, String profile, UserState userState) {
+	public User(String userId, String name, String password, String profile, UserState userState, List<Organization> organizationList) {
+		
 		super();
 		this.userId = userId;
 		this.name = name;

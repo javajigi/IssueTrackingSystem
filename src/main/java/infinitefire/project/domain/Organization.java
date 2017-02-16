@@ -2,7 +2,9 @@ package infinitefire.project.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +13,7 @@ import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -61,7 +64,8 @@ public class Organization {
 	
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
-	private List<User> memberList;
+	@JoinTable(name = "ORGANATION_MEMBER", joinColumns = { @JoinColumn(name = "ORGANATION_ID") }, inverseJoinColumns = { @JoinColumn(name = "MEMBER_ID") })
+	private Set<User> memberList;
 
 	@JsonIgnore
 	@Transient
@@ -80,38 +84,6 @@ public class Organization {
 		this.createDate = createDate;
 	}
 	
-	public Organization(String groupName, User organizationMaker, Date createDate, List<User> assigneeList) {
-		super();
-		this.groupName = groupName;
-		this.organizationMaker = organizationMaker;
-		this.createDate = createDate;
-		
-		if (!assigneeList.contains(organizationMaker))
-			assigneeList.add(organizationMaker);
-		this.memberList = assigneeList;
-	}
-	
-	public Organization(String groupName, User organizationMaker, Date createData, String assigneeList) {
-		super();
-		this.groupName = groupName;
-		this.organizationMaker = organizationMaker;
-		this.createDate = createData;
-		
-		String[] assigneeIds = assigneeList.split(",");
-		List<User> assignees = new ArrayList<User>();
-		try {
-			for(String strId : assigneeIds) {
-				long id = Long.parseLong(strId);
-				assignees.add(userRepository.findOne(id));
-			}
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		}
-		if (!assignees.contains(organizationMaker))
-			assignees.add(organizationMaker);
-		this.memberList = assignees;
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -160,12 +132,12 @@ public class Organization {
 		this.milestoneList = milestoneList;
 	}
 
-	public List<User> getMemberList() {
+	public Set<User> getMemberList() {
 		return memberList;
 	}
 	
-	public void setMemberList(List<User> memberList) {
-		this.memberList = memberList;
+	public void setMemberList(Set<User> members) {
+		this.memberList = members;
 	}
 
 	public List<Issue> getIssueList() {
