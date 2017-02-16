@@ -8,39 +8,53 @@
 	{{#if sessionedUser}}
 	{{#group}}
 	<div class="article_header">
-		<h2 class="article_title"> {{userId}}님이 속한 #{{id}} {{groupName}} 그룹 </h2>
+		<h2 class="article_title"> {{sessionedUser.userId}}님이 속한 그룹 - {{groupName}}</h2>
     </div>
     <div class="article_container">
+    	<div class="section">
+			<span class="label">그룹 관리자</span>
+		</div>
 		<div class="section">
 			<span class="label">User ID</span>
-			<span class="contents">{{userId}}</span>
+			<span class="contents">{{organizationMaker.userId}}</span>
 		</div>
 		<div class="section">
 			<span class="label">Name</span>
-			<span class="contents">{{name}}</span>
+			<span class="contents">{{organizationMaker.name}}</span>
 		</div>
-		<div class="section">
-			<span class="label">Profile Image</span>
-			<span class="contents">
-				<img id="pic" name="pic" src="/profile/{{profile}}" height="200" width="200"/>
-			</span>
-			<div>
-				<form action="/group/{{id}}/modify" method="get">
-					<div class="article_submit">
-						<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">정보 수정</button>
-					</div>
-			    </form>
-			    <form action="/group/{{id}}/delete" method="get">
-					<div class="article_submit">
-						<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">그룹 해체</button>
-					</div>
-			    </form>
-		    </div>
+		{{#if owner}}
+		<div>
+			<form action="/group/{{id}}/modify" method="get">
+				<div class="article_submit">
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">정보 수정</button>
+				</div>
+		    </form>
+		    <form action="/group/{{id}}/delete" method="get">
+				<div class="article_submit">
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">그룹 해체</button>
+				</div>
+		    </form>
+	    </div>
+	    {{/if}}
+	    <div class="section">
+			<span class="label">그룹 참가자</span>
 		</div>
+	    <div class="mdl-list-action mdl-list">
+	    {{#assigneeList}}
+	    	<div class="mdl-list__item">
+	    		<span class="mdl-list__item-primary-content">
+	    			<img class="comment_thumb round_image" height="48" width="48" src="/profile/{{profile}}" alt="javajigi">
+	    			<span>{{userId}} ({{name}})</span>
+	    		</span>
+	    	</div>
+	    {{/assigneeList}}
+	    </div>
 	</div>
     {{/group}}
     {{else}}
-    	<a>그룹이 없습니다.</a>
+    	<div class="section">
+			<span class="label">그룹이 없습니다.</span>
+		</div>
     {{/if}}
 </div>
 {{/partial}}
