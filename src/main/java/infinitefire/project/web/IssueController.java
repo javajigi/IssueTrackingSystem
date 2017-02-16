@@ -102,9 +102,17 @@ public class IssueController {
 	}
 	
 	@GetMapping("/group/{groupId}/issue/list")
-	public String index(@PathVariable Long groupId, @RequestParam(value="state",  defaultValue = "OPEN") IssueState state, 
+	public String index(@LoginUser User loginUser, @PathVariable Long groupId, @RequestParam(value="state",  defaultValue = "OPEN") IssueState state, 
 						Model model, HttpServletRequest request) {
 		Organization organization = organizationRepository.findOne(groupId);
+		log.debug(organization.getAssigneeList().toString());
+		log.debug(loginUser.toString());
+		if (!organization.isAssignee(loginUser)) {
+			log.debug("Group에 접근할 권한이 없습니다.");
+			return "redirect:/";
+		}
+			
+		
 		List<Issue> issueList;
 		if(state.equals(IssueState.OPEN)){
 			issueList = issueRepository.findByOrganizationAndState(organization, IssueState.OPEN);

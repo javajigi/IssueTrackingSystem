@@ -1,5 +1,6 @@
 package infinitefire.project.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,12 +11,16 @@ import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -30,6 +35,9 @@ public class Organization {
 	@Column(name = "name", length = 30, nullable = false, updatable = false)
 	private String groupName;
 	
+	@Lob
+	private String description;
+	
 	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_organization_maker"))
 	private User organizationMaker;
@@ -37,10 +45,6 @@ public class Organization {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createDate", nullable = false, updatable = false)
 	private Date createDate;
-	
-//	@Enumerated(EnumType.STRING)
-//	@Column(name = "state", nullable = false)
-//	private OrganizationState organizationState;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "organization")
@@ -57,17 +61,55 @@ public class Organization {
 	
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
-	private List<User> asigneeList;
+	private List<User> memberList;
 
+	@JsonIgnore
+	@Transient
+	@Autowired
+	private UserRepository userRepository;
+	
 	public Organization() {
 		createDate = new Date();
 	}
 
-	public Organization(String groupName, User organizationMaker, Date createDate) {
+	public Organization(String groupName, String description,  User organizationMaker, Date createDate) {
+		super();
+		this.groupName = groupName;
+		this.description = description;
+		this.organizationMaker = organizationMaker;
+		this.createDate = createDate;
+	}
+	
+	public Organization(String groupName, User organizationMaker, Date createDate, List<User> assigneeList) {
 		super();
 		this.groupName = groupName;
 		this.organizationMaker = organizationMaker;
 		this.createDate = createDate;
+		
+		if (!assigneeList.contains(organizationMaker))
+			assigneeList.add(organizationMaker);
+		this.assigneeList = assigneeList;
+	}
+	
+	public Organization(String groupName, User organizationMaker, Date createData, String assigneeList) {
+		super();
+		this.groupName = groupName;
+		this.organizationMaker = organizationMaker;
+		this.createDate = createData;
+		
+		String[] assigneeIds = assigneeList.split(",");
+		List<User> assignees = new ArrayList<User>();
+		try {
+			for(String strId : assigneeIds) {
+				long id = Long.parseLong(strId);
+				assignees.add(userRepository.findOne(id));
+			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		if (!assignees.contains(organizationMaker))
+			assignees.add(organizationMaker);
+		this.assigneeList = assignees;
 	}
 
 	public Long getId() {
@@ -84,6 +126,14 @@ public class Organization {
 
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public User getOrganizationMaker() {
@@ -110,14 +160,14 @@ public class Organization {
 		this.milestoneList = milestoneList;
 	}
 
-	public List<User> getAsigneeList() {
-		return asigneeList;
-	}
-
-	public void setAsigneeList(List<User> asigneeList) {
-		this.asigneeList = asigneeList;
+	public List<User> getMemberList() {
+		return memberList;
 	}
 	
+	public void setMemberList(List<User> memberList) {
+		this.memberList = memberList;
+	}
+
 	public List<Issue> getIssueList() {
 		return issueList;
 	}
@@ -139,7 +189,19 @@ public class Organization {
 	}
 	
 	public boolean isAssignee(User target) {
-		for (User user : asigneeList) {
+		if (organizationMaker.equals(target))
+			return true;
+		for (User user : memberList) {
+			if (user.equals(target))
+				return true;
+		}
+		return false;
+	}
+	
+	public boolean isAssigneeOnly(User target) {
+		if (organizationMaker.equals(target))
+			return false;
+		for (User user : memberList) {
 			if (user.equals(target))
 				return true;
 		}

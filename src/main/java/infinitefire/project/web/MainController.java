@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import infinitefire.project.domain.IssueRepository;
 import infinitefire.project.domain.Organization;
 import infinitefire.project.domain.OrganizationRepository;
 import infinitefire.project.domain.User;
@@ -25,13 +24,10 @@ public class MainController {
 	
 	@Autowired
 	private OrganizationRepository organizationRepository;
-	@Autowired
-	private IssueRepository issueRepository;
 	
 	@GetMapping("/back")
 	public String backToPage(HttpServletRequest req) {
 		String getContextPath = req.getHeader("REFERER");
-		//getContextPath.replace("http://localhost:8080/", "");
 		log.debug("Replace >> "+getContextPath.replace("http://localhost:8080/", ""));
 		return "redirect:/"+getContextPath.replace("http://localhost:8080/", "");
 	}
@@ -39,21 +35,41 @@ public class MainController {
 	@GetMapping("/")
 	public String index(HttpSession session, Model model) {
 		User loginUser = HttpSessionUtils.getUserFromSession(session);
-		List<Organization> groupList, myGroupList, list;
-		myGroupList = list = organizationRepository.findAll();
+		List<Organization> groupList = null;
+		List<Organization> myGroupList = null;
 		if(loginUser != null) {
-			for (Iterator<Organization> iter = list.iterator(); iter.hasNext();) {
-				Organization group = iter.next();
-				if (!group.isAssignee(loginUser))
-					iter.remove();
-			}
-			groupList = organizationRepository.findAll();
-		} else {
-			myGroupList = null;
-			groupList = organizationRepository.findAll();
+			groupList = getAssignedOrganization(loginUser);
+			myGroupList = getMyOrganization(loginUser);
 		}
 		model.addAttribute("myGroupList", myGroupList);
 		model.addAttribute("groupList", groupList);
+		
 		return "index";
+	}
+	
+	public List<Organization> getMyOrganization(User user) {
+		List<Organization> allGroup = organizationRepository.findAll();
+		List<Organization> myGroup = null;
+		
+		for (Iterator<Organization> iter = allGroup.iterator(); iter.hasNext();) {
+			Organization group = iter.next();
+			if (!group.isMatchWriter(user))
+				iter.remove();
+		}
+		myGroup = allGroup;
+		return myGroup;
+	}
+	
+	public List<Organization> getAssignedOrganization(User user) {
+		List<Organization> allGroup = organizationRepository.findAll();
+		List<Organization> assignedGroup = null;
+		
+		for (Iterator<Organization> iter = allGroup.iterator(); iter.hasNext();) {
+			Organization group = iter.next();
+			if (!group.isAssignee(user) || group.isMatchWriter(user))
+				iter.remove();
+		}
+		assignedGroup = allGroup;
+		return assignedGroup;
 	}
 }
