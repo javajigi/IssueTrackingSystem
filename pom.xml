@@ -5,7 +5,7 @@
 
 	<groupId>infinitefire.project</groupId>
 	<artifactId>its</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>its</name>
@@ -96,6 +96,9 @@
 				<version>0.4.11</version>
 				<configuration>
 					<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+					<imageTags>
+						<imageTag>latest</imageTag>
+					</imageTags>
 					<dockerDirectory>src/main/docker</dockerDirectory>
 					<resources>
 						<resource>
