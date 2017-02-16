@@ -62,7 +62,6 @@ public class Organization {
 	@OneToMany(mappedBy = "organization")
 	private List<Label> labelList;
 	
-	
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
 	private List<User> asigneeList;

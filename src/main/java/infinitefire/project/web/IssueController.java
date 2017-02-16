@@ -28,6 +28,7 @@ import infinitefire.project.domain.Label;
 import infinitefire.project.domain.LabelRepository;
 import infinitefire.project.domain.Milestone;
 import infinitefire.project.domain.MilestoneRepository;
+import infinitefire.project.domain.OrganizationRepository;
 import infinitefire.project.domain.User;
 import infinitefire.project.domain.UserRepository;
 import infinitefire.project.security.GetContextPath;
@@ -36,6 +37,8 @@ import infinitefire.project.security.LoginUser;
 @Controller
 @RequestMapping("/issue")
 public class IssueController {
+	@Autowired
+	OrganizationRepository organizationRepository;
 	@Autowired
 	IssueRepository issueRepository;
 	@Autowired
@@ -283,7 +286,19 @@ public class IssueController {
 	}
 	
 	@PostMapping("/sortby/{sortId}")
-	public @ResponseBody List<Issue> sortIssue(@LoginUser User loginUser) {
-		return null;
+	public @ResponseBody List<Issue> sortIssue(@LoginUser User loginUser, @PathVariable String sortId) {
+		log.debug("Access sortby-post >> "+sortId);
+		List<Issue> getIssueList = null;
+		switch (sortId) {
+		case "ascDate":
+			getIssueList = issueRepository.findAllByOrderByWriteDateAsc();
+			break;
+		case "descDate":
+			getIssueList = issueRepository.findAllByOrderByWriteDateDesc();
+			break;
+		case "descComment":
+			break;
+		}
+		return getIssueList;
 	}
 }
