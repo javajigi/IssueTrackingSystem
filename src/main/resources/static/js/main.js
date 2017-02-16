@@ -17,9 +17,33 @@ $(function() {
 	$('#name').keyup(checkValue);
 	$('#password').keyup(checkValue);
 	$('.back-btn').click(preBack);
+	$('.sorting-key').click(sortByKey);
 	
 	$('.main_wrap').delegate('.comment_file', 'change', checkFileSize);
 });
+
+function sortByKey() {
+	var url = '/issue/sortby/'+$(this).attr('id');
+	
+	$.ajax({
+		type: 'post',
+		url: url,
+		success: function(result) {
+			console.log(result);
+			if(result){
+				$('#'+thisName+'_alert').css("color", "red");
+				$('#'+thisName+'_alert').html('존재하는 ID입니다');
+			} else {
+				$('#'+thisName+'_alert').css("color", "blue");
+				$('#'+thisName+'_alert').html('사용가능한 ID입니다');
+			}
+				
+		},
+		error: function(error) {
+			alert('로그인후 댓글을 달 수 있습니다.');
+		}
+	});
+}
 
 function preBack() {
 	history.back();

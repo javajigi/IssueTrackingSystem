@@ -24,6 +24,20 @@
 					<a class="current_state is-checked" href="/?state=CLOSE">CLOSE</a>
 				</li>
 			{{/if}}
+			<div>
+			<li>
+				<button id="demo-menu-lower-right"
+				        class="mdl-button mdl-js-button mdl-button--icon">
+				  <i class="material-icons">sort</i>
+				</button>
+			</li>
+				<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+				    for="demo-menu-lower-right">
+				  <li class="sorting-key mdl-menu__item" id="ascDate">최신날짜</li>
+				  <li class="sorting-key mdl-menu__item" id="descDate">오래된날짜</li>
+				  <li class="sorting-key mdl-menu__item" id="descComment">댓글갯수</li>
+				</ul>
+			</div>
 		</ul>
 		<a class="btn_add mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect" href="/issue/new">
 		  <i class="material-icons">add</i>

@@ -123,7 +123,7 @@ public class Issue {
 	}
 
 	public void setContents(String contents) {
-		this.contents = contents;
+		this.contents = RegularExpressionUtils.convertString(contents);
 	}
 
 	public String getWriteDate() {
