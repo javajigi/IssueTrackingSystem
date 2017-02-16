@@ -2,13 +2,14 @@
 <div class="main_wrap">
 	<div class="title_container">
 		<i class="title_icon material-icons">bookmark_border</i>	
-		<h2 class="title">Organization Create</h2>
+		<h2 class="title">그룹 정보 수정</h2>
 	</div>
 	<div class="round_border mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+	{{#group}}
 		<form action="/group/new" method="post">
 			<div class="article_header">
 				<div class="mdl-textfield mdl-js-textfield">
-					<input class="mdl-textfield__input" type="text" id="groupName" name="groupName" required>
+					<input class="mdl-textfield__input" type="text" id="groupName" name="groupName" value="{{groupName}}" required>
 					<label class="mdl-textfield__label" for="groupName">groupName</label>
 				</div>
 	    	</div>
@@ -43,6 +44,7 @@
 				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">Submit</button>
 			</div>
 		</form>
+		{{/group}}
 	</div>
 </div>
 {{/partial}}

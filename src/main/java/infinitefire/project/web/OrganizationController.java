@@ -79,18 +79,21 @@ public class OrganizationController {
 	public String modifyOrganization(@LoginUser User loginUser, @PathVariable Long groupId, Model model) {
 		log.debug("Access-Get-modify >>");
 		
-		Organization modify = organizationRepository.findOne(groupId);
+		Organization group = organizationRepository.findOne(groupId);
 		
-		if(modify.isMatchWriter(loginUser)) {
-			model.addAttribute("modifyGroup", modify);
-			return "group/modify";
+		if(group.isMatchWriter(loginUser)) {
+			model.addAttribute("group", group);
+			return "/organization/modify";
 		} else
 			return "redirect:/";
 	}
 	
 	@PostMapping("/{groupId}/modify")
-	public String modifiedOrganization(@LoginUser User loginUser, @PathVariable Long groupId) {
-		return "";
+	public String modifiedOrganization(@LoginUser User loginUser, @PathVariable Long groupId, Organization modifiedGroup) {
+		log.debug("Access-Get-modify");
+		Organization group = organizationRepository.findOne(groupId);
+		
+		return "redirect:/";
 	}
 	
 	@GetMapping("/{groupId}/delete")
