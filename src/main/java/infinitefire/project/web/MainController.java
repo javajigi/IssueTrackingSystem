@@ -1,5 +1,6 @@
 package infinitefire.project.web;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,13 +39,20 @@ public class MainController {
 	@GetMapping("/")
 	public String index(HttpSession session, Model model) {
 		User loginUser = HttpSessionUtils.getUserFromSession(session);
-		List<Organization> groupList;
+		List<Organization> groupList, myGroupList, list;
+		myGroupList = list = organizationRepository.findAll();
 		if(loginUser != null) {
-			groupList = organizationRepository.findByOrganizationMakerId(loginUser.getId());
+			for (Iterator<Organization> iter = list.iterator(); iter.hasNext();) {
+				Organization group = iter.next();
+				if (!group.isAssignee(loginUser))
+					iter.remove();
+			}
+			groupList = organizationRepository.findAll();
 		} else {
+			myGroupList = null;
 			groupList = organizationRepository.findAll();
 		}
-		
+		model.addAttribute("myGroupList", myGroupList);
 		model.addAttribute("groupList", groupList);
 		return "index";
 	}

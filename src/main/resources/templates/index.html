@@ -7,6 +7,23 @@
 	<div>
 		<h3 class="title">MyOrganization</h3>
 		<ul id="organizationList" class="clearfix">
+		{{#myGroupList}}
+			<li class="org_card mdl-shadow--2dp">
+				<a class="org_main_link" href="/group/{{id}}/issue/list">
+					<div class="org_card_top">
+					  <h2>
+					    #{{id}} {{groupName}}
+					  </h2>
+					</div>
+					<div class="org_card_bottom">
+					  
+					</div>
+				</a>
+				<a class="org_detail_link" href="/group/{{id}}/detail">
+	   			    <i class="material-icons">settings</i>
+				</a>
+			</li>
+		{{/myGroupList}}
 		</ul>
 	</div><hr>
 	<div>
