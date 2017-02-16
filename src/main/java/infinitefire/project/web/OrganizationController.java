@@ -101,14 +101,14 @@ public class OrganizationController {
 		return "redirect:/";
 	}
 	
-	@GetMapping("/{groupId}/detail")
+	/*@GetMapping("/{groupId}/detail")
 	public String showGroupDetail(@LoginUser User loginUser, @PathVariable Long groupId, Model model) {
 		log.debug("Access-Get-deatil >>");
 		List<Issue> groupIssueList = issueRepository.findByOrganizationIdAndState(groupId, IssueState.OPEN);
 		model.addAttribute("issueList", groupIssueList);
 		
 		return "/issue/list";
-	}
+	}*/
 	
 	@GetMapping("/{groupId}/issue/list")
 	public String index(@PathVariable Long groupId, @RequestParam(value="state",  defaultValue = "OPEN") IssueState state, 
@@ -123,6 +123,7 @@ public class OrganizationController {
 			model.addAttribute("isClose", false);
 		}
 		model.addAttribute("issueList", issueList);
+		model.addAttribute("organizationId", groupId);
 		log.debug("issueList : "+issueList);
 		return "/issue/list";
 	}

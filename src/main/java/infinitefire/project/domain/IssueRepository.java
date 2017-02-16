@@ -9,11 +9,10 @@ public interface IssueRepository extends JpaRepository<Issue, Long>{
 	List<Issue> findByOrganizationAndState(Organization organization, IssueState state);
 	
 	List<Issue> findByState(IssueState state);
-	List<Issue> findByOrganizationIdAndState(Long groupId, IssueState state);
+	//List<Issue> findByOrganizationIdAndState(Long groupId, IssueState state);
 	
 	//날짜순-최신
-	//List<Issue> findByIdOrderByWriteDateAsc(Long id);
-	List<Issue> findAllByOrganizationIdByOrderByWriteDateAsc(Long groupId);
+	List<Issue> findByOrganizationOrderByWriteDateAsc(Organization organization);
 	//날짜순-오래된
 	List<Issue> findAllByOrderByWriteDateDesc();
 	//댓글순-많은

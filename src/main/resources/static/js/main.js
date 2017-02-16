@@ -25,7 +25,7 @@ $(function() {
 
 function sortByKey() {
 	var url = '/issue/sortby/'+$(this).attr('id');
-	var data = $(this).attr('data-value');
+	var data = $('sorting_key').attr('action');
 	console.log(data);
 	
 	/*$.ajax({
