@@ -25,11 +25,11 @@ $(function() {
 
 function sortByKey() {
 	var url = '/sortby/'+$(this).attr('id');
-	var data = $('#sorting_key').attr('action');
-	console.log(data+url);
+	var datas = $('#sorting_key').attr('action');
+	var status = $('#state').val();
 	$.ajax({
 		type: 'post',
-		url: data+url,
+		url: datas+url+'/'+status,
 		success: function(result) {
 			console.log(result);
 			
@@ -42,7 +42,7 @@ function sortByKey() {
 			}
 		},
 		error: function(error) {
-			alert('로그인후 댓글을 달 수 있습니다.');
+			alert('에러');
 		}
 	});
 }

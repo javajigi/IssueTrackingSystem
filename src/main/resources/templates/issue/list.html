@@ -27,6 +27,7 @@
 				</button>
 			</li>
 			<form id="sorting_key" action="/group/{{organizationId}}">
+				<input type="hidden" id="state" name="state" value="{{isOpen}}"/>
 				<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
 				    for="demo-menu-lower-right">
 				  <li class="sorting-key mdl-menu__item" id="ascDate">최신날짜순</li>

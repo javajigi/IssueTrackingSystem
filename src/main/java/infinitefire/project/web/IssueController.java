@@ -111,7 +111,7 @@ public class IssueController {
 			model.addAttribute("isOpen", true);
 		} else {
 			issueList = issueRepository.findByOrganizationAndState(organization, IssueState.CLOSE);
-			model.addAttribute("isClose", false);
+			model.addAttribute("isOpen", false);
 		}
 		model.addAttribute("issueList", issueList);
 		model.addAttribute("organizationId", groupId);
@@ -291,24 +291,29 @@ public class IssueController {
 		return isDelete;
 	}
 	
-	@PostMapping("/group/{groupId}/sortby/{sortId}")
+	@PostMapping("/group/{groupId}/sortby/{sortId}/{state}")
 	public @ResponseBody List<Issue> sortIssue(@LoginUser User loginUser, @PathVariable Long groupId, @PathVariable String sortId,
-			@RequestParam(value="state",  defaultValue = "OPEN") IssueState state) {
-		log.debug("Access sortby-post >> "+sortId);
+			@PathVariable String state) {
+		log.debug("Access sortby-post >> "+Boolean.valueOf(state));
+		IssueState issueState;
+		if(Boolean.valueOf(state))
+			issueState = IssueState.OPEN;
+		else
+			issueState = IssueState.CLOSE;
 		List<Issue> getIssueList = null;
 		Organization organization = organizationRepository.findOne(groupId);
 		switch (sortId) {
 		case "descDate":
-			getIssueList = issueRepository.findByOrganizationAndStateOrderByWriteDateAsc(organization, state);
+			getIssueList = issueRepository.findByOrganizationAndStateOrderByWriteDateAsc(organization, issueState);
 			break;
 		case "ascDate":
-			getIssueList = issueRepository.findByOrganizationAndStateOrderByWriteDateDesc(organization, state);
+			getIssueList = issueRepository.findByOrganizationAndStateOrderByWriteDateDesc(organization, issueState);
 			break;
 		case "ascComment":
-			getIssueList = issueRepository.findByOrganizationAndStateOrderByCountCommentAsc(organization, state);
+			getIssueList = issueRepository.findByOrganizationAndStateOrderByCountCommentAsc(organization, issueState);
 			break;
 		case "descComment":
-			getIssueList = issueRepository.findByOrganizationAndStateOrderByCountCommentDesc(organization, state);
+			getIssueList = issueRepository.findByOrganizationAndStateOrderByCountCommentDesc(organization, issueState);
 			break;
 		}
 		return getIssueList;
