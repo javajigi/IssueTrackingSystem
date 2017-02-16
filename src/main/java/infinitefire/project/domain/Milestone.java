@@ -21,9 +21,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -57,9 +54,7 @@ public class Milestone {
 	
 	@Transient
 	private double openedIssuePs;
-	
-	private static final Logger log = LoggerFactory.getLogger(Milestone.class);
-	
+		
 	public Milestone() {
 		startDate = new Date();
 	}
