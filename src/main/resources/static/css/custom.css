@@ -86,6 +86,11 @@ table {
 	top: 8px;
 	right: 16px;
 }
+
+.index_header {
+	right: 48px;
+}
+
 .user_info_header .user_txt {
 	float:left;
 	text-align: right;
@@ -94,14 +99,20 @@ table {
 	margin-left: 8px;
 }
 
-.user_info_header .user_id{
+.user_info_header .user_id {
 	display: block;
 	font-size: 16px;
 	color: #FF847C;
 }
-
-.user_info_header .user_name{
+.user_info_header .user_name {
 	display: block;
+}
+.user_dropdown {
+	position: absolute;
+	top: 8px;
+	right: 4px;
+	z-index: 100;
+	color: rgba(0,0,0,0.5);
 }
 
 .tab_container {
@@ -201,9 +212,9 @@ table {
 }
 
 .main_wrap .btn_add {
-	position: absolute;
-	top: 0;
-	right: 16px;
+	position: fixed;
+	bottom: 72px;
+	right: 32px;
 	background-color: #E84A5F;
 	color: #fff;
 }
@@ -650,6 +661,30 @@ table {
 	color: #fff;
 }
 
+.issues--wrap .issues-back {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 9999;
+}
+
+.nav_right_menu {
+	position: absolute;
+	top: 0;
+	right: 8px;
+	z-index: 100;
+	color: rgba(0,0,0,.5);
+	padding: 8px;
+}
+
+.nav_menu_item {
+	padding: 0;
+}
+.nav_menu_link {
+	display: block;
+	padding: 0 8px;
+}
+
 /* toggle button */
 .lbl {
   position: relative;
@@ -792,6 +827,7 @@ label:hover:before {
 .mdl-menu__outline {
 	border-radius: 8px;
 }
+
 .new_nav .nav_category .mdl-menu__container {
 	min-width: 160px;
 	font-size: 14px;
@@ -835,8 +871,23 @@ label:hover:before {
 	.main_wrap {
 		max-width: 640px;
 	}
+	.main_wrap .btn_add {
+		position: absolute;
+		top: 0;
+		bottom: auto;
+		right: 16px;
+	}
 	.user_wrap {
 		max-width: 480px;
+	}
+	
+}
+@media screen and (min-width: 1025px) {
+	.nav_right_menu {
+		display: none;
+	}
+	.user_dropdown {
+		color: #fff;
 	}
 }
 @media screen and (min-width: 1080px) {

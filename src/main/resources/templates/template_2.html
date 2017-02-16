@@ -27,63 +27,24 @@
     <div class="issues issues--wrap mdl-layout mdl-js-layout">		
         <div class="demo-layout-waterfall mdl-layout mdl-js-layout">
           {{#block "navigation"}}
-          <header class="mdl-layout__header mdl-layout__header--waterfall">
-            <div class="mdl-layout__header-row">
-              <a id="logo" class="mdl-layout-title" href="/">Issue Tracking System</a>
-              {{#if sessionedUser}}
-              <div class="user_info_header clearfix">
-				        <div class="user_txt">
-               		<span class="user_id"><a href="/user/{{sessionedUser.id}}/mypage">{{sessionedUser.userId}}</a></span>
-                	<span class="user_name"><a class="user_name" href="/user/{{sessionedUser.id}}/mypage">{{sessionedUser.name}} 님</a></span>
-				        </div>   			
-              	<a href="/user/{{sessionedUser.id}}/mypage">
-					        <img class="user_thumb round_image" height="32" width="32" src="/profile/{{sessionedUser.profile}}" alt="{{sessionedUser.userId}}"/>
-              	</a>
-              </div>
-              {{/if}}
-           </div>
-           <div class="mdl-layout__header-row">
-              <nav class="tab_container">
-                <a class="tab_menu" href="/issue/list">Issues</a>
-                <a class="tab_menu" href="/milestone/list">Milestones</a>
-                <div class="user_tab">
-                  {{#if sessionedUser}}
-                  <a class="tab_menu" href="/user/{{sessionedUser.id}}/mypage">My page</a>
-                  <a class="tab_menu" href="/user/logout">Sign out</a>
-                  {{else}}
-                  <a class="tab_menu" href="/user/login">Sign in</a>
-                  <a class="tab_menu" href="/user/new">Sign up</a>
-                  {{/if}}
-                </div>
-              </nav>
-            </div>
-          </header>
-          <div class="mdl-layout__drawer">
-          	<div aria-expanded="false" role="button" tabindex="0" class="mdl-layout__drawer-button">
-          		<i class="material-icons">home</i>
-        	</div>     
-            <span class="mdl-layout-title">Organization</span>
-            <nav class="mdl-navigation">
-              <a class="mdl-navigation__link" href="">Organization 1</a>
-              <a class="mdl-navigation__link" href="">Organization 2</a>
-              <a class="mdl-navigation__link" href="">Organization 3</a>
-              <a class="mdl-navigation__link" href="">Organization 4</a>
-            </nav>
-          </div>
-          <div class="nav_right_menu">
-			<button id="category_menu"
-			        class="mdl-button mdl-js-button mdl-button--icon">
-			  <i class="material-icons"></i>
-			</button>
-			
-			<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-    			for="category_menu">
-				<li class="mdl-menu__item nav_menu_item"><a class="nav_menu_link" href="/issue/list">Issues</a></li>
-				<li class="mdl-menu__item nav_menu_item"><a class="nav_menu_link" href="/milestone/list">Milestones</a></li>
-			</ul>
-			
-			<button id="user_menu"
-			        class="mdl-button mdl-js-button mdl-button--icon">
+          <header class="mdl-layout__header">
+			  <div class="mdl-layout__header-row">
+			    <a id="logo" class="mdl-layout-title" href="/">Issue Tracking System</a>
+			    {{#if sessionedUser}}
+				<div class="user_info_header index_header clearfix">
+					<div class="user_txt">
+						<span class="user_id"><a href="/user/{{sessionedUser.id}}/mypage">{{sessionedUser.userId}}</a></span>
+						<span class="user_name"><a class="user_name" href="/user/{{sessionedUser.id}}/mypage">{{sessionedUser.name}} 님</a></span>
+					</div>   			
+					<a href="/user/{{sessionedUser.id}}/mypage">
+						<img class="user_thumb round_image" height="32" width="32" src="/profile/{{sessionedUser.profile}}" alt="{{sessionedUser.userId}}"/>
+					</a>
+			    </div>
+				{{/if}}
+			  </div>
+			</header>
+		    <button id="user_menu"
+			        class="user_dropdown mdl-button mdl-js-button mdl-button--icon">
 				<i class="material-icons">account_circle</i>
 			</button>
 			{{#if sessionedUser}}
@@ -99,7 +60,7 @@
 				<li class="mdl-menu__item  nav_menu_item"><a class="nav_menu_link" href="/user/new">Sign up</a></li>
 			</ul> 		
 			{{/if}}
-          </div>
+			
           {{/block}}
           <main class="mdl-layout__content">
         	{{#block "container"}}{{/block}}
