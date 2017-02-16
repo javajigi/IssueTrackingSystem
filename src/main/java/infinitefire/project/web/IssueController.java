@@ -132,8 +132,8 @@ public class IssueController {
 		} else
 			return "redirect:/group/"+organizationId+"/issue/list";
 	}
-	@PostMapping("/{id}/modify")
-	public String modifiedIssue(@LoginUser User loginUser, @PathVariable Long id,
+	@PostMapping("/group/{organizationId}/issue/{id}/modify")
+	public String modifiedIssue(@LoginUser User loginUser, @PathVariable Long organizationId, @PathVariable Long id,
 			String subject, String contents, Model model) {
 		log.debug("Access >> /issue/{" + id +"}/modify-put");
 
@@ -144,20 +144,21 @@ public class IssueController {
 			issueRepository.save(modifyIssue);
 
 			model.addAttribute("issueInfo", modifyIssue);
+			model.addAttribute("organizationId", organizationId);
 			return "/issue/detail";
 		} else
-			return "redirect:/";
+			return "redirect:/group/"+organizationId+"/issue/list";
 	}
 
-	@GetMapping("/{id}/delete")
-	public String deleteIssue(@LoginUser User loginUser, @PathVariable Long id) {
+	@GetMapping("/group/{organizationId}/issue/{id}/delete")
+	public String deleteIssue(@LoginUser User loginUser, @PathVariable Long organizationId, @PathVariable Long id) {
 		log.debug("Access >> /issue/{" + id + "}/delete");
 
 		Issue deleteIssue = issueRepository.findOne(id);
 		if(deleteIssue.isMatchWriter(loginUser))
 			issueRepository.delete(id);
 
-		return "redirect:/";
+		return "redirect:/group/"+organizationId+"/issue/list";
 	}
 
 	@GetMapping("/group/{organizationId}/issue/{id}/detail")
