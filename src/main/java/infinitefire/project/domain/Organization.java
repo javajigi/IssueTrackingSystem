@@ -188,6 +188,16 @@ public class Organization {
 		}
 		return false;
 	}
+	
+	public boolean isAssigneeOnly(User target) {
+		if (organizationMaker.equals(target))
+			return false;
+		for (User user : assigneeList) {
+			if (user.equals(target))
+				return true;
+		}
+		return false;
+	}
 
 	@Override
 	public int hashCode() {
