@@ -105,7 +105,7 @@ public class IssueController {
 	public String index(@LoginUser User loginUser, @PathVariable Long groupId, @RequestParam(value="state",  defaultValue = "OPEN") IssueState state, 
 						Model model, HttpServletRequest request) {
 		Organization organization = organizationRepository.findOne(groupId);
-		log.debug(organization.getAssigneeList().toString());
+		log.debug(organization.getMemberList().toString());
 		log.debug(loginUser.toString());
 		if (!organization.isAssignee(loginUser)) {
 			log.debug("Group에 접근할 권한이 없습니다.");

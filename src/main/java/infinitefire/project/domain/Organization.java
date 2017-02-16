@@ -88,7 +88,7 @@ public class Organization {
 		
 		if (!assigneeList.contains(organizationMaker))
 			assigneeList.add(organizationMaker);
-		this.assigneeList = assigneeList;
+		this.memberList = assigneeList;
 	}
 	
 	public Organization(String groupName, User organizationMaker, Date createData, String assigneeList) {
@@ -109,7 +109,7 @@ public class Organization {
 		}
 		if (!assignees.contains(organizationMaker))
 			assignees.add(organizationMaker);
-		this.assigneeList = assignees;
+		this.memberList = assignees;
 	}
 
 	public Long getId() {
