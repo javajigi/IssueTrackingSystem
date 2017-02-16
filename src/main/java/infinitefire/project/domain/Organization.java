@@ -1,5 +1,6 @@
 package infinitefire.project.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -57,8 +61,13 @@ public class Organization {
 	
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
-	private List<User> asigneeList;
+	private List<User> assigneeList;
 
+	@JsonIgnore
+	@Transient
+	@Autowired
+	private UserRepository userRepository;
+	
 	public Organization() {
 		createDate = new Date();
 	}
@@ -68,6 +77,38 @@ public class Organization {
 		this.groupName = groupName;
 		this.organizationMaker = organizationMaker;
 		this.createDate = createDate;
+	}
+	
+	public Organization(String groupName, User organizationMaker, Date createDate, List<User> assigneeList) {
+		super();
+		this.groupName = groupName;
+		this.organizationMaker = organizationMaker;
+		this.createDate = createDate;
+		
+		if (!assigneeList.contains(organizationMaker))
+			assigneeList.add(organizationMaker);
+		this.assigneeList = assigneeList;
+	}
+	
+	public Organization(String groupName, User organizationMaker, Date createData, String assigneeList) {
+		super();
+		this.groupName = groupName;
+		this.organizationMaker = organizationMaker;
+		this.createDate = createData;
+		
+		String[] assigneeIds = assigneeList.split(",");
+		List<User> assignees = new ArrayList<User>();
+		try {
+			for(String strId : assigneeIds) {
+				long id = Long.parseLong(strId);
+				assignees.add(userRepository.findOne(id));
+			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		if (!assignees.contains(organizationMaker))
+			assignees.add(organizationMaker);
+		this.assigneeList = assignees;
 	}
 
 	public Long getId() {
@@ -110,12 +151,12 @@ public class Organization {
 		this.milestoneList = milestoneList;
 	}
 
-	public List<User> getAsigneeList() {
-		return asigneeList;
+	public List<User> getAssigneeList() {
+		return assigneeList;
 	}
 
-	public void setAsigneeList(List<User> asigneeList) {
-		this.asigneeList = asigneeList;
+	public void setAssigneeList(List<User> asigneeList) {
+		this.assigneeList = asigneeList;
 	}
 	
 	public List<Issue> getIssueList() {
@@ -139,7 +180,9 @@ public class Organization {
 	}
 	
 	public boolean isAssignee(User target) {
-		for (User user : asigneeList) {
+		if (organizationMaker.equals(target))
+			return true;
+		for (User user : assigneeList) {
 			if (user.equals(target))
 				return true;
 		}

@@ -63,7 +63,7 @@ public class OrganizationController {
 				long id = Long.parseLong(strId);
 				assignees.add(userRepository.findOne(id));
 			}
-			organization.setAsigneeList(assignees);
+			organization.setAssigneeList(assignees);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
@@ -110,7 +110,7 @@ public class OrganizationController {
 		boolean isOwner = group.isMatchWriter(loginUser);
 		model.addAttribute("owner", isOwner);
 		
-		List<User> assigneeList = group.getAsigneeList();
+		List<User> assigneeList = group.getAssigneeList();
 		model.addAttribute("assigneeList", assigneeList);
 		
 		return "/organization/detail";
