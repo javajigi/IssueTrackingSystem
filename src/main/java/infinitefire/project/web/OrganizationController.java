@@ -81,10 +81,10 @@ public class OrganizationController {
 	public String modifyOrganization(@LoginUser User loginUser, @PathVariable Long groupId, Model model) {
 		log.debug("Access-Get-modify >>");
 		
-		Organization modify = organizationRepository.findOne(groupId);
+		Organization group = organizationRepository.findOne(groupId);
 		
-		if(modify.isMatchWriter(loginUser)) {
-			model.addAttribute("modifyGroup", modify);
+		if(group.isMatchWriter(loginUser)) {
+			model.addAttribute("modifyGroup", group);
 			return "group/modify";
 		} else
 			return "redirect:/";
@@ -104,9 +104,15 @@ public class OrganizationController {
 	@GetMapping("/{groupId}/detail")
 	public String showGroupDetail(@LoginUser User loginUser, @PathVariable Long groupId, Model model) {
 		log.debug("Access-Get-deatil >>");
-		List<Issue> groupIssueList = issueRepository.findByOrganizationIdAndState(groupId, IssueState.OPEN);
-		model.addAttribute("issueList", groupIssueList);
+		Organization group = organizationRepository.findOne(groupId);
+		model.addAttribute("group", group);
 		
-		return "/issue/list";
+		boolean isOwner = group.isMatchWriter(loginUser);
+		model.addAttribute("owner", isOwner);
+		
+		List<User> assigneeList = group.getAsigneeList();
+		model.addAttribute("assigneeList", assigneeList);
+		
+		return "/organization/detail";
 	}
 }
