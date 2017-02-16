@@ -184,7 +184,7 @@ public class IssueController {
 		return "issue/detail";
 	}
 
-	@PostMapping("/{issueId}/modifyState")
+	@PostMapping("/issue/{issueId}/modifyState")
 	public @ResponseBody Issue modifyState(@PathVariable Long issueId,
 									       @RequestParam(value="check") boolean isChecked) {
 		Issue issue = issueRepository.findOne(issueId);
@@ -195,7 +195,7 @@ public class IssueController {
 		return issueRepository.save(issue);
 	}
 
-	@PutMapping("/{issueId}/addAssignee/{userId}")
+	@PutMapping("/issue/{issueId}/addAssignee/{userId}")
 	public @ResponseBody User addAssignee(@LoginUser User loginUser,
 										  @PathVariable Long issueId,
 										  @PathVariable Long userId) {
@@ -211,7 +211,7 @@ public class IssueController {
 		return null;
 	}
 	
-	@DeleteMapping("/{issueId}/deleteAssignee/{userId}")
+	@DeleteMapping("/issue/{issueId}/deleteAssignee/{userId}")
 	public @ResponseBody boolean deleteAssignee(@LoginUser User loginUser,
 								  @PathVariable Long issueId,
 								  @PathVariable Long userId) {
@@ -228,7 +228,7 @@ public class IssueController {
 		return isDelete;
 	}
 	
-	@PutMapping("/{issueId}/setMilestone/{milestoneId}")
+	@PutMapping("/issue/{issueId}/setMilestone/{milestoneId}")
 	public @ResponseBody Milestone setMilestone(@LoginUser User loginUser,
 										  @PathVariable Long issueId,
 										  @PathVariable Long milestoneId) {
@@ -241,7 +241,7 @@ public class IssueController {
 		return milestone;
 	}
 	
-	@DeleteMapping("/{issueId}/deleteMilestone/{milestoneId}")
+	@DeleteMapping("/issue/{issueId}/deleteMilestone/{milestoneId}")
 	public @ResponseBody Milestone deleteMilestone(@LoginUser User loginUser,
 										  @PathVariable Long issueId,
 										  @PathVariable Long milestoneId) {
@@ -258,7 +258,7 @@ public class IssueController {
 		return null;
 	}
 
-	@PutMapping("/{issueId}/addLabel/{labelId}")
+	@PutMapping("/issue/{issueId}/addLabel/{labelId}")
 	public @ResponseBody Label addLabel(@LoginUser User loginUser,
 										  @PathVariable Long issueId,
 										  @PathVariable Long labelId) {
@@ -274,7 +274,7 @@ public class IssueController {
 		return null;
 	}
 	
-	@DeleteMapping("/{issueId}/deleteLabel/{labelId}")
+	@DeleteMapping("/issue/{issueId}/deleteLabel/{labelId}")
 	public @ResponseBody boolean deleteLabel(@LoginUser User loginUser,
 								  @PathVariable Long issueId,
 								  @PathVariable Long labelId) {
