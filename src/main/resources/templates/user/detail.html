@@ -1,61 +1,4 @@
-{{#partial "navigation"}}
-<header class="mdl-layout__header">
-  <div class="mdl-layout__header-row">
-    <a id="logo" class="mdl-layout-title" href="/">Issue Tracking System</a>
-    {{#if sessionedUser}}
-	<div class="user_info_header index_header clearfix">
-		<div class="user_txt">
-			<span class="user_id"><a href="/user/{{sessionedUser.id}}/modify">{{sessionedUser.userId}}</a></span>
-			<span class="user_name"><a class="user_name" href="/user/{{sessionedUser.id}}/modify">{{sessionedUser.name}} 님</a></span>
-		</div>   			
-		<a href="/user/{{sessionedUser.id}}/modify">
-			<img class="user_thumb round_image" height="32" width="32" src="/profile/{{sessionedUser.profile}}" alt="{{sessionedUser.userId}}"/>
-		</a>
-    </div>
-    <button id="demo-menu-lower-right"
-	        class="user_dropdown mdl-button mdl-js-button mdl-button--icon">
-	  <i class="material-icons">more_vert</i>
-	</button>
-	
-	<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-	    for="demo-menu-lower-right">
-	  <li class="mdl-menu__item"><a class="tab_menu" href="/user/{{sessionedUser.id}}/modify">My page</a></li>
-	  <li class="mdl-menu__item"><a class="tab_menu" href="/user/logout">Sign out</a></li>
-	</ul>
-    {{else}}
-    <button id="demo-menu-lower-right"
-	        class="user_dropdown mdl-button mdl-js-button mdl-button--icon">
-	  <i class="material-icons">more_vert</i>
-	</button>
-	
-	<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-	    for="demo-menu-lower-right">
-	  <li class="mdl-menu__item"><a class="tab_menu" href="/user/login">Sign in</a></li>
-	  <li class="mdl-menu__item"><a class="tab_menu" href="/user/new">Sign up</a></li>
-	</ul>  		
-	<div class="user_menu_header clearfix">
-	 	<nav class="tab_container">			
-			<div class="user_tab">
-				{{#if sessionedUser}}
-				<a class="tab_menu" href="/user/{{sessionedUser.id}}/modify">My page</a>
-				<a class="tab_menu" href="/user/logout">Sign out</a>
-				{{else}}
-				<a class="tab_menu" href="/user/login">Sign in</a>
-				<a class="tab_menu" href="/user/new">Sign up</a>
-				{{/if}}
-			</div>
-		</nav>
-	</div>
-	{{/if}}
-  </div>
-</header>
-{{/partial}}
 {{#partial "container"}}
-<div class="issues-back">
-  <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon back-btn" title="go back" role="button">
-    <i class="material-icons" role="presentation">arrow_back</i>
-  </a>
-</div>
 <div class="main_wrap user_wrap round_border mdl-shadow--4dp mdl-cell mdl-cell--12-col">
 	{{#user}}
 	<div class="article_header">
@@ -81,4 +24,4 @@
 </div>
 {{/partial}}
 
-{{> template}}
+{{> template_2}}

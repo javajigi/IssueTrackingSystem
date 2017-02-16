@@ -111,6 +111,8 @@ table {
 	position: absolute;
 	top: 8px;
 	right: 4px;
+	z-index: 100;
+	color: rgba(0,0,0,0.5);
 }
 
 .tab_container {
@@ -666,6 +668,23 @@ table {
     z-index: 9999;
 }
 
+.nav_right_menu {
+	position: absolute;
+	top: 0;
+	right: 8px;
+	z-index: 100;
+	color: rgba(0,0,0,.5);
+	padding: 8px;
+}
+
+.nav_menu_item {
+	padding: 0;
+}
+.nav_menu_link {
+	display: block;
+	padding: 0 8px;
+}
+
 /* toggle button */
 .lbl {
   position: relative;
@@ -808,6 +827,7 @@ label:hover:before {
 .mdl-menu__outline {
 	border-radius: 8px;
 }
+
 .new_nav .nav_category .mdl-menu__container {
 	min-width: 160px;
 	font-size: 14px;
@@ -861,6 +881,14 @@ label:hover:before {
 		max-width: 480px;
 	}
 	
+}
+@media screen and (min-width: 1025px) {
+	.nav_right_menu {
+		display: none;
+	}
+	.user_dropdown {
+		color: #fff;
+	}
 }
 @media screen and (min-width: 1080px) {
 	.main_wrap {
