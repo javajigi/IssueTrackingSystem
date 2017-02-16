@@ -81,10 +81,10 @@ public class OrganizationController {
 	public String modifyOrganization(@LoginUser User loginUser, @PathVariable Long groupId, Model model) {
 		log.debug("Access-Get-modify >>");
 		
-		Organization modify = organizationRepository.findOne(groupId);
+		Organization group = organizationRepository.findOne(groupId);
 		
-		if(modify.isMatchWriter(loginUser)) {
-			model.addAttribute("modifyGroup", modify);
+		if(group.isMatchWriter(loginUser)) {
+			model.addAttribute("modifyGroup", group);
 			return "group/modify";
 		} else
 			return "redirect:/";
@@ -101,30 +101,18 @@ public class OrganizationController {
 		return "redirect:/";
 	}
 	
-	/*@GetMapping("/{groupId}/detail")
+	@GetMapping("/{groupId}/detail")
 	public String showGroupDetail(@LoginUser User loginUser, @PathVariable Long groupId, Model model) {
 		log.debug("Access-Get-deatil >>");
-		List<Issue> groupIssueList = issueRepository.findByOrganizationIdAndState(groupId, IssueState.OPEN);
-		model.addAttribute("issueList", groupIssueList);
+		Organization group = organizationRepository.findOne(groupId);
+		model.addAttribute("group", group);
 		
-		return "/issue/list";
-	}*/
-	
-	@GetMapping("/{groupId}/issue/list")
-	public String index(@PathVariable Long groupId, @RequestParam(value="state",  defaultValue = "OPEN") IssueState state, 
-						Model model, HttpServletRequest request) {
-		Organization organization = organizationRepository.findOne(groupId);
-		List<Issue> issueList;
-		if(state.equals(IssueState.OPEN)){
-			issueList = issueRepository.findByOrganizationAndState(organization, IssueState.OPEN);
-			model.addAttribute("isOpen", true);
-		} else {
-			issueList = issueRepository.findByOrganizationAndState(organization, IssueState.CLOSE);
-			model.addAttribute("isClose", false);
-		}
-		model.addAttribute("issueList", issueList);
-		model.addAttribute("organizationId", groupId);
-		log.debug("issueList : "+issueList);
-		return "/issue/list";
+		boolean isOwner = group.isMatchWriter(loginUser);
+		model.addAttribute("owner", isOwner);
+		
+		List<User> assigneeList = group.getAsigneeList();
+		model.addAttribute("assigneeList", assigneeList);
+		
+		return "/organization/detail";
 	}
 }

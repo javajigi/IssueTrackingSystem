@@ -28,6 +28,7 @@ import infinitefire.project.domain.Label;
 import infinitefire.project.domain.LabelRepository;
 import infinitefire.project.domain.Milestone;
 import infinitefire.project.domain.MilestoneRepository;
+import infinitefire.project.domain.Organization;
 import infinitefire.project.domain.OrganizationRepository;
 import infinitefire.project.domain.User;
 import infinitefire.project.domain.UserRepository;
@@ -35,7 +36,7 @@ import infinitefire.project.security.GetContextPath;
 import infinitefire.project.security.LoginUser;
 
 @Controller
-@RequestMapping("/issue")
+//@RequestMapping("/issue")
 public class IssueController {
 	@Autowired
 	OrganizationRepository organizationRepository;
@@ -99,16 +100,16 @@ public class IssueController {
 		return "redirect:/issue/list";
 	}
 	
-	@GetMapping("/list")
-	public String index(@GetContextPath String getContextPath, 
-						@RequestParam(value="state",  defaultValue = "OPEN") IssueState state, 
+	@GetMapping("/group/{groupId}/issue/list")
+	public String index(@PathVariable Long groupId, @RequestParam(value="state",  defaultValue = "OPEN") IssueState state, 
 						Model model, HttpServletRequest request) {
+		Organization organization = organizationRepository.findOne(groupId);
 		List<Issue> issueList;
 		if(state.equals(IssueState.OPEN)){
-			issueList = issueRepository.findByState(IssueState.OPEN);
+			issueList = issueRepository.findByOrganizationAndState(organization, IssueState.OPEN);
 			model.addAttribute("isOpen", true);
 		} else {
-			issueList = issueRepository.findByState(IssueState.CLOSE);
+			issueList = issueRepository.findByOrganizationAndState(organization, IssueState.CLOSE);
 			model.addAttribute("isClose", false);
 		}
 		model.addAttribute("issueList", issueList);
@@ -156,7 +157,7 @@ public class IssueController {
 		return "redirect:/";
 	}
 
-	@GetMapping("/{id}/detail")
+	@GetMapping("/group/{groupId}/issue/{id}/detail")
 	public String showIssueDetail(@LoginUser User loginUser, @PathVariable Long id, HttpServletRequest req, Model model) {
 		log.debug("Access >> /issue/{" + id + "}/detail : --"+req.getHeader("REFERER"));		
 		Issue issue = issueRepository.findOne(id);
