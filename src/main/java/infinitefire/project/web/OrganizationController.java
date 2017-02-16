@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import infinitefire.project.domain.CommentRepository;
+import infinitefire.project.domain.Issue;
 import infinitefire.project.domain.IssueRepository;
+import infinitefire.project.domain.IssueState;
 import infinitefire.project.domain.LabelRepository;
 import infinitefire.project.domain.MilestoneRepository;
 import infinitefire.project.domain.Organization;
@@ -102,15 +103,9 @@ public class OrganizationController {
 	@GetMapping("/{groupId}/detail")
 	public String showGroupDetail(@LoginUser User loginUser, @PathVariable Long groupId, Model model) {
 		log.debug("Access-Get-deatil >>");
-		Organization group = organizationRepository.findOne(groupId);
-		model.addAttribute("group", group);
+		List<Issue> groupIssueList = issueRepository.findByOrganizationIdAndState(groupId, IssueState.OPEN);
+		model.addAttribute("issueList", groupIssueList);
 		
-		boolean isOwner = group.isMatchWriter(loginUser);
-		model.addAttribute("owner", isOwner);
-		
-		List<User> assigneeList = group.getAsigneeList();
-		model.addAttribute("assigneeList", assigneeList);
-		
-		return "/organization/detail";
+		return "/issue/list";
 	}
 }
