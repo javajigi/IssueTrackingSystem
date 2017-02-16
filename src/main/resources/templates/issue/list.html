@@ -9,17 +9,17 @@
 					<a class="current_state is-checked" href="/issue/list?state=OPEN">OPEN</a>
 				</li>
 				<li id="state_close_tab">
-					<a class="current_state" href="/issue/list?state=CLOSE">CLOSE</a>
+					<a class="current_state" href="/group/{{organizationId}}/issue/list?state=CLOSE">CLOSE</a>
 				</li>
 			{{else}}
 				<li id="state_open_tab">
-					<a class="current_state" href="/issue/list?state=OPEN">OPEN</a>
+					<a class="current_state" href="/group/{{organizationId}}/issue/list?state=OPEN">OPEN</a>
 				</li>
 				<li id="state_close_tab">
 					<a class="current_state is-checked" href="/issue/list?state=CLOSE">CLOSE</a>
 				</li>
 			{{/if}}
-			<div>
+			<div class="state_tab clearfix">
 			<li>
 				<button id="demo-menu-lower-right"
 				        class="mdl-button mdl-js-button mdl-button--icon">

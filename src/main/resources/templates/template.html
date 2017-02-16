@@ -44,8 +44,8 @@
            </div>
            <div class="mdl-layout__header-row">
               <nav class="tab_container">
-                <a class="tab_menu" href="/issue/list">Issues</a>
-                <a class="tab_menu" href="/milestone/list">Milestones</a>
+                <a class="tab_menu" href="/group/{{organizationId}}/issue/list">Issues</a>
+                <a class="tab_menu" href="/group/{{organizationId}}/milestone/list">Milestones</a>
                 <div class="user_tab">
                   {{#if sessionedUser}}
                   <a class="tab_menu" href="/user/{{sessionedUser.id}}/mypage">My page</a>
