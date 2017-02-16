@@ -292,22 +292,23 @@ public class IssueController {
 	}
 	
 	@PostMapping("/group/{groupId}/sortby/{sortId}")
-	public @ResponseBody List<Issue> sortIssue(@LoginUser User loginUser, @PathVariable Long groupId, @PathVariable String sortId) {
+	public @ResponseBody List<Issue> sortIssue(@LoginUser User loginUser, @PathVariable Long groupId, @PathVariable String sortId,
+			@RequestParam(value="state",  defaultValue = "OPEN") IssueState state) {
 		log.debug("Access sortby-post >> "+sortId);
 		List<Issue> getIssueList = null;
 		Organization organization = organizationRepository.findOne(groupId);
 		switch (sortId) {
-		case "ascDate":
-			getIssueList = issueRepository.findByOrganizationOrderByWriteDateAsc(organization);
-			break;
 		case "descDate":
-			getIssueList = issueRepository.findByOrganizationOrderByWriteDateDesc(organization);
+			getIssueList = issueRepository.findByOrganizationAndStateOrderByWriteDateAsc(organization, state);
+			break;
+		case "ascDate":
+			getIssueList = issueRepository.findByOrganizationAndStateOrderByWriteDateDesc(organization, state);
 			break;
 		case "ascComment":
-			getIssueList = issueRepository.findByOrganizationOrderByCountCommentAsc(organization);
+			getIssueList = issueRepository.findByOrganizationAndStateOrderByCountCommentAsc(organization, state);
 			break;
 		case "descComment":
-			getIssueList = issueRepository.findByOrganizationOrderByCountCommentDesc(organization);
+			getIssueList = issueRepository.findByOrganizationAndStateOrderByCountCommentDesc(organization, state);
 			break;
 		}
 		return getIssueList;

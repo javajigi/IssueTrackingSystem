@@ -31,7 +31,15 @@ function sortByKey() {
 		type: 'post',
 		url: data+url,
 		success: function(result) {
-			console.log(result);				
+			console.log(result);
+			
+			var listDiv = $('#issueList');
+			listDiv.children().remove();
+			for(var i = 0 ; i < result.length ; i++) {
+				var temp = Handlebars.templates['precompile/sorting_template'];
+				var list = temp(result[i]);
+				listDiv.append(list);
+			}
 		},
 		error: function(error) {
 			alert('로그인후 댓글을 달 수 있습니다.');

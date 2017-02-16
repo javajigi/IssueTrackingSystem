@@ -70,7 +70,6 @@ public class Issue {
 	@OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
 	private List<Comment> commentList;
 
-	@JsonIgnore
 	@Column(name = "countComment", columnDefinition = "Decimal(10) default '0'")
 	private int countComment;
 	
