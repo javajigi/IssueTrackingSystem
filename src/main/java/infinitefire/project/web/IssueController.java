@@ -59,11 +59,13 @@ public class IssueController {
 		model.addAttribute("allLabel", labelRepository.findAll());
 		model.addAttribute("allUser", userRepository.findAll());
 		model.addAttribute("allMilestone", milestoneRepository.findAll());
+		model.addAttribute("organizationId", organizationId);
 		return "/issue/new";
 	}
 	@PostMapping("/group/{organizationId}/issue/new")
-	public String createIssue(@LoginUser User loginUser, Issue issue,
+	public String createIssue(@LoginUser User loginUser, @PathVariable Long organizationId, Issue issue,
 							  String assigneeList, String milestone, String labelList) {
+		
 		try {
 			long id = Long.parseLong(milestone);
 			issue.setMilestone(milestoneRepository.findOne(id));
@@ -95,9 +97,10 @@ public class IssueController {
 			e.printStackTrace();
 		} 
 		
+		issue.setOrganization(organizationRepository.findOne(organizationId));
 		issue.setWriter(loginUser);
 		issueRepository.save(issue);
-		return "redirect:/issue/list";
+		return "redirect:/group/"+organizationId+"/issue/list";
 	}
 	
 	@GetMapping("/group/{groupId}/issue/list")
@@ -118,17 +121,18 @@ public class IssueController {
 		return "/issue/list";
 	}
 
-	@GetMapping("/{id}/modify")
-	public String modifyIssueForm(@LoginUser User loginUser, @PathVariable Long id, Model model) {
+	@GetMapping("/group/{organizationId}/issue/{id}/modify")
+	public String modifyIssueForm(@LoginUser User loginUser, @PathVariable Long organizationId, @PathVariable Long id, Model model) {
 		log.debug("Access >> /issue/modify");
 
 		Issue modifyIssue = issueRepository.findOne(id);
 
 		if(modifyIssue.isMatchWriter(loginUser)){
 			model.addAttribute("modifyIssue", modifyIssue);
+			model.addAttribute("organizationId", organizationId);
 			return "issue/modify";
 		} else
-			return "redirect:/";
+			return "redirect:/group/"+organizationId+"/issue/list";
 	}
 	@PostMapping("/{id}/modify")
 	public String modifiedIssue(@LoginUser User loginUser, @PathVariable Long id,
@@ -158,8 +162,8 @@ public class IssueController {
 		return "redirect:/";
 	}
 
-	@GetMapping("/group/{groupId}/issue/{id}/detail")
-	public String showIssueDetail(@LoginUser User loginUser, @PathVariable Long id, HttpServletRequest req, Model model) {
+	@GetMapping("/group/{organizationId}/issue/{id}/detail")
+	public String showIssueDetail(@LoginUser User loginUser,@PathVariable Long organizationId, @PathVariable Long id, HttpServletRequest req, Model model) {
 		log.debug("Access >> /issue/{" + id + "}/detail : --"+req.getHeader("REFERER"));		
 		Issue issue = issueRepository.findOne(id);
 		model.addAttribute("issueInfo", issue);
@@ -169,6 +173,7 @@ public class IssueController {
 		model.addAttribute("allUser", userRepository.findAll());
 		model.addAttribute("allMilestone", milestoneRepository.findAll());
 		model.addAttribute("loginUser", loginUser);
+		model.addAttribute("organizationId", organizationId);
 
 		// TODO 이 로직을 issue에서 구현하면 어떻게 될까요? 그런데 isMyComment 속성을 이처럼 매번 처리해야 되나요? 다른 방법은 없을까요?
 		for(Comment comment : issue.getCommentList()) {
