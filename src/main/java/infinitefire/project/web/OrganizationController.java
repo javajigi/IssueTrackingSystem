@@ -105,6 +105,12 @@ public class OrganizationController {
 		Organization group = organizationRepository.findOne(groupId);
 		model.addAttribute("group", group);
 		
+		boolean isOwner = group.isMatchWriter(loginUser);
+		model.addAttribute("owner", isOwner);
+		
+		List<User> assigneeList = group.getAsigneeList();
+		model.addAttribute("assigneeList", assigneeList);
+		
 		return "/organization/detail";
 	}
 }
