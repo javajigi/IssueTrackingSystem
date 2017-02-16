@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -67,12 +69,17 @@ public class Organization {
 	@JoinTable(name = "ORGANATION_MEMBER", joinColumns = { @JoinColumn(name = "ORGANATION_ID") }, inverseJoinColumns = { @JoinColumn(name = "MEMBER_ID") })
 	private Set<User> memberList;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "state", nullable = false)
+	private OrganizationState state;
+	
 	@JsonIgnore
 	@Transient
 	@Autowired
 	private UserRepository userRepository;
 	
 	public Organization() {
+		this.state = OrganizationState.DEFAULT;
 		createDate = new Date();
 	}
 
@@ -178,6 +185,20 @@ public class Organization {
 				return true;
 		}
 		return false;
+	}
+	
+	public String getStateCheck() {
+		return state.getStateCheck();
+	}
+	
+	public OrganizationState getState() {
+		return state;
+	}
+	public void setState(OrganizationState state) {
+		this.state = state;
+	}
+	public void toggleState() {
+		this.state =  state.equals(OrganizationState.STAR) ? OrganizationState.DEFAULT : OrganizationState.STAR;
 	}
 
 	@Override

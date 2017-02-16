@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import infinitefire.project.domain.CommentRepository;
+import infinitefire.project.domain.Issue;
 import infinitefire.project.domain.IssueRepository;
 import infinitefire.project.domain.LabelRepository;
 import infinitefire.project.domain.MilestoneRepository;
@@ -112,5 +115,16 @@ public class OrganizationController {
 		model.addAttribute("assigneeList", assigneeList);
 		
 		return "/organization/detail";
+	}
+	
+	@PostMapping("/{groupId}/like")
+	public @ResponseBody Organization like(@LoginUser User loginUser, 
+											@PathVariable Long groupId) {
+		Organization organization= organizationRepository.findOne(groupId);
+		/* 권한 관리
+		 *
+		*/
+		organization.toggleState();
+		return organizationRepository.save(organization);
 	}
 }
