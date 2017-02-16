@@ -14,9 +14,9 @@ public interface IssueRepository extends JpaRepository<Issue, Long>{
 	//날짜순-최신
 	List<Issue> findByOrganizationOrderByWriteDateAsc(Organization organization);
 	//날짜순-오래된
-	List<Issue> findAllByOrderByWriteDateDesc();
+	List<Issue> findByOrganizationOrderByWriteDateDesc(Organization organization);
 	//댓글순-많은
-	List<Issue> findByIdOrderByCountCommentAsc(Long id);
+	List<Issue> findByOrganizationOrderByCountCommentAsc(Organization organization);
 	//댓글순-적은
-	List<Issue> findByIdOrderByCountCommentDesc(Long id);
+	List<Issue> findByOrganizationOrderByCountCommentDesc(Organization organization);
 }

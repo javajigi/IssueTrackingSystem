@@ -53,15 +53,15 @@ public class IssueController {
 
 	private static final Logger log = LoggerFactory.getLogger(IssueController.class);
 
-	@GetMapping("/new")
-	public String createIssueForm(@LoginUser User loginUser,  Model model) {
+	@GetMapping("/group/{organizationId}/issue/new")
+	public String createIssueForm(@LoginUser User loginUser, @PathVariable Long organizationId,  Model model) {
 		log.debug("Access >> /issue/new-Get");
 		model.addAttribute("allLabel", labelRepository.findAll());
 		model.addAttribute("allUser", userRepository.findAll());
 		model.addAttribute("allMilestone", milestoneRepository.findAll());
-		return "issue/new";
+		return "/issue/new";
 	}
-	@PostMapping("/new")
+	@PostMapping("/group/{organizationId}/issue/new")
 	public String createIssue(@LoginUser User loginUser, Issue issue,
 							  String assigneeList, String milestone, String labelList) {
 		try {
@@ -113,6 +113,7 @@ public class IssueController {
 			model.addAttribute("isClose", false);
 		}
 		model.addAttribute("issueList", issueList);
+		model.addAttribute("organizationId", groupId);
 		log.debug("issueList : "+issueList);
 		return "/issue/list";
 	}
@@ -286,18 +287,23 @@ public class IssueController {
 		return isDelete;
 	}
 	
-	@PostMapping("/sortby/{sortId}")
-	public @ResponseBody List<Issue> sortIssue(@LoginUser User loginUser, @PathVariable String sortId) {
+	@PostMapping("/group/{groupId}/sortby/{sortId}")
+	public @ResponseBody List<Issue> sortIssue(@LoginUser User loginUser, @PathVariable Long groupId, @PathVariable String sortId) {
 		log.debug("Access sortby-post >> "+sortId);
 		List<Issue> getIssueList = null;
+		Organization organization = organizationRepository.findOne(groupId);
 		switch (sortId) {
 		case "ascDate":
-			//getIssueList = issueRepository.findAllByOrganizationIdByOrderByWriteDateAsc(groupId);
+			getIssueList = issueRepository.findByOrganizationOrderByWriteDateAsc(organization);
 			break;
 		case "descDate":
-			getIssueList = issueRepository.findAllByOrderByWriteDateDesc();
+			getIssueList = issueRepository.findByOrganizationOrderByWriteDateDesc(organization);
+			break;
+		case "ascComment":
+			getIssueList = issueRepository.findByOrganizationOrderByCountCommentAsc(organization);
 			break;
 		case "descComment":
+			getIssueList = issueRepository.findByOrganizationOrderByCountCommentDesc(organization);
 			break;
 		}
 		return getIssueList;

@@ -24,20 +24,19 @@ $(function() {
 });
 
 function sortByKey() {
-	var url = '/issue/sortby/'+$(this).attr('id');
-	var data = $('sorting_key').attr('action');
-	console.log(data);
-	
-	/*$.ajax({
+	var url = '/sortby/'+$(this).attr('id');
+	var data = $('#sorting_key').attr('action');
+	console.log(data+url);
+	$.ajax({
 		type: 'post',
-		url: url,
+		url: data+url,
 		success: function(result) {
 			console.log(result);				
 		},
 		error: function(error) {
 			alert('로그인후 댓글을 달 수 있습니다.');
 		}
-	});*/
+	});
 }
 
 function preBack() {
