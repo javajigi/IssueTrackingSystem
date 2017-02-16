@@ -281,4 +281,9 @@ public class IssueController {
 		}
 		return isDelete;
 	}
+	
+	@PostMapping("/sortby/{sortId}")
+	public @ResponseBody List<Issue> sortIssue(@LoginUser User loginUser) {
+		return null;
+	}
 }

@@ -17,7 +17,7 @@
 	<ul id="issueList" class="clearfix">
 		{{#groupList}}
 		<li id="card_item_{{id}}" class="card_item mdl-shadow--2dp">
-			<a class="card_title_link" href="/issue/{{id}}/detail">
+			<a class="card_title_link" href="/group/{{id}}/detail">
 				<p class="card_title ellipsize">#{{id}} {{groupName}}</p>
 				<i class="card_arrow material-icons">arrow_forward</i>
 			</a>
@@ -28,7 +28,7 @@
 						<img class="round_image" height="48" width="48" src="/profile/{{organizationMaker.profile}}" alt="writer.userId">
 					</div>
 					<strong class="writer_by">by</strong>
-					<a href="/user/{{writer.id}}/detail" aria-label="View all issues opened by javajigi" class="tooltipped tooltipped-s muted-link">
+					<a href="/user/{{organizationMaker.id}}/detail" aria-label="View all issues opened by javajigi" class="tooltipped tooltipped-s muted-link">
 						<strong class="writer_name">{{organizationMaker.userId}}</strong>
 					</a>
 				</span>

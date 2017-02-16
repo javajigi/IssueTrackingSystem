@@ -100,7 +100,11 @@ public class OrganizationController {
 	}
 	
 	@GetMapping("/{groupId}/detail")
-	public String showGroupDetail() {
-		return "";
+	public String showGroupDetail(@LoginUser User loginUser, @PathVariable Long groupId, Model model) {
+		log.debug("Access-Get-deatil >>");
+		Organization group = organizationRepository.findOne(groupId);
+		model.addAttribute("group", group);
+		
+		return "/organization/detail";
 	}
 }
