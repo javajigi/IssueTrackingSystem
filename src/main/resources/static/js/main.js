@@ -19,11 +19,41 @@ $(function() {
 	$('#password').keyup(checkValue);
 	$('.back-btn').click(preBack);
 	$('.sorting-key').click(sortByKey);
-	
+	$('.user-new-btn').click(checkValidate);
 	$('.main_wrap').delegate('.comment_file', 'change', checkFileSize);
 	
 	$('#organization_home').click(listOrganization);
 });
+
+function checkValidate(e) {
+	var userLength = $('#userId').val().length;
+	var nameLength = $('#name').val().length;
+	var pwLength = $('#password').val().length;
+	if(userLength < 4) {
+		e.preventDefault();
+		alert('Id의 길이가 적당하지 않습니다');
+	}
+	if(userLength > 16) {
+		e.preventDefault();
+		alert('Id의 길이가 적당하지 않습니다');
+	}
+	if(nameLength < 4) {
+		e.preventDefault();
+		alert('이름 길이가 적당하지 않습니다');
+	}
+	if(nameLength > 20) {
+		e.preventDefault();
+		alert('이름 길이가 적당하지 않습니다');
+	}
+	if(pwLength < 4) {
+		e.preventDefault();
+		alert('비밀번호의 길이가 적당하지 않습니다');
+	}
+	if(pwLength > 20) {
+		e.preventDefault();
+		alert('비밀번호의 길이가 적당하지 않습니다');
+	}
+}
 
 function listOrganization(e) {
 	e.preventDefault();
