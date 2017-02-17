@@ -17,6 +17,7 @@
 			<p class="contents">{{description}}</p>
 		</div>
 		<div class="navigation">
+			<div class="datepicker-here" data-language='en'></div>
 		</div>
 	</div>
    	<hr>
@@ -37,5 +38,38 @@
 </div>
 {{/milestone}}
 {{/partial}}
-
+{{#partial "script"}}
+    <script src="/js/datepicker.min.js"></script>
+	<script>
+	$(function() {
+		var position = $(window).width() < 720 ? "top left" : "bottom left";
+		var datepickerItem = $('#endDate');
+		datepickerItem.datepicker({
+		    language: 'en',
+		    minDate: new Date(), // Now can select only dates, which goes after today
+		    
+		    onShow: function(inst, animationCompleted) {
+		    	var datepicker = $('#endDate').datepicker().data('datepicker');
+		    	var position = $(window).width() < 1080 ? "top left" : "bottom left";
+		    	datepicker.update({
+		    	    position: position
+		    	});
+		    }
+		});
+	});
+	
+	;(function ($) { $.fn.datepicker.language['en'] = {
+		    days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+		    daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+		    daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+		    months: ['January','February','March','April','May','June', 'July','August','September','October','November','December'],
+		    monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+		    today: 'Today',
+		    clear: 'Clear',
+		    dateFormat: 'mm/dd/yyyy',
+		    timeFormat: 'hh:ii aa',
+		    firstDay: 0
+		}; })(jQuery);
+  </script>
+{{/partial}}
 {{> template}}

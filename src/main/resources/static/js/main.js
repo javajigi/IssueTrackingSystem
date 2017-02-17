@@ -318,6 +318,7 @@ function setMilestone(e) {
 		url: url,
 		success: function(result) {
 			if(result != "") {
+				console.log("fasddf");
 				// $("#milestone").attr("href", "/milestone/" + result.id + "/detail");
 				// $("#milestone .mdl-chip__text").text(result.subject);
 				$(".milestone_wrap").remove();

@@ -68,14 +68,14 @@
 				</button>
 				<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
 				    for="btn_add_milestone">
-					{{#allMilestone}}
+					{{#allMilestone}}milestone_wrap
 				 		<li class="set_milestone mdl-menu__item"
 				 			data-id={{id}} data-issue={{../id}}>{{subject}}</li>
 				  	{{/allMilestone}}
 				</ul>
 				{{#milestone}}
 				<span class="milestone_wrap">
-					<a id="milestone" class="milestone_link mdl-chip" href="/milestone/{{milestone.id}}/detail">
+					<a id="milestone" class="milestone_link mdl-chip" href="milestone/{{milestone.id}}/detail">
 					    <span class="mdl-chip__text">{{milestone.subject}}</span>
 					</a>
 					<button type="button" class="btn_milestone_delete mdl-chip__action"
