@@ -1,8 +1,8 @@
 $(function() {
 	$(".user_checkbox").change(addMember);
 	$('#member_list').delegate('.delete_member', 'click', deleteMember);
-	
-	$('.org_favorite').click(likeOrganization);
+	$('.main_wrap').delegate('.org_favorite', 'click', likeOrganization);
+//	$('.org_favorite').click(likeOrganization);
 });
 
 function addMember(e) {
@@ -32,24 +32,40 @@ function likeOrganization(e) {
 		type: 'post',
 		url: '/group/' + id + '/like',
 		success: function(result) {
-			console.log(result);
+			console.log(id);
 			
 			var like = result.stateCheck;
-			console.log(like);
-			$("#organization_" + id).text(like);
+			$("#org_like_" + id).text(like);
 			
-//			var listDiv = $('#issueList');
-//			listDiv.children().remove();
-//			for(var i = 0 ; i < result.length ; i++) {
-//				var temp = Handlebars.templates['precompile/sorting_template'];
-//				var list = temp(result[i]);
-//				listDiv.append(list);
-//			}
+			if(result.state === "ordinary"){
+				moveOrganization(result, 'favorite', 'default');
+			} else {
+				moveOrganization(result, 'default', 'favorite');
+			}
+			
 		},
 		error: function(error) {
 			alert('에러');
 		}
 	});
+}
+
+function moveOrganization(result, remove, add) {
+	
+	var $remove = $('#' + remove + '_org.masonry').masonry({
+        itemSelector: '.masonry-item',
+    });
+	$remove.attr("color" , "#000");
+	$remove.masonry( 'remove', $("#org_item_" + result.id)).masonry();
+	
+	var template = $("#org_item").html();
+	var $orgItem = template.format(result.id, result.groupName, result.description, result.stateCheck);
+
+	var $add = $('#' + add + '_org.masonry').masonry({
+        itemSelector: '.masonry-item',
+    });
+	$add.append( $orgItem ).masonry( 'appended', $orgItem );
+	window.location.replace("/");
 }
 
 String.prototype.format = function() {

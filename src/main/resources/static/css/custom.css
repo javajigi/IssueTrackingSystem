@@ -186,6 +186,12 @@ table {
 	color: #888;
 }
 
+.main_wrap .sub_title {
+	font-size: 20px;
+	padding: 8px 4px;
+	color: #333;
+}
+
 
 .main_wrap .card_item {
 	float: left;
@@ -696,7 +702,7 @@ table {
 }
 
 .org_list {
-	
+	min-height: 180px;
 }
 .org_card {
 	position :relative;

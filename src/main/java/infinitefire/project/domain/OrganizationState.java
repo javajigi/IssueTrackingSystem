@@ -1,8 +1,8 @@
 package infinitefire.project.domain;
 
 public enum OrganizationState {	
-	STAR("favorite"),
-	DEFAULT("favorite_border");
+	favorite("favorite"),
+	ordinary("favorite_border");
 	
 	private String stateCheck;
 	

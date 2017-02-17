@@ -79,7 +79,7 @@ public class Organization {
 	private UserRepository userRepository;
 	
 	public Organization() {
-		this.state = OrganizationState.DEFAULT;
+		this.state = OrganizationState.ordinary;
 		createDate = new Date();
 	}
 
@@ -198,7 +198,7 @@ public class Organization {
 		this.state = state;
 	}
 	public void toggleState() {
-		this.state =  state.equals(OrganizationState.STAR) ? OrganizationState.DEFAULT : OrganizationState.STAR;
+		this.state =  state.equals(OrganizationState.favorite) ? OrganizationState.ordinary : OrganizationState.favorite;
 	}
 
 	@Override

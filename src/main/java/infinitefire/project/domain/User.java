@@ -1,11 +1,15 @@
 package infinitefire.project.domain;
 
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
@@ -37,6 +41,10 @@ public class User {
 	@JsonIgnore
 	@Column(name = "state", nullable = false)
 	private UserState state;
+	
+	@JsonIgnore
+	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "memberList")
+	private Set<Organization> organizationList;
 	
 	@Transient
 	private BCryptPasswordEncoder passwordEncoder;
@@ -155,6 +163,17 @@ public class User {
 		return false;
 	}
 	
+	
+	
+	public Set<Organization> getOrganizationList() {
+		return organizationList;
+	}
+	public void setOrganizationList(Set<Organization> organizationList) {
+		this.organizationList = organizationList;
+	}
+
+
+
 	private static class GuestUser extends User {
 		@Override
 		public boolean isGuestUser() {
@@ -192,4 +211,5 @@ public class User {
 		return "User [id=" + id + ", userId=" + userId + ", name=" + name + ", password=" + password + ", profile="
 				+ profile + ", state=" + state + "]";
 	}
+
 }
