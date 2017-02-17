@@ -93,6 +93,7 @@ public class User {
 	
 	public void withdraw() {
 		this.state = UserState.WITHDRAW;
+		this.profile = "none.png";
 	}
 	
 	public boolean isWithdraw() {
