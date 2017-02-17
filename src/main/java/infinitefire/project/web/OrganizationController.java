@@ -73,11 +73,7 @@ public class OrganizationController {
 		return "redirect:/";
 	}
 	
-	@PostMapping("/list")
-	public String totalGroupList() {
-		return "";
-	}
-	
+
 	@GetMapping("/{groupId}/modify")
 	public String modifyOrganization(@LoginUser User loginUser, @PathVariable Long groupId, Model model) {
 		log.debug("Access-Get-modify >>");
@@ -126,5 +122,16 @@ public class OrganizationController {
 		*/
 		organization.toggleState();
 		return organizationRepository.save(organization);
+	}
+	
+	@PostMapping("/list")
+	public @ResponseBody Set<Organization> list(@LoginUser User loginUser) {
+		/* 권한 관리
+		 *
+		*/
+		User user = userRepository.findOne(loginUser.getId());
+		Set<Organization> organizationList = user.getOrganizationList();
+		
+		return organizationList;
 	}
 }

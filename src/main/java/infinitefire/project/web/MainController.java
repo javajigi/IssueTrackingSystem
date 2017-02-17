@@ -51,9 +51,10 @@ public class MainController {
 //		model.addAttribute("groupList", groupList);
 		User user = userRepository.findOne(loginUser.getId());
 		Set<Organization> organizationList = user.getOrganizationList();
-		
+
 		Set<Organization> favoriteList = getOrganizationList(organizationList, OrganizationState.favorite);
 		Set<Organization> ordinaryList = getOrganizationList(organizationList, OrganizationState.ordinary);
+		model.addAttribute("allList", organizationList);
 		model.addAttribute("favoriteList", favoriteList);
 		model.addAttribute("ordinaryList", ordinaryList);
 

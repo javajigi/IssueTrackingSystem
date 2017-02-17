@@ -59,16 +59,12 @@
             </div>
           </header>
           <div class="mdl-layout__drawer">
-          	<div aria-expanded="false" role="button" tabindex="0" class="mdl-layout__drawer-button">
+          	<div id="organization_home" aria-expanded="false" role="button" tabindex="0" class="mdl-layout__drawer-button">
           		<i class="material-icons">home</i>
         	</div>     
             <span class="mdl-layout-title">Organization</span>
-            <nav class="mdl-navigation">
-              <a class="mdl-navigation__link" href="">Organization 1</a>
-              <a class="mdl-navigation__link" href="">Organization 2</a>
-              <a class="mdl-navigation__link" href="">Organization 3</a>
-              <a class="mdl-navigation__link" href="">Organization 4</a>
-            </nav>
+            <nav id="organization_list" class="mdl-navigation">
+            </nav>           
           </div>
           <div class="nav_right_menu">
 			<button id="category_menu"
@@ -78,8 +74,8 @@
 			
 			<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
     			for="category_menu">
-				<li class="mdl-menu__item nav_menu_item"><a class="nav_menu_link" href="/issue/list">Issues</a></li>
-				<li class="mdl-menu__item nav_menu_item"><a class="nav_menu_link" href="/milestone/list">Milestones</a></li>
+				<li class="mdl-menu__item nav_menu_item"><a class="nav_menu_link" href="/group/{{organizationId}}/issue/list">Issues</a></li>
+				<li class="mdl-menu__item nav_menu_item"><a class="nav_menu_link" href="/group/{{organizationId}}/milestone/list">Milestones</a></li>
 			</ul>
 			
 			<button id="user_menu"
@@ -134,6 +130,11 @@
 				}
 			}
 		</script> -->
-{{#block "script"}}{{/block}}
+<script type="text/template" id="organization_item">
+	<a class="mdl-navigation__link" href="/group/{0}/issue/list">{1}</a>  
+</script>
+{{#block "script"}}
+
+{{/block}}
 </body>
 </html>

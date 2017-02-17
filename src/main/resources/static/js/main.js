@@ -21,7 +21,32 @@ $(function() {
 	$('.sorting-key').click(sortByKey);
 	
 	$('.main_wrap').delegate('.comment_file', 'change', checkFileSize);
+	
+	$('#organization_home').click(listOrganization);
 });
+
+function listOrganization(e) {
+	e.preventDefault();
+	var url = '/group/list';
+	$.ajax({
+		type: 'post',
+		url: url,
+		dataType:"json",
+		success: function(result) {
+			console.log(result);
+			
+			var organization_list  = $('#organization_list');
+			var organization_item = $("#organization_item").html();
+			for(var i in result) {			
+				var template = organization_item.format(result[i].id, result[i].groupName);
+				organization_list.append(template);
+			}
+		},
+		error: function(error) {
+			console.log('fail-RequestData');
+		}
+	});
+}
 
 function sortByKey() {
 	var url = '/sortby/'+$(this).attr('id');
