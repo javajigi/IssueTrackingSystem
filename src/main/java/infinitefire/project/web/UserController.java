@@ -136,6 +136,8 @@ public class UserController {
 	
 	@GetMapping("/{id}/mypage")
 	public String mypage(@LoginUser User loginUser, @PathVariable Long id, Model model) {
+		if(!loginUser.isMatchId(id)) 
+			return "redirect:/";
 		User selectedUser = userRepository.findOne(id);
 		model.addAttribute("user", selectedUser);
 		log.debug("selectedUser : " + selectedUser.toString());
