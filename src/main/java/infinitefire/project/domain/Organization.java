@@ -66,7 +66,7 @@ public class Organization {
 	
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "ORGANATION_MEMBER", joinColumns = { @JoinColumn(name = "ORGANATION_ID") }, inverseJoinColumns = { @JoinColumn(name = "MEMBER_ID") })
+	@JoinTable(name = "ORGANIZATION_MEMBER", joinColumns = { @JoinColumn(name = "ORGANIZATION_ID") }, inverseJoinColumns = { @JoinColumn(name = "MEMBER_ID") })
 	private Set<User> memberList;
 
 	@Enumerated(EnumType.STRING)
