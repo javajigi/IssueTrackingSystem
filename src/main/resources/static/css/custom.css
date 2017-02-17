@@ -545,6 +545,7 @@ table {
 
 .list_wrap {
 	min-width: 300px;
+	min-height: 350px;
 }
 
 .milestone_list_item {
@@ -978,6 +979,7 @@ label:hover:before {
 	}
 	.article_container .article {
 		width: 70%;
+		min-height: 300px;
 	}
 	
 	.partition:before {

@@ -51,13 +51,14 @@ public class IssueController {
 
 	private static final Logger log = LoggerFactory.getLogger(IssueController.class);
 
-	@GetMapping("/group/{organizationId}/issue/new")
-	public String createIssueForm(@LoginUser User loginUser, @PathVariable Long organizationId,  Model model) {
+	@GetMapping("/group/{groupId}/issue/new")
+	public String createIssueForm(@LoginUser User loginUser, @PathVariable Long groupId,  Model model) {
 		log.debug("Access >> /issue/new-Get");
 		model.addAttribute("allLabel", labelRepository.findAll());
-		model.addAttribute("allUser", userRepository.findAll());
+		Organization organization = organizationRepository.findOne(groupId);
+		model.addAttribute("allUser", organization.getMemberList());
 		model.addAttribute("allMilestone", milestoneRepository.findAll());
-		model.addAttribute("organizationId", organizationId);
+		model.addAttribute("organizationId", groupId);
 		return "/issue/new";
 	}
 	@PostMapping("/group/{organizationId}/issue/new")
