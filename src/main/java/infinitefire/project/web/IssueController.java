@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -28,14 +27,14 @@ import infinitefire.project.domain.Label;
 import infinitefire.project.domain.LabelRepository;
 import infinitefire.project.domain.Milestone;
 import infinitefire.project.domain.MilestoneRepository;
+import infinitefire.project.domain.Organization;
 import infinitefire.project.domain.OrganizationRepository;
 import infinitefire.project.domain.User;
 import infinitefire.project.domain.UserRepository;
-import infinitefire.project.security.GetContextPath;
 import infinitefire.project.security.LoginUser;
 
 @Controller
-@RequestMapping("/issue")
+//@RequestMapping("/issue")
 public class IssueController {
 	@Autowired
 	OrganizationRepository organizationRepository;
@@ -52,17 +51,19 @@ public class IssueController {
 
 	private static final Logger log = LoggerFactory.getLogger(IssueController.class);
 
-	@GetMapping("/new")
-	public String createIssueForm(@LoginUser User loginUser,  Model model) {
+	@GetMapping("/group/{organizationId}/issue/new")
+	public String createIssueForm(@LoginUser User loginUser, @PathVariable Long organizationId,  Model model) {
 		log.debug("Access >> /issue/new-Get");
 		model.addAttribute("allLabel", labelRepository.findAll());
 		model.addAttribute("allUser", userRepository.findAll());
 		model.addAttribute("allMilestone", milestoneRepository.findAll());
-		return "issue/new";
+		model.addAttribute("organizationId", organizationId);
+		return "/issue/new";
 	}
-	@PostMapping("/new")
-	public String createIssue(@LoginUser User loginUser, Issue issue,
+	@PostMapping("/group/{organizationId}/issue/new")
+	public String createIssue(@LoginUser User loginUser, @PathVariable Long organizationId, Issue issue,
 							  String assigneeList, String milestone, String labelList) {
+		
 		try {
 			long id = Long.parseLong(milestone);
 			issue.setMilestone(milestoneRepository.findOne(id));
@@ -94,42 +95,49 @@ public class IssueController {
 			e.printStackTrace();
 		} 
 		
+		issue.setOrganization(organizationRepository.findOne(organizationId));
 		issue.setWriter(loginUser);
 		issueRepository.save(issue);
-		return "redirect:/issue/list";
+		return "redirect:/group/"+organizationId+"/issue/list";
 	}
 	
-	@GetMapping("/list")
-	public String index(@GetContextPath String getContextPath, 
-						@RequestParam(value="state",  defaultValue = "OPEN") IssueState state, 
-						Model model, HttpServletRequest request) {
+	@GetMapping("/group/{groupId}/issue/list")
+	public String index(@LoginUser User loginUser, @PathVariable Long groupId, @RequestParam(value="state",  defaultValue = "OPEN") IssueState state, 
+						Model model) {
+		Organization organization = organizationRepository.findOne(groupId);
+		if (!organization.isAssignee(loginUser)) {
+			log.debug("Group에 접근할 권한이 없습니다.");
+			return "redirect:/";
+		}
+			
 		List<Issue> issueList;
 		if(state.equals(IssueState.OPEN)){
-			issueList = issueRepository.findByState(IssueState.OPEN);
+			issueList = issueRepository.findByOrganizationAndState(organization, IssueState.OPEN);
 			model.addAttribute("isOpen", true);
 		} else {
-			issueList = issueRepository.findByState(IssueState.CLOSE);
-			model.addAttribute("isClose", false);
+			issueList = issueRepository.findByOrganizationAndState(organization, IssueState.CLOSE);
+			model.addAttribute("isOpen", false);
 		}
 		model.addAttribute("issueList", issueList);
-		log.debug("issueList : "+issueList);
+		model.addAttribute("organizationId", groupId);
 		return "/issue/list";
 	}
 
-	@GetMapping("/{id}/modify")
-	public String modifyIssueForm(@LoginUser User loginUser, @PathVariable Long id, Model model) {
+	@GetMapping("/group/{organizationId}/issue/{id}/modify")
+	public String modifyIssueForm(@LoginUser User loginUser, @PathVariable Long organizationId, @PathVariable Long id, Model model) {
 		log.debug("Access >> /issue/modify");
 
 		Issue modifyIssue = issueRepository.findOne(id);
 
 		if(modifyIssue.isMatchWriter(loginUser)){
 			model.addAttribute("modifyIssue", modifyIssue);
+			model.addAttribute("organizationId", organizationId);
 			return "issue/modify";
 		} else
-			return "redirect:/";
+			return "redirect:/group/"+organizationId+"/issue/list";
 	}
-	@PostMapping("/{id}/modify")
-	public String modifiedIssue(@LoginUser User loginUser, @PathVariable Long id,
+	@PostMapping("/group/{organizationId}/issue/{id}/modify")
+	public String modifiedIssue(@LoginUser User loginUser, @PathVariable Long organizationId, @PathVariable Long id,
 			String subject, String contents, Model model) {
 		log.debug("Access >> /issue/{" + id +"}/modify-put");
 
@@ -140,24 +148,25 @@ public class IssueController {
 			issueRepository.save(modifyIssue);
 
 			model.addAttribute("issueInfo", modifyIssue);
+			model.addAttribute("organizationId", organizationId);
 			return "/issue/detail";
 		} else
-			return "redirect:/";
+			return "redirect:/group/"+organizationId+"/issue/list";
 	}
 
-	@GetMapping("/{id}/delete")
-	public String deleteIssue(@LoginUser User loginUser, @PathVariable Long id) {
+	@GetMapping("/group/{organizationId}/issue/{id}/delete")
+	public String deleteIssue(@LoginUser User loginUser, @PathVariable Long organizationId, @PathVariable Long id) {
 		log.debug("Access >> /issue/{" + id + "}/delete");
 
 		Issue deleteIssue = issueRepository.findOne(id);
 		if(deleteIssue.isMatchWriter(loginUser))
 			issueRepository.delete(id);
 
-		return "redirect:/";
+		return "redirect:/group/"+organizationId+"/issue/list";
 	}
 
-	@GetMapping("/{id}/detail")
-	public String showIssueDetail(@LoginUser User loginUser, @PathVariable Long id, HttpServletRequest req, Model model) {
+	@GetMapping("/group/{organizationId}/issue/{id}/detail")
+	public String showIssueDetail(@LoginUser User loginUser,@PathVariable Long organizationId, @PathVariable Long id, HttpServletRequest req, Model model) {
 		log.debug("Access >> /issue/{" + id + "}/detail : --"+req.getHeader("REFERER"));		
 		Issue issue = issueRepository.findOne(id);
 		model.addAttribute("issueInfo", issue);
@@ -167,6 +176,7 @@ public class IssueController {
 		model.addAttribute("allUser", userRepository.findAll());
 		model.addAttribute("allMilestone", milestoneRepository.findAll());
 		model.addAttribute("loginUser", loginUser);
+		model.addAttribute("organizationId", organizationId);
 
 		// TODO 이 로직을 issue에서 구현하면 어떻게 될까요? 그런데 isMyComment 속성을 이처럼 매번 처리해야 되나요? 다른 방법은 없을까요?
 		for(Comment comment : issue.getCommentList()) {
@@ -178,7 +188,7 @@ public class IssueController {
 		return "issue/detail";
 	}
 
-	@PostMapping("/{issueId}/modifyState")
+	@PostMapping("/issue/{issueId}/modifyState")
 	public @ResponseBody Issue modifyState(@PathVariable Long issueId,
 									       @RequestParam(value="check") boolean isChecked) {
 		Issue issue = issueRepository.findOne(issueId);
@@ -189,7 +199,7 @@ public class IssueController {
 		return issueRepository.save(issue);
 	}
 
-	@PutMapping("/{issueId}/addAssignee/{userId}")
+	@PutMapping("/issue/{issueId}/addAssignee/{userId}")
 	public @ResponseBody User addAssignee(@LoginUser User loginUser,
 										  @PathVariable Long issueId,
 										  @PathVariable Long userId) {
@@ -205,7 +215,7 @@ public class IssueController {
 		return null;
 	}
 	
-	@DeleteMapping("/{issueId}/deleteAssignee/{userId}")
+	@DeleteMapping("/issue/{issueId}/deleteAssignee/{userId}")
 	public @ResponseBody boolean deleteAssignee(@LoginUser User loginUser,
 								  @PathVariable Long issueId,
 								  @PathVariable Long userId) {
@@ -222,7 +232,7 @@ public class IssueController {
 		return isDelete;
 	}
 	
-	@PutMapping("/{issueId}/setMilestone/{milestoneId}")
+	@PutMapping("/issue/{issueId}/setMilestone/{milestoneId}")
 	public @ResponseBody Milestone setMilestone(@LoginUser User loginUser,
 										  @PathVariable Long issueId,
 										  @PathVariable Long milestoneId) {
@@ -235,7 +245,7 @@ public class IssueController {
 		return milestone;
 	}
 	
-	@DeleteMapping("/{issueId}/deleteMilestone/{milestoneId}")
+	@DeleteMapping("/issue/{issueId}/deleteMilestone/{milestoneId}")
 	public @ResponseBody Milestone deleteMilestone(@LoginUser User loginUser,
 										  @PathVariable Long issueId,
 										  @PathVariable Long milestoneId) {
@@ -252,7 +262,7 @@ public class IssueController {
 		return null;
 	}
 
-	@PutMapping("/{issueId}/addLabel/{labelId}")
+	@PutMapping("/issue/{issueId}/addLabel/{labelId}")
 	public @ResponseBody Label addLabel(@LoginUser User loginUser,
 										  @PathVariable Long issueId,
 										  @PathVariable Long labelId) {
@@ -268,7 +278,7 @@ public class IssueController {
 		return null;
 	}
 	
-	@DeleteMapping("/{issueId}/deleteLabel/{labelId}")
+	@DeleteMapping("/issue/{issueId}/deleteLabel/{labelId}")
 	public @ResponseBody boolean deleteLabel(@LoginUser User loginUser,
 								  @PathVariable Long issueId,
 								  @PathVariable Long labelId) {
@@ -285,18 +295,29 @@ public class IssueController {
 		return isDelete;
 	}
 	
-	@PostMapping("/sortby/{sortId}")
-	public @ResponseBody List<Issue> sortIssue(@LoginUser User loginUser, @PathVariable String sortId) {
-		log.debug("Access sortby-post >> "+sortId);
+	@PostMapping("/group/{groupId}/sortby/{sortId}/{state}")
+	public @ResponseBody List<Issue> sortIssue(@LoginUser User loginUser, @PathVariable Long groupId, @PathVariable String sortId,
+			@PathVariable String state) {
+		log.debug("Access sortby-post >> "+Boolean.valueOf(state));
+		IssueState issueState;
+		if(Boolean.valueOf(state))
+			issueState = IssueState.OPEN;
+		else
+			issueState = IssueState.CLOSE;
 		List<Issue> getIssueList = null;
+		Organization organization = organizationRepository.findOne(groupId);
 		switch (sortId) {
-		case "ascDate":
-			getIssueList = issueRepository.findAllByOrderByWriteDateAsc();
-			break;
 		case "descDate":
-			getIssueList = issueRepository.findAllByOrderByWriteDateDesc();
+			getIssueList = issueRepository.findByOrganizationAndStateOrderByWriteDateAsc(organization, issueState);
+			break;
+		case "ascDate":
+			getIssueList = issueRepository.findByOrganizationAndStateOrderByWriteDateDesc(organization, issueState);
+			break;
+		case "ascComment":
+			getIssueList = issueRepository.findByOrganizationAndStateOrderByCountCommentAsc(organization, issueState);
 			break;
 		case "descComment":
+			getIssueList = issueRepository.findByOrganizationAndStateOrderByCountCommentDesc(organization, issueState);
 			break;
 		}
 		return getIssueList;

@@ -21,23 +21,55 @@ $(function() {
 	$('.sorting-key').click(sortByKey);
 	
 	$('.main_wrap').delegate('.comment_file', 'change', checkFileSize);
+	
+	$('#organization_home').click(listOrganization);
 });
 
-function sortByKey() {
-	var url = '/issue/sortby/'+$(this).attr('id');
-	var data = $(this).attr('data-value');
-	console.log(data);
-	
-	/*$.ajax({
+function listOrganization(e) {
+	e.preventDefault();
+	var url = '/group/list';
+	$.ajax({
 		type: 'post',
 		url: url,
+		dataType:"json",
 		success: function(result) {
-			console.log(result);				
+			console.log(result);
+			
+			var organization_list  = $('#organization_list');
+			var organization_item = $("#organization_item").html();
+			for(var i in result) {			
+				var template = organization_item.format(result[i].id, result[i].groupName);
+				organization_list.append(template);
+			}
 		},
 		error: function(error) {
-			alert('로그인후 댓글을 달 수 있습니다.');
+			console.log('fail-RequestData');
 		}
-	});*/
+	});
+}
+
+function sortByKey() {
+	var url = '/sortby/'+$(this).attr('id');
+	var datas = $('#sorting_key').attr('action');
+	var status = $('#state').val();
+	$.ajax({
+		type: 'post',
+		url: datas+url+'/'+status,
+		success: function(result) {
+			console.log(result);
+			
+			var listDiv = $('#issueList');
+			listDiv.children().remove();
+			for(var i = 0 ; i < result.length ; i++) {
+				var temp = Handlebars.templates['precompile/sorting_template'];
+				var list = temp(result[i]);
+				listDiv.append(list);
+			}
+		},
+		error: function(error) {
+			alert('에러');
+		}
+	});
 }
 
 function preBack() {

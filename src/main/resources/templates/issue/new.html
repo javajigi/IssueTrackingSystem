@@ -5,10 +5,10 @@
 		<h2 class="title">Issue Create</h2>
 	</div>
 	<div class="round_border mdl-shadow--4dp mdl-cell mdl-cell--12-col">
-		<form action="/issue/new" method="post">
+		<form action="/group/{{organizationId}}/issue/new" method="post">
 			<div class="article_header">
 				<div class="mdl-textfield mdl-js-textfield">
-					<input class="mdl-textfield__input" type="text" id="subject" name="subject" required>
+					<input class="mdl-textfield__input" type="text" id="subject" name="subject" required autofocus="autofocus">
 					<label class="mdl-textfield__label" for="subject">Subject</label>
 				</div>
 	    	</div>
@@ -96,7 +96,7 @@
 </div>
 {{/partial}}
 {{#partial "script"}}
-	<script src="/js/issue_new.js"></script>
+	<script src="/js/issue.js"></script>
 	<script type="text/template" id="asignee_item">
   <li id="assignee_{0}" class="assignee mdl-chip mdl-chip--contact mdl-chip--deletable" data-id="{0}">
     <img class="mdl-chip__contact" src="/profile/{2}"></img>

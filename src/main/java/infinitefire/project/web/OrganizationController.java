@@ -1,9 +1,9 @@
 package infinitefire.project.web;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import infinitefire.project.domain.CommentRepository;
 import infinitefire.project.domain.Issue;
 import infinitefire.project.domain.IssueRepository;
-import infinitefire.project.domain.IssueState;
 import infinitefire.project.domain.LabelRepository;
 import infinitefire.project.domain.MilestoneRepository;
 import infinitefire.project.domain.Organization;
@@ -54,37 +54,34 @@ public class OrganizationController {
 	}
 	
 	@PostMapping("/new")
-	public String createGroup(@LoginUser User loginUser, Organization organization, String assigneeList) {
+	public String createGroup(@LoginUser User loginUser, Organization organization, String memberList) {
 		log.debug("Post-Group-New >>");
+		organization.setOrganizationMaker(loginUser);
+		Set<User> members = new HashSet<User>();
+		members.add(userRepository.findOne(loginUser.getId()));
 		try {
-			String[] assigneeIds = assigneeList.split(",");
-			List<User> assignees = new ArrayList<User>();
-			for(String strId : assigneeIds) {
+			String[] memberIds = memberList.split(",");
+			for(String strId : memberIds) {
 				long id = Long.parseLong(strId);
-				assignees.add(userRepository.findOne(id));
+				members.add(userRepository.findOne(id));
 			}
-			organization.setAsigneeList(assignees);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
-		organization.setOrganizationMaker(loginUser);
+		organization.setMemberList(members);
 		organizationRepository.save(organization);
 		return "redirect:/";
 	}
 	
-	@PostMapping("/list")
-	public String totalGroupList() {
-		return "";
-	}
-	
+
 	@GetMapping("/{groupId}/modify")
 	public String modifyOrganization(@LoginUser User loginUser, @PathVariable Long groupId, Model model) {
 		log.debug("Access-Get-modify >>");
 		
-		Organization modify = organizationRepository.findOne(groupId);
+		Organization group = organizationRepository.findOne(groupId);
 		
-		if(modify.isMatchWriter(loginUser)) {
-			model.addAttribute("modifyGroup", modify);
+		if(group.isMatchWriter(loginUser)) {
+			model.addAttribute("modifyGroup", group);
 			return "group/modify";
 		} else
 			return "redirect:/";
@@ -104,26 +101,37 @@ public class OrganizationController {
 	@GetMapping("/{groupId}/detail")
 	public String showGroupDetail(@LoginUser User loginUser, @PathVariable Long groupId, Model model) {
 		log.debug("Access-Get-deatil >>");
-		List<Issue> groupIssueList = issueRepository.findByOrganizationIdAndState(groupId, IssueState.OPEN);
-		model.addAttribute("issueList", groupIssueList);
+		Organization group = organizationRepository.findOne(groupId);
+		model.addAttribute("group", group);
 		
-		return "/issue/list";
+		boolean isOwner = group.isMatchWriter(loginUser);
+		model.addAttribute("owner", isOwner);
+		
+		Set<User> assigneeList = group.getMemberList();
+		model.addAttribute("assigneeList", assigneeList);
+		
+		return "/organization/detail";
 	}
 	
-	@GetMapping("/{groupId}/issue/list")
-	public String index(@PathVariable Long groupId, @RequestParam(value="state",  defaultValue = "OPEN") IssueState state, 
-						Model model, HttpServletRequest request) {
-		Organization organization = organizationRepository.findOne(groupId);
-		List<Issue> issueList;
-		if(state.equals(IssueState.OPEN)){
-			issueList = issueRepository.findByOrganizationAndState(organization, IssueState.OPEN);
-			model.addAttribute("isOpen", true);
-		} else {
-			issueList = issueRepository.findByOrganizationAndState(organization, IssueState.CLOSE);
-			model.addAttribute("isClose", false);
-		}
-		model.addAttribute("issueList", issueList);
-		log.debug("issueList : "+issueList);
-		return "/issue/list";
+	@PostMapping("/{groupId}/like")
+	public @ResponseBody Organization like(@LoginUser User loginUser, 
+											@PathVariable Long groupId) {
+		Organization organization= organizationRepository.findOne(groupId);
+		/* 권한 관리
+		 *
+		*/
+		organization.toggleState();
+		return organizationRepository.save(organization);
+	}
+	
+	@PostMapping("/list")
+	public @ResponseBody Set<Organization> list(@LoginUser User loginUser) {
+		/* 권한 관리
+		 *
+		*/
+		User user = userRepository.findOne(loginUser.getId());
+		Set<Organization> organizationList = user.getOrganizationList();
+		
+		return organizationList;
 	}
 }

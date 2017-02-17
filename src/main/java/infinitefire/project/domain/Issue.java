@@ -1,6 +1,5 @@
 package infinitefire.project.domain;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -71,7 +70,6 @@ public class Issue {
 	@OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
 	private List<Comment> commentList;
 
-	@JsonIgnore
 	@Column(name = "countComment", columnDefinition = "Decimal(10) default '0'")
 	private int countComment;
 	

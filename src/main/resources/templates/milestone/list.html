@@ -12,7 +12,7 @@
 			<ul>
 				{{#each milestones}}
 				<li class="milestone_list_item">
-					<a class="milestone_list_link" href="/milestone/{{id}}/detail">
+					<a class="milestone_list_link" href="/group/{{organizationId}}/milestone/{{id}}/detail">
 						<div class="primary_contents">
 							<strong class="subject ellipsize">{{subject}}</strong>
 							<span class="date">
@@ -35,7 +35,7 @@
 			</ul>     
 		</div>
 	</div>
-	<a class="btn_add mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect" href="/milestone/new">
+	<a class="btn_add mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect" href="/group/{{organizationId}}/milestone/new">
 	  <i class="material-icons">add</i>
 	</a>
 </div>

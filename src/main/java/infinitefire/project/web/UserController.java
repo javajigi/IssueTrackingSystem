@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -137,6 +136,8 @@ public class UserController {
 	
 	@GetMapping("/{id}/mypage")
 	public String mypage(@LoginUser User loginUser, @PathVariable Long id, Model model) {
+		if(!loginUser.isMatchId(id)) 
+			return "redirect:/";
 		User selectedUser = userRepository.findOne(id);
 		model.addAttribute("user", selectedUser);
 		log.debug("selectedUser : " + selectedUser.toString());

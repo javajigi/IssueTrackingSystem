@@ -1,7 +1,10 @@
 package infinitefire.project.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,30 +15,33 @@ import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import infinitefire.project.utils.DateTimeUtils;
 
 @Entity
-public class Organization {
-	private static final Logger log = LoggerFactory.getLogger(Organization.class);
-	
+public class Organization {	
 	@Id
 	@GeneratedValue
 	private Long id;
 	
 	@Column(name = "name", length = 30, nullable = false, updatable = false)
 	private String groupName;
+	
+	@Lob
+	private String description;
 	
 	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_organization_maker"))
@@ -44,10 +50,6 @@ public class Organization {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createDate", nullable = false, updatable = false)
 	private Date createDate;
-	
-//	@Enumerated(EnumType.STRING)
-//	@Column(name = "state", nullable = false)
-//	private OrganizationState organizationState;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "organization")
@@ -64,19 +66,31 @@ public class Organization {
 	
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
-	private List<User> asigneeList;
+	@JoinTable(name = "ORGANIZATION_MEMBER", joinColumns = { @JoinColumn(name = "ORGANIZATION_ID") }, inverseJoinColumns = { @JoinColumn(name = "MEMBER_ID") })
+	private Set<User> memberList;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "state", nullable = false)
+	private OrganizationState state;
+	
+	@JsonIgnore
+	@Transient
+	@Autowired
+	private UserRepository userRepository;
+	
 	public Organization() {
+		this.state = OrganizationState.ordinary;
 		createDate = new Date();
 	}
 
-	public Organization(String groupName, User organizationMaker, Date createDate) {
+	public Organization(String groupName, String description,  User organizationMaker, Date createDate) {
 		super();
 		this.groupName = groupName;
+		this.description = description;
 		this.organizationMaker = organizationMaker;
 		this.createDate = createDate;
 	}
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -91,6 +105,14 @@ public class Organization {
 
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public User getOrganizationMaker() {
@@ -117,14 +139,14 @@ public class Organization {
 		this.milestoneList = milestoneList;
 	}
 
-	public List<User> getAsigneeList() {
-		return asigneeList;
-	}
-
-	public void setAsigneeList(List<User> asigneeList) {
-		this.asigneeList = asigneeList;
+	public Set<User> getMemberList() {
+		return memberList;
 	}
 	
+	public void setMemberList(Set<User> members) {
+		this.memberList = members;
+	}
+
 	public List<Issue> getIssueList() {
 		return issueList;
 	}
@@ -143,6 +165,40 @@ public class Organization {
 	
 	public boolean isMatchWriter(User matchUser) {
 		return this.organizationMaker.equals(matchUser);
+	}
+	
+	public boolean isAssignee(User target) {
+		if (organizationMaker.equals(target))
+			return true;
+		for (User user : memberList) {
+			if (user.equals(target))
+				return true;
+		}
+		return false;
+	}
+	
+	public boolean isAssigneeOnly(User target) {
+		if (organizationMaker.equals(target))
+			return false;
+		for (User user : memberList) {
+			if (user.equals(target))
+				return true;
+		}
+		return false;
+	}
+	
+	public String getStateCheck() {
+		return state.getStateCheck();
+	}
+	
+	public OrganizationState getState() {
+		return state;
+	}
+	public void setState(OrganizationState state) {
+		this.state = state;
+	}
+	public void toggleState() {
+		this.state =  state.equals(OrganizationState.favorite) ? OrganizationState.ordinary : OrganizationState.favorite;
 	}
 
 	@Override
