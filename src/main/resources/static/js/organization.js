@@ -32,8 +32,6 @@ function likeOrganization(e) {
 		type: 'post',
 		url: '/group/' + id + '/like',
 		success: function(result) {
-			console.log(id);
-			
 			var like = result.stateCheck;
 			$("#org_like_" + id).text(like);
 			

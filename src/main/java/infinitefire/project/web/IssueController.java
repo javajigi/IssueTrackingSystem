@@ -51,49 +51,23 @@ public class IssueController {
 
 	private static final Logger log = LoggerFactory.getLogger(IssueController.class);
 
-	@GetMapping("/group/{organizationId}/issue/new")
-	public String createIssueForm(@LoginUser User loginUser, @PathVariable Long organizationId,  Model model) {
+	@GetMapping("/group/{groupId}/issue/new")
+	public String createIssueForm(@LoginUser User loginUser, @PathVariable Long groupId,  Model model) {
 		log.debug("Access >> /issue/new-Get");
 		model.addAttribute("allLabel", labelRepository.findAll());
-		model.addAttribute("allUser", userRepository.findAll());
+		Organization organization = organizationRepository.findOne(groupId);
+		model.addAttribute("allUser", organization.getMemberList());
 		model.addAttribute("allMilestone", milestoneRepository.findAll());
-		model.addAttribute("organizationId", organizationId);
+		model.addAttribute("organizationId", groupId);
 		return "/issue/new";
 	}
 	@PostMapping("/group/{organizationId}/issue/new")
 	public String createIssue(@LoginUser User loginUser, @PathVariable Long organizationId, Issue issue,
 							  String assigneeList, String milestone, String labelList) {
 		
-		try {
-			long id = Long.parseLong(milestone);
-			issue.setMilestone(milestoneRepository.findOne(id));
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		} 
-		
-		try {
-			String[] assigneeIds = assigneeList.split(",");
-			List<User> assignees = new ArrayList<User>();
-			for(String strId : assigneeIds) {
-				long id = Long.parseLong(strId);
-				assignees.add(userRepository.findOne(id));
-			}
-			issue.setAssigneeList(assignees);
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		} 
-		
-		try {
-			String[] labelIds = labelList.split(",");
-			List<Label> labels = new ArrayList<Label>();
-			for(String strId : labelIds) {
-				long id = Long.parseLong(strId);
-				labels.add(labelRepository.findOne(id));
-			}
-			issue.setLabelList(labels);
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		} 
+		setAssignee(issue, assigneeList);
+		setMilestone(issue, milestone);
+		setLabel(issue, labelList);
 		
 		issue.setOrganization(organizationRepository.findOne(organizationId));
 		issue.setWriter(loginUser);
@@ -123,33 +97,44 @@ public class IssueController {
 		return "/issue/list";
 	}
 
-	@GetMapping("/group/{organizationId}/issue/{id}/modify")
-	public String modifyIssueForm(@LoginUser User loginUser, @PathVariable Long organizationId, @PathVariable Long id, Model model) {
+	@GetMapping("/group/{groupId}/issue/{id}/modify")
+	public String modifyIssueForm(@LoginUser User loginUser, @PathVariable Long groupId, @PathVariable Long id, Model model) {
 		log.debug("Access >> /issue/modify");
 
 		Issue modifyIssue = issueRepository.findOne(id);
-
-		if(modifyIssue.isMatchWriter(loginUser)){
+		User user = userRepository.findOne(loginUser.getId());
+		if(modifyIssue.isMatchWriter(user)){
 			model.addAttribute("modifyIssue", modifyIssue);
-			model.addAttribute("organizationId", organizationId);
+			// TODO 데이터 목록을 조회할 때 어떤 기준을 가지고 정렬을 하도록 개선해 보면 좋겠네요.
+			model.addAttribute("allLabel", labelRepository.findAll());
+			Organization organization = organizationRepository.findOne(groupId);
+			model.addAttribute("allUser", organization.getMemberList());
+			model.addAttribute("allMilestone", milestoneRepository.findAll());
+			model.addAttribute("loginUser", loginUser);
+			model.addAttribute("organizationId", groupId);
 			return "issue/modify";
 		} else
-			return "redirect:/group/"+organizationId+"/issue/list";
+			return "redirect:/group/"+groupId+"/issue/list";
 	}
 	@PostMapping("/group/{organizationId}/issue/{id}/modify")
 	public String modifiedIssue(@LoginUser User loginUser, @PathVariable Long organizationId, @PathVariable Long id,
-			String subject, String contents, Model model) {
+			String subject, String contents, String assigneeList, String milestone, String labelList) {
+		
 		log.debug("Access >> /issue/{" + id +"}/modify-put");
-
 		Issue modifyIssue = issueRepository.findOne(id);
-		if(modifyIssue.isMatchWriter(loginUser)) {
+		User user = userRepository.findOne(loginUser.getId());
+		if(modifyIssue.isMatchWriter(user)) {
+			
 			modifyIssue.setSubject(subject);
 			modifyIssue.setContents(contents);
+			setAssignee(modifyIssue, assigneeList);
+			setMilestone(modifyIssue, milestone);
+			setLabel(modifyIssue, labelList);
+			modifyIssue.setOrganization(organizationRepository.findOne(organizationId));
+			modifyIssue.setWriter(user);
 			issueRepository.save(modifyIssue);
 
-			model.addAttribute("issueInfo", modifyIssue);
-			model.addAttribute("organizationId", organizationId);
-			return "/issue/detail";
+			return "redirect:/group/"+organizationId+"/issue/" +id +"/detail";
 		} else
 			return "redirect:/group/"+organizationId+"/issue/list";
 	}
@@ -241,6 +226,7 @@ public class IssueController {
 		/* 권한 관리
 		 * 	*
 		 * 	*/
+		issue.setMilestone(milestone);
 		issueRepository.save(issue);
 		return milestone;
 	}
@@ -321,5 +307,44 @@ public class IssueController {
 			break;
 		}
 		return getIssueList;
+	}
+	
+	public void setAssignee(Issue issue, String assigneeList) {
+		
+		try {
+			String[] assigneeIds = assigneeList.split(",");
+			List<User> assignees = new ArrayList<User>();
+			for(String strId : assigneeIds) {
+				long id = Long.parseLong(strId);
+				assignees.add(userRepository.findOne(id));
+			}
+			issue.setAssigneeList(assignees);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	public void setMilestone(Issue issue, String milestone) {
+		try {
+			long id = Long.parseLong(milestone);
+			issue.setMilestone(milestoneRepository.findOne(id));
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} 
+		
+	}
+	
+	public void setLabel(Issue issue, String labelList) {
+		try {
+			String[] labelIds = labelList.split(",");
+			List<Label> labels = new ArrayList<Label>();
+			for(String strId : labelIds) {
+				long id = Long.parseLong(strId);
+				labels.add(labelRepository.findOne(id));
+			}
+			issue.setLabelList(labels);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		} 
 	}
 }

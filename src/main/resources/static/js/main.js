@@ -19,11 +19,42 @@ $(function() {
 	$('#password').keyup(checkValue);
 	$('.back-btn').click(preBack);
 	$('.sorting-key').click(sortByKey);
-	
+	$('.user-new-btn').click(checkValidate);
 	$('.main_wrap').delegate('.comment_file', 'change', checkFileSize);
+	$('.main_wrap').delegate('.mdl-textfield--file', 'change', checkFileSize);
 	
 	$('#organization_home').click(listOrganization);
 });
+
+function checkValidate(e) {
+	var userLength = $('#userId').val().length;
+	var nameLength = $('#name').val().length;
+	var pwLength = $('#password').val().length;
+	if(userLength < 4) {
+		e.preventDefault();
+		alert('Id의 길이가 적당하지 않습니다');
+	}
+	if(userLength > 16) {
+		e.preventDefault();
+		alert('Id의 길이가 적당하지 않습니다');
+	}
+	if(nameLength < 4) {
+		e.preventDefault();
+		alert('이름 길이가 적당하지 않습니다');
+	}
+	if(nameLength > 20) {
+		e.preventDefault();
+		alert('이름 길이가 적당하지 않습니다');
+	}
+	if(pwLength < 4) {
+		e.preventDefault();
+		alert('비밀번호의 길이가 적당하지 않습니다');
+	}
+	if(pwLength > 20) {
+		e.preventDefault();
+		alert('비밀번호의 길이가 적당하지 않습니다');
+	}
+}
 
 function listOrganization(e) {
 	e.preventDefault();
@@ -56,7 +87,6 @@ function sortByKey() {
 		type: 'post',
 		url: datas+url+'/'+status,
 		success: function(result) {
-			console.log(result);
 			
 			var listDiv = $('#issueList');
 			listDiv.children().remove();
@@ -81,7 +111,7 @@ function checkFileSize(e) {
 	var inputFile = $(this).find('input[type=file]');
 	var file = inputFile[0].files[0];
 	var maxSize = 1048 * (1048 * 3);
-
+	
 	if (file != undefined) {
 		if (file.size >= maxSize) {
 			alert("첨부 파일은 최대 3MB까지만 업로드 할 수 있습니다. (현재 : " + String(Math.ceil(file.size/(1048 * 1048))) + "MB)");
@@ -97,7 +127,6 @@ function checkValue(e) {
 	var thisName = $(this).attr('id');
 	
 	if(check.length < 4) {
-		console.log(thisName);
 		$('#'+thisName+'_alert').html('4자 이상 입력');
 	} else if (check.length > 16) {
 		$('#'+thisName+'_alert').css("color", "red");
@@ -108,7 +137,6 @@ function checkValue(e) {
 			url: '/api/user/check',
 			data: 'checkUserId='+check,
 			success: function(result) {
-				console.log(result);
 				if(result){
 					$('#'+thisName+'_alert').css("color", "red");
 					$('#'+thisName+'_alert').html('존재하는 ID입니다');
@@ -128,7 +156,6 @@ function checkValue(e) {
 
 function addComment(e) {
 	e.preventDefault();
-	console.log('create Comment to Issue Page');
 	
 	var formData = new FormData($('form')[0]);
 	var contents = $('.mdl-textfield__input').val();
@@ -137,7 +164,6 @@ function addComment(e) {
 		var url = $('.comment_new').attr("action");
 		var queryString = $('.comment_new').serialize();
 		var sendData = formData;
-//		console.log("url : "+url+"\nqueryString : "+queryString);
 	
 		$.ajax({
 			type: 'post',
@@ -147,7 +173,6 @@ function addComment(e) {
 			processData: false,
 			dataType:"json",
 			success: function(result) {
-				console.log(result);
 				//precompile된 템플릿을 가져온다
 				var temp = Handlebars.templates['precompile/comment_template'];
 				//result로 받은 JSON데이터를 템플릿에 적용, 템플릿을 원하는 부분에 append시켜준다.
@@ -158,7 +183,6 @@ function addComment(e) {
 				$('#fileText').val('');
 			},
 			error: function(error) {
-				console.log(error);
 				alert('로그인후 댓글을 달 수 있습니다.');
 			}
 		});
@@ -241,9 +265,7 @@ function modifyComment(e) {
 		url: url,
 		data: {'contents' : contents},
 		success: function(result) {
-			console.log(contents);
 			if(result) {
-				console.log("aaa");
 				$('#comment_input').remove();
 				$('#comment_contents_'+commentId).text(contents);
 				$('#comment_contents_'+commentId).show();
@@ -261,7 +283,6 @@ function openCommentForm(e) {
 
 	// get comment id
 	var commentId = $(this).data("id");
-	console.log(commentId);
 
 	// close pre comment
 	var preId = $("#comment_input").data("id");
@@ -328,6 +349,7 @@ function setMilestone(e) {
 		url: url,
 		success: function(result) {
 			if(result != "") {
+				console.log("fasddf");
 				// $("#milestone").attr("href", "/milestone/" + result.id + "/detail");
 				// $("#milestone .mdl-chip__text").text(result.subject);
 				$(".milestone_wrap").remove();
