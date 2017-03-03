@@ -1,17 +1,32 @@
 version: '2.1'
 services:
   nginx:
-      build: ./nginx
-      links:
-          - my-its1:my-its1
-      ports:
-          - "80:80"
+    depends_on:
+      - my-its1
+    build: ./nginx
+    links:
+      - my-its1:my-its1
+    ports:
+      - "80:80"
   my-its1:
+    depends_on:
+       - db
+       - scouter-server
     image: javajigi/its:latest
     ports:
       - "9090:9090"
     links:
+      - db:db
       - scouter-server
+  db:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=its
+      - MYSQL_USER=its
+      - MYSQL_PASSWORD=password
+    ports:
+      - "3306:3306"
   scouter-server:
    image: zealiard/scouter:latest
    ports:
