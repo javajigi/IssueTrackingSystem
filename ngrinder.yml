@@ -1,16 +1,5 @@
 version: '2.1'
 services:
-  my-its:
-    image: slipp/its:latest
-    ports:
-      - "9090:9090"
-    links:
-      - scouter-server
-  scouter-server:
-   image: zealiard/scouter:latest
-   ports:
-     - "6100:6100"
-     - "6100:6100/udp"
   controller:
     image: ngrinder/controller
     ports:

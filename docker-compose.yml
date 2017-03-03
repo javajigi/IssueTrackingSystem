@@ -1,6 +1,12 @@
 version: '2.1'
 services:
-  my-its:
+  nginx:
+      build: ./nginx
+      links:
+          - my-its1:my-its1
+      ports:
+          - "80:80"
+  my-its1:
     image: javajigi/its:latest
     ports:
       - "9090:9090"
