@@ -1,0 +1,46 @@
+version: '2.1'
+services:
+  my-its:
+    image: slipp/its:latest
+    ports:
+      - "9090:9090"
+    links:
+      - scouter-server
+  scouter-server:
+   image: zealiard/scouter:latest
+   ports:
+     - "6100:6100"
+     - "6100:6100/udp"
+  controller:
+    image: ngrinder/controller
+    ports:
+      - "80:80"
+      - "16001:16001"
+      - "12000-12009:12000-12009"
+      - "8999:80"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+  agent1:
+    image: ngrinder/agent
+    depends_on:
+      controller:
+        condition: service_healthy
+    environment:
+      - CONTROLLER_ADDR=controller:80
+  agent2:
+    image: ngrinder/agent
+    depends_on:
+      controller:
+        condition: service_healthy
+    environment:
+      - CONTROLLER_ADDR=controller:80
+  agent3:
+    image: ngrinder/agent
+    depends_on:
+      controller:
+        condition: service_healthy
+    environment:
+      - CONTROLLER_ADDR=controller:80
