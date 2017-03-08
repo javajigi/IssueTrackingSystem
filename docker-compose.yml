@@ -13,8 +13,6 @@ services:
        - db
        - scouter-server
     image: javajigi/its:latest
-    ports:
-      - "9090:9090"
     links:
       - db:db
       - scouter-server
@@ -27,8 +25,6 @@ services:
       - MYSQL_PASSWORD=password
     volumes:
       - mysql-data:/var/lib/mysql
-    ports:
-      - "3306:3306"
   scouter-server:
    image: zealiard/scouter:latest
    ports:
