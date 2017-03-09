@@ -3,10 +3,9 @@ services:
   controller:
     image: ngrinder/controller
     ports:
-      - "80:80"
       - "16001:16001"
       - "12000-12009:12000-12009"
-      - "8999:80"
+      - "7000:80"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost"]
       interval: 30s

@@ -23,6 +23,7 @@ services:
       - MYSQL_DATABASE=its
       - MYSQL_USER=its
       - MYSQL_PASSWORD=password
+      - MYSQL_CHARSET=utf8
     volumes:
       - mysql-data:/var/lib/mysql
   scouter-server:
