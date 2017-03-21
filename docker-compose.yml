@@ -27,9 +27,18 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
   scouter-server:
-   image: zealiard/scouter:latest
-   ports:
-     - "6100:6100"
-     - "6100:6100/udp"
+    image: zealiard/scouter:latest
+    ports:
+      - "6100:6100"
+      - "6100:6100/udp"
+  cadvisor:
+    image: google/cadvisor
+    ports:
+      - "9090:8080"
+    volumes:
+      - "/:/rootfs:ro"
+      - "/var/run:/var/run:rw"
+      - "/sys:/sys:ro"
+      - "/var/lib/docker/:/var/lib/docker:ro"
 volumes:
   mysql-data:

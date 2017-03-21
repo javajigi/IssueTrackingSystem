@@ -1,9 +1,7 @@
 #!/bin/bash
 
-APP_NAME=its
+APP_NAME=almondchocolate
 
-COMMIT_HASH="$(git show-ref --head | grep -h HEAD | cut -d':' -f2 | head -n 1 | head -c 10)"
-
-./mvnw clean package docker:build -DdockerImageTags=its_$COMMIT_HASH
+./mvnw clean package docker:build -DdockerImageTags=$APP_NAME-1.0.0
 
 docker-compose up --build -d
