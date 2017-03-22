@@ -63,11 +63,13 @@ public class IssueController {
 	}
 	@PostMapping("/group/{organizationId}/issue/new")
 	public String createIssue(@LoginUser User loginUser, @PathVariable Long organizationId, Issue issue,
-							  String assigneeList, String milestone, String labelList) {
+							  String assigneeList, String milestone, String labelList) throws Exception {
 		
 		setAssignee(issue, assigneeList);
 		setMilestone(issue, milestone);
 		setLabel(issue, labelList);
+		
+		Thread.sleep(3000);
 		
 		issue.setOrganization(organizationRepository.findOne(organizationId));
 		issue.setWriter(loginUser);
