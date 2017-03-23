@@ -1,0 +1,13 @@
+version: "2"
+volumes:
+  data-jenkins:
+    driver: "local"
+services:
+  jenkins:
+    image: "jenkins:latest"
+    ports:
+      - "7070:8080"
+      - "50000:50000"
+    restart: "always"
+    volumes:
+      - "data-jenkins:/var/jenkins_home"
