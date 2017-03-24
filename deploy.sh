@@ -1,5 +1,7 @@
 #!/bin/bash
 
+eval $(docker-machine env prod.slipp.net)
+
 APP_NAME=its
 COMMIT_HASH="$(git show-ref --head | grep -h HEAD | cut -d':' -f2 | head -n 1 | head -c 10)"
 
